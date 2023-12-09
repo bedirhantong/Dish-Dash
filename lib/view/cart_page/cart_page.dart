@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../core/model/product/product_model.dart';
+import 'components/bottom_appbar.dart';
+import 'components/products_in_cart.dart';
 
 class CartPage extends StatefulWidget {
   final List<Product> cartProducts;
@@ -12,118 +14,50 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  double totalPrice = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    for (var product in widget.cartProducts) {
+      totalPrice += product.price;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Shopping Cart'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.shopping_cart),
-            onPressed: () {},
-          ),
-          Text('\$0.00'),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Your Cart',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 16),
-            if (widget.cartProducts.isEmpty)
-              Text(
-                'Your cart is empty.',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 16,
-                ),
-              )
-            else
-              Expanded(
-                child: ListView.builder(
-                  itemCount: widget.cartProducts.length,
-                  itemBuilder: (context, index) {
-                    final product = widget.cartProducts[index];
-                    return CartItemCard(product: product);
-                  },
-                ),
-              ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ElevatedButton(
-              child: Text('Sipariş ver'),
-              onPressed: () {},
-            ),
-            ElevatedButton(
-              child: Text('Sepeti temizle'),
-              onPressed: () {},
-            ),
-          ],
-        ),
-      ),
+      appBar: appBar,
+      body: ProductsInCart(widget: widget, totalPrice: totalPrice),
+      bottomNavigationBar: const BottomAppBarCartPage(),
     );
   }
-}
 
-class CartItemCard extends StatelessWidget {
-  final Product product;
-
-  const CartItemCard({Key? key, required this.product}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.only(bottom: 16),
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+  AppBar get appBar {
+    return AppBar(
+      backgroundColor: Colors.deepPurple,
+      title: const Text(
+        'Shopping Cart',
+        style: TextStyle(color: Colors.white),
       ),
-      child: ListTile(
-        contentPadding: EdgeInsets.all(16),
-        leading: Image.network(
-          product.imageUrl,
-          width: 80,
-          height: 80,
-          fit: BoxFit.cover,
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.shopping_cart, color: Colors.white),
+          onPressed: () {},
         ),
-        title: Text(product.name),
-        subtitle: Text('\$${product.price.toStringAsFixed(2)}'),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              icon: Icon(Icons.remove),
-              onPressed: () {},
+        Padding(
+          padding: const EdgeInsets.only(right: 10.0),
+          child: Text(
+            '\$ $totalPrice',
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.normal,
+              fontSize: 17,
             ),
-            Text(
-              '1',
-              style: TextStyle(fontSize: 16),
-            ),
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {},
-            ),
-            SizedBox(width: 8),
-            IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () {},
-            ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

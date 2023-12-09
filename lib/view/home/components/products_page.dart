@@ -26,7 +26,7 @@ class _ProductsPageState extends State<ProductsPage> {
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 20,
-        childAspectRatio: 0.70,
+        childAspectRatio: 0.64,
       ),
       itemCount: widget.products.length,
       shrinkWrap: true,
@@ -71,7 +71,7 @@ class _ProductCardState extends State<ProductCard> {
         children: [
           // Container with gradient overlay for image
           Container(
-            height: 150,
+            height: 170,
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.vertical(
@@ -79,7 +79,8 @@ class _ProductCardState extends State<ProductCard> {
               ),
               image: DecorationImage(
                 image: NetworkImage(widget.product.imageUrl),
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
+                filterQuality: FilterQuality.high,
               ),
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -131,37 +132,107 @@ class _ProductCardState extends State<ProductCard> {
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '\$${widget.product.price.toStringAsFixed(2)}',
-                      style: const TextStyle(fontSize: 14, color: Colors.green),
-                    ),
-                    Tooltip(
-                      message: 'Sepete Ekle',
-                      child: IconButton(
-                        onPressed: () {
-                          widget.cardList.add(
-                            Product(
-                                name: widget.product.name,
-                                imageUrl: widget.product.imageUrl,
-                                price: widget.product.price,
-                                isNew: widget.product.isNew,
-                                star: widget.product.star),
-                          );
-                          widget.onAddToCart(widget.cartItemCount + 1);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Sepete eklendi'),
+                const SizedBox(height: 5.0),
+                !widget.cardList.contains(
+                  Product(
+                      name: widget.product.name,
+                      imageUrl: widget.product.imageUrl,
+                      price: widget.product.price,
+                      isNew: widget.product.isNew,
+                      star: widget.product.star),
+                )
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '\$${widget.product.price.toStringAsFixed(2)}',
+                            style: const TextStyle(
+                                fontSize: 14, color: Colors.green),
+                          ),
+                          Tooltip(
+                            message: 'Sepete Ekle',
+                            child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  widget.cardList.add(
+                                    Product(
+                                        name: widget.product.name,
+                                        imageUrl: widget.product.imageUrl,
+                                        price: widget.product.price,
+                                        isNew: widget.product.isNew,
+                                        star: widget.product.star),
+                                  );
+                                  widget.onAddToCart(widget.cartItemCount + 1);
+                                });
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Sepete eklendi'),
+                                  ),
+                                );
+                              },
+                              icon: const Icon(Icons.shopping_cart_outlined),
                             ),
-                          );
-                        },
-                        icon: const Icon(Icons.shopping_cart_outlined),
+                          )
+                        ],
+                      )
+                    : Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.remove),
+                            onPressed: () {
+                              setState(() {
+                                widget.cardList.remove(
+                                  Product(
+                                      name: widget.product.name,
+                                      imageUrl: widget.product.imageUrl,
+                                      price: widget.product.price,
+                                      isNew: widget.product.isNew,
+                                      star: widget.product.star),
+                                );
+                                widget.onAddToCart(widget.cartItemCount - 1);
+                              });
+                            },
+                          ),
+                          const Text(
+                            '1',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.add),
+                            onPressed: () {
+                              setState(() {
+                                widget.cardList.add(
+                                  Product(
+                                      name: widget.product.name,
+                                      imageUrl: widget.product.imageUrl,
+                                      price: widget.product.price,
+                                      isNew: widget.product.isNew,
+                                      star: widget.product.star),
+                                );
+                                widget.onAddToCart(widget.cartItemCount + 1);
+                              });
+                            },
+                          ),
+                          const SizedBox(width: 8),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () {
+                              setState(() {
+                                widget.cardList.remove(
+                                  Product(
+                                      name: widget.product.name,
+                                      imageUrl: widget.product.imageUrl,
+                                      price: widget.product.price,
+                                      isNew: widget.product.isNew,
+                                      star: widget.product.star),
+                                );
+                                widget.onAddToCart(widget.cartItemCount - 1);
+                              });
+                            },
+                          ),
+                        ],
                       ),
-                    )
-                  ],
-                ),
               ],
             ),
           ),

@@ -1,7 +1,7 @@
 import '../../model/product/product_model.dart';
 
 class ProductViewModel {
-  static List<Product> productList = [
+  static List<Product> techProductList = [
     Product(
         name: 'Laptop XYZ',
         imageUrl:
@@ -65,5 +65,131 @@ class ProductViewModel {
         price: 329.99,
         isNew: true,
         star: 4.3),
+  ];
+  static List<Product> educationProductList = [
+    Product(
+      name: 'Atomik Alışkanlıklar',
+      imageUrl:
+          'https://www.kayhanaydogdu.com.tr/uploads/372888-I%CC%87yi-al%C4%B1%C5%9Fkanl%C4%B1klar-edinmenin-ve-k%C3%B6t%C3%BC-al%C4%B1%C5%9Fkanl%C4%B1klardan-1.jpeg',
+      price: 199.99,
+      isNew: true,
+      star: 4.5,
+    ),
+    Product(
+      name: 'Senin Cahilliğin Benim Yaşamımı Etkiliyor',
+      imageUrl:
+          'https://cdn.dsmcdn.com/mnresize/600/-/ty1019/product/media/images/prod/SPM/PIM/20231018/16/157fafd0-a216-3b1d-88f9-d9d03e3e86e1/1_org_zoom.jpg',
+      price: 149.99,
+      isNew: false,
+      star: 4.2,
+    ),
+    Product(
+      name: 'Dahi Diktatör',
+      imageUrl:
+          'https://cdn.dsmcdn.com/mnresize/600/-/ty102/product/media/images/20210413/15/79805047/13746232/1/1_org_zoom.jpg',
+      price: 89.99,
+      isNew: true,
+      star: 4.8,
+    ),
+    Product(
+      name: 'A5 Defter Celal Şengör Nasıl Yapıcaz 200 Sayfa',
+      imageUrl:
+          'https://cdn.dsmcdn.com/mnresize/600/-/ty777/product/media/images/20230315/15/304016577/886696731/1/1_org_zoom.jpg',
+      price: 59.99,
+      isNew: false,
+      star: 4.0,
+    ),
+    Product(
+      name: 'Var Mısın ?',
+      imageUrl:
+          'https://cdn.dsmcdn.com/mnresize/600/-/ty998/product/media/images/prod/SPM/PIM/20230907/23/64287eeb-4b25-3322-a722-e4656d841f46/1_org_zoom.jpg',
+      price: 29.99,
+      isNew: true,
+      star: 4.6,
+    ),
+  ];
+  static List<Product> clothingProductList = [
+    Product(
+      name: 'Siyah Dokuma Dokuma Elbise',
+      imageUrl:
+          'https://cdn.dsmcdn.com/mnresize/600/-/ty997/product/media/images/prod/PIM/20230908/10/d18cdef2-5281-4d39-96a8-4748790c013d/1_org_zoom.jpg',
+      price: 79.99,
+      isNew: true,
+      star: 4.2,
+    ),
+    Product(
+      name: 'Kadın Çizgili Triko Kazak',
+      imageUrl:
+          'https://cdn.dsmcdn.com/mnresize/600/-/ty587/product/media/images/20221103/22/206966411/612981031/1/1_org_zoom.jpg',
+      price: 49.99,
+      isNew: false,
+      star: 4.0,
+    ),
+    Product(
+      name: 'Kısa Taytlı Outdoor Şort',
+      imageUrl:
+          'https://cdn.dsmcdn.com/mnresize/600/-/ty955/product/media/images/20230622/13/388128090/881485565/1/1_org_zoom.jpg',
+      price: 39.99,
+      isNew: true,
+      star: 4.5,
+    ),
+    Product(
+      name: ' El Örgüsü Eldiven',
+      imageUrl:
+          'https://cdn.dsmcdn.com/mnresize/600/-/ty1081/product/media/images/prod/SPM/PIM/20231207/14/0f9d212e-69a3-3ad7-a2c0-036545b93594/1_org_zoom.jpg',
+      price: 89.99,
+      isNew: false,
+      star: 4.3,
+    ),
+    Product(
+      name: 'Kürk Detaylı Pilot Şapka',
+      imageUrl:
+          'https://cdn.dsmcdn.com/mnresize/600/-/ty273/product/media/images/20211220/9/13657025/340968294/1/1_org_zoom.jpg',
+      price: 19.99,
+      isNew: true,
+      star: 4.8,
+    ),
+  ];
+  static List<Product> sportsProductList = [
+    Product(
+      name: 'Dambıl Seti 2\'li',
+      imageUrl:
+          'https://cdn.dsmcdn.com/mnresize/600/-/ty438/product/media/images/20220526/9/116331901/226974396/1/1_org_zoom.jpg',
+      price: 40.99,
+      isNew: true,
+      star: 4.0,
+    ),
+    Product(
+      name: 'Slim Kondisyon Bisikleti',
+      imageUrl:
+          'https://cdn.dsmcdn.com/mnresize/600/-/ty1029/product/media/images/prod/SPM/PIM/20231105/16/ebe3cf30-2660-376c-8668-1c0ddd10b966/1_org_zoom.jpg',
+      price: 29.99,
+      isNew: false,
+      star: 4.6,
+    ),
+    Product(
+      name: 'Uzaktan Kumandalı Koşu Bandı',
+      imageUrl:
+          'https://cdn.dsmcdn.com/mnresize/600/-/ty744/product/media/images/20230223/15/287759278/866433150/1/1_org_zoom.jpg',
+      price: 99.99,
+      isNew: true,
+      star: 4.3,
+    ),
+    Product(
+      name: 'Kol Bilek Güçlendirici Fitness Bilek Aparatı',
+      imageUrl:
+          'https://cdn.dsmcdn.com/mnresize/600/-/ty1021/product/media/images/prod/SPM/PIM/20231024/17/f5999ed1-0539-371b-b919-77ecb23dd250/1_org_zoom.jpg',
+      price: 29.99,
+      isNew: false,
+      star: 4.2,
+    ),
+    Product(
+      name: 'Boks Eldiveni Siyah',
+      imageUrl:
+          'https://cdn.dsmcdn.com/mnresize/600/-/ty1006/product/media/images/prod/SPM/PIM/20230927/13/68f5adc5-a9f3-3841-a017-55c2674519f6/1_org_zoom.jpg',
+      price: 39.99,
+      isNew: true,
+      star: 4.4,
+    ),
   ];
 }

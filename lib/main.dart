@@ -1,4 +1,4 @@
-import 'package:dish_dash/view/home/home.dart';
+import 'package:dish_dash/view/main/main_bottom_nav.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const BottomNavMain(),
     );
   }
 }
