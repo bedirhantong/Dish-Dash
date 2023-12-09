@@ -30,8 +30,16 @@ class _CartPageState extends State<CartPage> {
     return Scaffold(
       appBar: appBar,
       body: ProductsInCart(widget: widget, totalPrice: totalPrice),
-      bottomNavigationBar: const BottomAppBarCartPage(),
+      bottomNavigationBar: BottomAppBarCartPage(
+        cartProducts: widget.cartProducts,
+      ),
     );
+  }
+
+  void clearCart() {
+    setState(() {
+      widget.cartProducts.clear();
+    });
   }
 
   AppBar get appBar {
@@ -42,14 +50,11 @@ class _CartPageState extends State<CartPage> {
         style: TextStyle(color: Colors.white),
       ),
       actions: [
-        IconButton(
-          icon: const Icon(Icons.shopping_cart, color: Colors.white),
-          onPressed: () {},
-        ),
+        const Icon(Icons.shopping_cart, color: Colors.white),
         Padding(
-          padding: const EdgeInsets.only(right: 10.0),
+          padding: const EdgeInsets.only(left: 5, right: 10.0),
           child: Text(
-            '\$ $totalPrice',
+            '\$${totalPrice.toStringAsFixed(2)}',
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.normal,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/constants/app/color_strings.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -25,7 +27,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
   AppBar get appBar {
     return AppBar(
-      title: const Text('Profile'),
+      backgroundColor: AppColor.appBarColor,
+      title: const Text(
+        'Profile',
+        style: TextStyle(color: Colors.white),
+      ),
     );
   }
 

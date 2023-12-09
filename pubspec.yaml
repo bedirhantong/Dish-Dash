@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   icon_badge: ^1.0.0
   dot_navigation_bar: ^1.0.2
+  flip_card: ^0.7.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

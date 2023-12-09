@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import '../../core/constants/app/color_strings.dart';
 import '../../core/model/order/components/FilterButtonForOrders.dart';
 import '../../core/model/order/components/OrderCard.dart';
 import '../../core/model/order/order_model.dart';
@@ -50,7 +51,7 @@ class _PastOrdersPageState extends State<PastOrdersPage> {
 
   AppBar get appbar {
     return AppBar(
-      backgroundColor: Colors.deepPurple,
+      backgroundColor: AppColor.appBarColor,
       title: const Text(
         'Siparişlerim',
         style: TextStyle(color: Colors.white),
