@@ -36,7 +36,9 @@ class _BottomNavMainState extends State<BottomNavMain> {
       case 0:
         return const HomePage();
       case 1:
-        return const FavoritePage();
+        return const FavoritePage(
+          cartItemCount: 0,
+        );
       case 2:
         return const PastOrdersPage();
       case 3:

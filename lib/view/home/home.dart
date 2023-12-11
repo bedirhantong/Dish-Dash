@@ -134,6 +134,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return CartPage(
                 cartProducts: cardList,
+                cartItemCount: cartItemCount,
               );
             }));
           },
@@ -149,7 +150,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               child: MinimalistSearchBar(),
             ),
             TabBar(
-              tabAlignment: TabAlignment.start,
+              tabAlignment: TabAlignment.center,
               isScrollable: true,
               controller: _tabController,
               indicatorColor: Colors.white,

@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 
 import '../cart_page.dart';
-import 'cat_item_card.dart';
+import 'cart_item_card.dart';
 
 class ProductsInCart extends StatelessWidget {
   const ProductsInCart({
     super.key,
     required this.widget,
     required this.totalPrice,
+    required this.cartItemCount,
   });
 
   final CartPage widget;
   final double totalPrice;
+  final int cartItemCount;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +47,7 @@ class ProductsInCart extends StatelessWidget {
                   return CartItemCard(
                     product: product,
                     totalPrice: totalPrice,
+                    cartItemCount: cartItemCount,
                   );
                 },
               ),

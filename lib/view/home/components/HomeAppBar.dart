@@ -53,6 +53,7 @@ class HomeAppBar extends StatelessWidget {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return CartPage(
                 cartProducts: cardList,
+                cartItemCount: cartItemCount,
               );
             }));
           },

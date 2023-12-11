@@ -38,6 +38,8 @@ dependencies:
   icon_badge: ^1.0.0
   dot_navigation_bar: ^1.0.2
   flip_card: ^0.7.0
+  google_fonts: ^6.1.0
+  cool_alert: ^2.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -59,6 +61,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - assets/images/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

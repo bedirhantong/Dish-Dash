@@ -91,6 +91,14 @@ class _ProfilePageState extends State<ProfilePage> {
             title: const Text('Privacy Settings'),
             onTap: () {},
           ),
+          ListTile(
+            title: const Text('FAQ'),
+            onTap: () {},
+          ),
+          ListTile(
+            title: const Text('Log out'),
+            onTap: () {},
+          ),
         ],
       ),
     );

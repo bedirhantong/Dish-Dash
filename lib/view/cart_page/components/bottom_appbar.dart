@@ -17,29 +17,78 @@ class BottomAppBarCartPage extends StatefulWidget {
 class _BottomAppBarCartPageState extends State<BottomAppBarCartPage> {
   @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.sizeOf(context).width;
+    var screenHeight = MediaQuery.sizeOf(context).height;
     return BottomAppBar(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ElevatedButton(
-            child: const Text('Sepeti temizle'),
-            onPressed: () {
-              setState(() {});
-            },
+          InkWell(
+            onTap: () {},
+            child: Container(
+              width: screenWidth * 0.33,
+              height: screenHeight * 0.04,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.white,
+                border: Border.all(color: Colors.deepPurple, width: 2),
+              ),
+              child: const Text(
+                "Sepeti temizle",
+                style: TextStyle(color: Colors.black, fontSize: 12),
+                textAlign: TextAlign.center,
+              ),
+            ),
           ),
-          ElevatedButton(
-            child: const Text('Ödemeye geç'),
-            onPressed: () {
+          // ElevatedButton(
+          //   child: const Text('Sepeti temizle'),
+          //   onPressed: () {
+          //     setState(() {});
+          //   },
+          // ),
+          // ElevatedButton(
+          //   child: const Text('Ödemeye geç'),
+          //   onPressed: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) => const PaymentScreen(
+          //           cartProducts: [],
+          //           totalAmount: 2,
+          //         ),
+          //       ),
+          //     );
+          //   },
+          // ),
+          InkWell(
+            onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const PaymentScreen(
-                          cartProducts: [],
-                          totalAmount: 2,
-                        )),
+                  builder: (context) => const PaymentScreen(
+                    cartProducts: [],
+                    totalAmount: 2,
+                  ),
+                ),
               );
             },
-          ),
+            child: Container(
+              width: screenWidth * 0.33,
+              height: screenHeight * 0.04,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.deepPurple,
+                border: Border.all(color: Colors.deepPurple, width: 2),
+              ),
+              child: const Text(
+                "Ödemeye geç",
+                style: TextStyle(color: Colors.white, fontSize: 12),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          )
         ],
       ),
     );
