@@ -41,26 +41,6 @@ class _BottomAppBarCartPageState extends State<BottomAppBarCartPage> {
               ),
             ),
           ),
-          // ElevatedButton(
-          //   child: const Text('Sepeti temizle'),
-          //   onPressed: () {
-          //     setState(() {});
-          //   },
-          // ),
-          // ElevatedButton(
-          //   child: const Text('Ödemeye geç'),
-          //   onPressed: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (context) => const PaymentScreen(
-          //           cartProducts: [],
-          //           totalAmount: 2,
-          //         ),
-          //       ),
-          //     );
-          //   },
-          // ),
           InkWell(
             onTap: () {
               Navigator.push(

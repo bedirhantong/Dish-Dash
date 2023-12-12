@@ -1,4 +1,4 @@
-import 'package:dish_dash/view/main/main_bottom_nav.dart';
+import 'package:dish_dash/view/auth/login/login_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const BottomNavMain(),
+      home: const LoginScreen(),
     );
   }
 }

@@ -29,8 +29,6 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
-    var screenWidth = MediaQuery.sizeOf(context).width;
-    var screenHeight = MediaQuery.sizeOf(context).height;
     return Scaffold(
       appBar: appBar,
       body: ProductsInCart(
@@ -38,54 +36,6 @@ class _CartPageState extends State<CartPage> {
         totalPrice: totalPrice,
         cartItemCount: widget.cartItemCount,
       ),
-      // bottomSheet: Align(
-      //   alignment: Alignment.bottomCenter,
-      //   child: Container(
-      //     height: screenHeight * 0.07,
-      //     color: Colors.deepPurple.shade50,
-      //     child: Row(
-      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //       children: [
-      //         Padding(
-      //           padding: const EdgeInsets.all(8.0),
-      //           child: Container(
-      //             width: screenWidth * 0.33,
-      //             height: screenHeight * 0.04,
-      //             alignment: Alignment.center,
-      //             margin: const EdgeInsets.all(1),
-      //             decoration: BoxDecoration(
-      //               borderRadius: BorderRadius.circular(5),
-      //               color: Colors.white,
-      //               border: Border.all(color: Colors.grey, width: 2),
-      //             ),
-      //             child: Text("fsafs"),
-      //           ),
-      //         ),
-      //         Padding(
-      //           padding: const EdgeInsets.all(8.0),
-      //           child: InkWell(
-      //             onTap: () {},
-      //             child: Container(
-      //               width: screenWidth * 0.33,
-      //               height: screenHeight * 0.04,
-      //               alignment: Alignment.center,
-      //               decoration: BoxDecoration(
-      //                 borderRadius: BorderRadius.circular(5),
-      //                 color: Colors.deepPurple,
-      //                 border: Border.all(color: Colors.deepPurple, width: 2),
-      //               ),
-      //               child: const Text(
-      //                 "Sepete Ekle",
-      //                 style: TextStyle(color: Colors.white, fontSize: 12),
-      //                 textAlign: TextAlign.center,
-      //               ),
-      //             ),
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // ),
       bottomNavigationBar: BottomAppBarCartPage(
         cartProducts: widget.cartProducts,
       ),

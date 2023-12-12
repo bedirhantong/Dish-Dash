@@ -36,6 +36,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         ),
       ),
       body: ProductCardWidget(
+        isOrderedCard: false,
         isDetailedCard: true,
         isMainScreenCard: false,
         isFavoriteCard: false,

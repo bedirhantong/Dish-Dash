@@ -35,12 +35,10 @@ class CardFront extends StatelessWidget {
                   labelText: 'Card Number',
                   hintText: 'XXXX XXXX XXXX XXXX',
                   enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.grey), // Çizgi rengi pasif durumda
+                    borderSide: BorderSide(color: Colors.grey),
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.white), // Çizgi rengi aktif durumda
+                    borderSide: BorderSide(color: Colors.white),
                   ),
                 ),
                 keyboardType: TextInputType.number,
@@ -69,12 +67,10 @@ class CardFront extends StatelessWidget {
                         labelText: 'Valid THRU',
                         hintText: 'MM/YY',
                         enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.grey), // Çizgi rengi pasif durumda
+                          borderSide: BorderSide(color: Colors.grey),
                         ),
                         focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.white), // Çizgi rengi aktif durumda
+                          borderSide: BorderSide(color: Colors.white),
                         ),
                       ),
                       keyboardType: TextInputType.number,

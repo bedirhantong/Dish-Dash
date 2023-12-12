@@ -3,32 +3,37 @@ import '../../model/product/product_model.dart';
 class ProductViewModel {
   static List<Product> techProductList = [
     Product(
-        value: 0,
-        name: 'Laptop XYZ',
-        imageUrl:
-            'https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_101502299/mobile_786_587_png/HUAWEI-Matebook-D15--i5-1155G7-%C4%B0%C5%9Flemci--8GB-Ram--256GB-SSD--15.6-in%C3%A7--Win-11-Laptop-Mistik-G%C3%BCm%C3%BC%C5%9F',
-        price: 999.99,
-        isNew: false,
-        star: 4.3,
-        brand: 'laptop',
-        cargoType: 'bedava',
-        ebat: true,
-        ebat_tipi: "orta",
-        description:
-            'Kampanya fiyatından satılmak üzere 5 adetten fazla stok sunulmuştur. İncelemiş olduğunuz ürünün satış fiyatını satıcı belirlemektedir. '
-            'Bir ürün, birden fazla satıcı tarafından satılabilir. '
-            'Birden fazla satıcı tarafından satışa sunulan ürünlerin satıcıları ürün için belirledikleri fiyata, satıcı puanlarına, teslimat statülerine, ürünlerdeki promosyonlara,'
-            ' kargonun bedava olup olmamasına ve ürünlerin hızlı teslimat ile teslim edilip edilememesine, ürünlerin stok ve kategorileri bilgilerine göre sıralanmaktadır.'
-            ' Bu üründen en fazla 1 adet sipariş verilebilir.'
-            ' 1 adedin üzerindeki siparişleri iptal etme hakkınız saklı tutulur.'
-            ' Belirlenen bu limit kurumsal siparişlerde geçerli olmayıp, kurumsal siparişler'
-            ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
-            ' Detaylı bilgi için tıklayın.'),
+      value: 0,
+      name: 'Laptop XYZ',
+      imageUrl:
+          'https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_101502299/mobile_786_587_png/HUAWEI-Matebook-D15--i5-1155G7-%C4%B0%C5%9Flemci--8GB-Ram--256GB-SSD--15.6-in%C3%A7--Win-11-Laptop-Mistik-G%C3%BCm%C3%BC%C5%9F',
+      price: 999.99,
+      isNew: false,
+      star: 4.3,
+      brand: 'laptop',
+      cargoType: 'bedava',
+      size: true,
+      sizeType: "orta",
+      description:
+          'Kampanya fiyatından satılmak üzere 5 adetten fazla stok sunulmuştur. İncelemiş olduğunuz ürünün satış fiyatını satıcı belirlemektedir. '
+          'Bir ürün, birden fazla satıcı tarafından satılabilir. '
+          'Birden fazla satıcı tarafından satışa sunulan ürünlerin satıcıları ürün için belirledikleri fiyata, satıcı puanlarına, teslimat statülerine, ürünlerdeki promosyonlara,'
+          ' kargonun bedava olup olmamasına ve ürünlerin hızlı teslimat ile teslim edilip edilememesine, ürünlerin stok ve kategorileri bilgilerine göre sıralanmaktadır.'
+          ' Bu üründen en fazla 1 adet sipariş verilebilir.'
+          ' 1 adedin üzerindeki siparişleri iptal etme hakkınız saklı tutulur.'
+          ' Belirlenen bu limit kurumsal siparişlerde geçerli olmayıp, kurumsal siparişler'
+          ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
+          ' Detaylı bilgi için tıklayın.',
+      amountOfStock: 3,
+      isInStock: true,
+    ),
     Product(
+        amountOfStock: 3,
+        isInStock: true,
         value: 0,
         cargoType: 'bedava',
-        ebat: false,
-        ebat_tipi: "orta",
+        size: false,
+        sizeType: "orta",
         name: 'Akıllı Telefon ABC',
         imageUrl:
             'https://reimg-teknosa-cloud-prod.mncdn.com/mnresize/600/600/productimage/125078788/125078788_0_MC/66845559.jpg',
@@ -47,10 +52,12 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+      amountOfStock: 3,
+      isInStock: true,
       value: 0,
       cargoType: 'bedava',
-      ebat: false,
-      ebat_tipi: "orta",
+      size: false,
+      sizeType: "orta",
       name: 'Bluetooth Kulaklık',
       imageUrl:
           'https://akn-ayb.a-cdn.akinoncdn.com/products/2021/06/14/58647/f007828a-76e7-421a-b61d-37d2503a5a4d_size780x780_quality60_cropCenter.jpg',
@@ -70,6 +77,8 @@ class ProductViewModel {
           ' Detaylı bilgi için tıklayın.',
     ),
     Product(
+        amountOfStock: 3,
+        isInStock: true,
         value: 0,
         description:
             'Kampanya fiyatından satılmak üzere 5 adetten fazla stok sunulmuştur. İncelemiş olduğunuz ürünün satış fiyatını satıcı belirlemektedir. '
@@ -82,8 +91,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.',
         cargoType: 'bedava',
-        ebat: true,
-        ebat_tipi: "orta",
+        size: true,
+        sizeType: "orta",
         name: 'Akıllı Saat',
         imageUrl:
             'https://cdn03.ciceksepeti.com/cicek/kc3222420-1/XL/smart-siyah-akilli-saat-kc3222420-1-451229b892384cfe800c828cfdc243e3.jpg',
@@ -92,6 +101,8 @@ class ProductViewModel {
         isNew: true,
         star: 4.3),
     Product(
+        amountOfStock: 3,
+        isInStock: true,
         value: 0,
         description:
             'Kampanya fiyatından satılmak üzere 5 adetten fazla stok sunulmuştur. İncelemiş olduğunuz ürünün satış fiyatını satıcı belirlemektedir. '
@@ -104,8 +115,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.',
         cargoType: 'bedava',
-        ebat: true,
-        ebat_tipi: "orta",
+        size: true,
+        sizeType: "orta",
         name: 'Gaming Laptop Ultra',
         imageUrl:
             'https://image.made-in-china.com/202f0j00GyrldSocSAqz/Ultra-Thin-Gaming-Laptops-16-1-Inch-Intel-Core-I9-8950HK-I7-9750h-Nvidia-Gtx-1650-4G-Graphic-Card-Notebook-Win-10-Computer.jpg',
@@ -114,6 +125,8 @@ class ProductViewModel {
         isNew: true,
         star: 4.3),
     Product(
+        amountOfStock: 3,
+        isInStock: true,
         value: 0,
         description:
             'Kampanya fiyatından satılmak üzere 5 adetten fazla stok sunulmuştur. İncelemiş olduğunuz ürünün satış fiyatını satıcı belirlemektedir. '
@@ -127,8 +140,8 @@ class ProductViewModel {
             ' Detaylı bilgi için tıklayın.',
         name: '4K UHD Smart TV',
         cargoType: 'bedava',
-        ebat: true,
-        ebat_tipi: "orta",
+        size: true,
+        sizeType: "orta",
         imageUrl:
             'https://www.lg.com/africa/images/tvs/md06251641/gallery/uhd-lg-43un7000pta-tv-new_d2.jpg',
         price: 899.99,
@@ -136,6 +149,8 @@ class ProductViewModel {
         isNew: true,
         star: 4.3),
     Product(
+        amountOfStock: 3,
+        isInStock: true,
         value: 0,
         description:
             'Kampanya fiyatından satılmak üzere 5 adetten fazla stok sunulmuştur. İncelemiş olduğunuz ürünün satış fiyatını satıcı belirlemektedir. '
@@ -149,8 +164,8 @@ class ProductViewModel {
             ' Detaylı bilgi için tıklayın.',
         name: 'Kablosuz Bluetooth Mouse',
         cargoType: 'bedava',
-        ebat: true,
-        ebat_tipi: "orta",
+        size: true,
+        sizeType: "orta",
         imageUrl:
             'https://productimages.hepsiburada.net/s/48/375-375/10953682354226.jpg',
         price: 19.99,
@@ -158,14 +173,16 @@ class ProductViewModel {
         isNew: false,
         star: 4.3),
     Product(
+        amountOfStock: 3,
+        isInStock: true,
         value: 0,
         name: 'Taşınabilir Bluetooth Hoparlör',
         imageUrl:
             'https://www.teknostore.com/image/cache/data/resimler/lenovo-lecoo-ds154-boombox-rgb-tasinabilir-bluetooth-hoparlor-17245-682x682.jpg',
         price: 59.99,
         cargoType: 'bedava',
-        ebat: true,
-        ebat_tipi: "orta",
+        size: true,
+        sizeType: "orta",
         isNew: false,
         brand: 'Kronik Yayınevi',
         star: 4.3,
@@ -180,11 +197,13 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfStock: 3,
+        isInStock: true,
         value: 0,
         name: 'HD Video Kamera',
         cargoType: 'bedava',
-        ebat: true,
-        ebat_tipi: "orta",
+        size: true,
+        sizeType: "orta",
         imageUrl:
             'https://productimages.hepsiburada.net/s/7/375-375/8949968437298.jpg',
         price: 329.99,
@@ -204,11 +223,13 @@ class ProductViewModel {
   ];
   static List<Product> educationProductList = [
     Product(
+      amountOfStock: 3,
+      isInStock: true,
       value: 0,
       name: 'Atomik Alışkanlıklar',
       cargoType: 'bedava',
-      ebat: true,
-      ebat_tipi: "orta",
+      size: true,
+      sizeType: "orta",
       imageUrl:
           'https://www.kayhanaydogdu.com.tr/uploads/372888-I%CC%87yi-al%C4%B1%C5%9Fkanl%C4%B1klar-edinmenin-ve-k%C3%B6t%C3%BC-al%C4%B1%C5%9Fkanl%C4%B1klardan-1.jpeg',
       price: 199.99,
@@ -227,11 +248,13 @@ class ProductViewModel {
           ' Detaylı bilgi için tıklayın.',
     ),
     Product(
+        amountOfStock: 3,
+        isInStock: true,
         value: 0,
         name: 'Senin Cahilliğin Benim Yaşamımı Etkiliyor',
         cargoType: 'bedava',
-        ebat: true,
-        ebat_tipi: "orta",
+        size: true,
+        sizeType: "orta",
         imageUrl:
             'https://cdn.dsmcdn.com/mnresize/600/-/ty1019/product/media/images/prod/SPM/PIM/20231018/16/157fafd0-a216-3b1d-88f9-d9d03e3e86e1/1_org_zoom.jpg',
         price: 149.99,
@@ -249,6 +272,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfStock: 0,
+        isInStock: false,
         value: 0,
         name: 'Dahi Diktatör',
         imageUrl:
@@ -256,8 +281,8 @@ class ProductViewModel {
         price: 89.99,
         isNew: true,
         cargoType: 'bedava',
-        ebat: true,
-        ebat_tipi: "orta",
+        size: true,
+        sizeType: "orta",
         star: 4.8,
         brand: 'Kronik Yayınevi',
         description:
@@ -271,6 +296,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfStock: 3,
+        isInStock: true,
         value: 0,
         name: 'A5 Defter Celal Şengör Nasıl Yapıcaz 200 Sayfa',
         imageUrl:
@@ -278,8 +305,8 @@ class ProductViewModel {
         price: 59.99,
         isNew: false,
         cargoType: 'bedava',
-        ebat: true,
-        ebat_tipi: "orta",
+        size: true,
+        sizeType: "orta",
         star: 4.0,
         brand: 'Kronik Yayınevi',
         description:
@@ -293,14 +320,16 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfStock: 3,
+        isInStock: true,
         value: 0,
         name: 'Var Mısın ?',
         imageUrl:
             'https://cdn.dsmcdn.com/mnresize/600/-/ty998/product/media/images/prod/SPM/PIM/20230907/23/64287eeb-4b25-3322-a722-e4656d841f46/1_org_zoom.jpg',
         price: 29.99,
         cargoType: 'bedava',
-        ebat: true,
-        ebat_tipi: "orta",
+        size: true,
+        sizeType: "orta",
         isNew: true,
         star: 4.6,
         brand: 'Kronik Yayınevi',
@@ -317,6 +346,8 @@ class ProductViewModel {
   ];
   static List<Product> clothingProductList = [
     Product(
+        amountOfStock: 3,
+        isInStock: true,
         value: 0,
         name: 'Siyah Dokuma Dokuma Elbise',
         imageUrl:
@@ -324,8 +355,8 @@ class ProductViewModel {
         price: 79.99,
         isNew: true,
         cargoType: 'bedava',
-        ebat: true,
-        ebat_tipi: "orta",
+        size: true,
+        sizeType: "orta",
         star: 4.2,
         brand: 'X Kadın',
         description:
@@ -339,6 +370,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfStock: 3,
+        isInStock: true,
         value: 3,
         name: 'Kadın Çizgili Triko Kazak',
         imageUrl:
@@ -346,8 +379,8 @@ class ProductViewModel {
         price: 49.99,
         isNew: false,
         cargoType: 'bedava',
-        ebat: true,
-        ebat_tipi: "orta",
+        size: true,
+        sizeType: "orta",
         star: 4.0,
         brand: 'X Kadın',
         description:
@@ -361,6 +394,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfStock: 3,
+        isInStock: true,
         value: 1,
         name: 'Kısa Taytlı Outdoor Şort',
         imageUrl:
@@ -368,8 +403,8 @@ class ProductViewModel {
         price: 39.99,
         isNew: true,
         cargoType: 'bedava',
-        ebat: true,
-        ebat_tipi: "orta",
+        size: true,
+        sizeType: "orta",
         star: 4.5,
         brand: 'Msport',
         description:
@@ -383,6 +418,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfStock: 3,
+        isInStock: true,
         value: 0,
         name: ' El Örgüsü Eldiven',
         imageUrl:
@@ -390,8 +427,8 @@ class ProductViewModel {
         price: 89.99,
         isNew: false,
         cargoType: 'bedava',
-        ebat: true,
-        ebat_tipi: "orta",
+        size: true,
+        sizeType: "orta",
         star: 4.3,
         brand: 'MSanat',
         description:
@@ -405,6 +442,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfStock: 3,
+        isInStock: true,
         value: 0,
         name: 'Kürk Detaylı Pilot Şapka',
         imageUrl:
@@ -412,8 +451,8 @@ class ProductViewModel {
         price: 19.99,
         isNew: true,
         cargoType: 'bedava',
-        ebat: true,
-        ebat_tipi: "orta",
+        size: true,
+        sizeType: "orta",
         star: 4.8,
         brand: 'Ela Giyim',
         description:
@@ -429,6 +468,8 @@ class ProductViewModel {
   ];
   static List<Product> sportsProductList = [
     Product(
+        amountOfStock: 3,
+        isInStock: true,
         value: 0,
         name: 'Dambıl Seti 2\'li',
         imageUrl:
@@ -436,8 +477,8 @@ class ProductViewModel {
         price: 40.99,
         isNew: true,
         cargoType: 'bedava',
-        ebat: true,
-        ebat_tipi: "orta",
+        size: true,
+        sizeType: "orta",
         star: 4.0,
         brand: 'SportGiyim',
         description:
@@ -451,6 +492,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfStock: 3,
+        isInStock: true,
         value: 0,
         name: 'Slim Kondisyon Bisikleti',
         imageUrl:
@@ -458,8 +501,8 @@ class ProductViewModel {
         price: 29.99,
         isNew: false,
         cargoType: 'bedava',
-        ebat: true,
-        ebat_tipi: "orta",
+        size: true,
+        sizeType: "orta",
         star: 4.6,
         brand: 'AldınAldın',
         description:
@@ -473,6 +516,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfStock: 3,
+        isInStock: true,
         value: 0,
         name: 'Uzaktan Kumandalı Koşu Bandı',
         imageUrl:
@@ -480,8 +525,8 @@ class ProductViewModel {
         price: 99.99,
         isNew: true,
         cargoType: 'bedava',
-        ebat: true,
-        ebat_tipi: "orta",
+        size: true,
+        sizeType: "orta",
         star: 4.3,
         brand: 'ModX',
         description:
@@ -495,6 +540,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfStock: 3,
+        isInStock: true,
         value: 1,
         name: 'Kol Bilek Güçlendirici Fitness Bilek Aparatı',
         imageUrl:
@@ -502,8 +549,8 @@ class ProductViewModel {
         price: 29.99,
         isNew: false,
         cargoType: 'bedava',
-        ebat: true,
-        ebat_tipi: "orta",
+        size: true,
+        sizeType: "orta",
         star: 4.2,
         brand: 'TrNon',
         description:
@@ -517,14 +564,16 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+      amountOfStock: 3,
+      isInStock: true,
       name: 'Boks Eldiveni Siyah',
       imageUrl:
           'https://cdn.dsmcdn.com/mnresize/600/-/ty1006/product/media/images/prod/SPM/PIM/20230927/13/68f5adc5-a9f3-3841-a017-55c2674519f6/1_org_zoom.jpg',
       price: 39.99,
       isNew: true,
       cargoType: 'bedava',
-      ebat: true,
-      ebat_tipi: "orta",
+      size: true,
+      sizeType: "orta",
       star: 4.4,
       brand: 'Uxa',
       description:

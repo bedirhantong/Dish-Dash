@@ -18,4 +18,27 @@ class UserModel {
     required this.orderList,
     required this.favoriteList,
   });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is UserModel &&
+          runtimeType == other.runtimeType &&
+          name == other.name &&
+          email == other.email &&
+          password == other.password &&
+          shippingAddress == other.shippingAddress &&
+          photoLink == other.photoLink &&
+          orderList == other.orderList &&
+          favoriteList == other.favoriteList;
+
+  @override
+  int get hashCode =>
+      name.hashCode ^
+      email.hashCode ^
+      password.hashCode ^
+      shippingAddress.hashCode ^
+      photoLink.hashCode ^
+      orderList.hashCode ^
+      favoriteList.hashCode;
 }

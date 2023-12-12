@@ -16,7 +16,7 @@ class FavoritePage extends StatefulWidget {
 
 class _FavoritePageState extends State<FavoritePage>
     with SingleTickerProviderStateMixin {
-  late TabController kontrolcu2;
+  late TabController controller2;
   late int value1 = 1;
   late int value2 = 1;
   late int value3 = 1;
@@ -25,9 +25,8 @@ class _FavoritePageState extends State<FavoritePage>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    kontrolcu2 = TabController(length: 2, vsync: this);
+    controller2 = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -69,8 +68,10 @@ class _FavoritePageState extends State<FavoritePage>
               cartItemCount: widget.cartItemCount,
               onAddToCart: (int) {},
               cardList: const [],
+              isOrderedCard: false,
             ),
             ProductCardWidget(
+                isOrderedCard: false,
                 isDetailedCard: false,
                 isMainScreenCard: false,
                 isFavoriteCard: true,
@@ -84,6 +85,7 @@ class _FavoritePageState extends State<FavoritePage>
                 onAddToCart: (int) {},
                 cardList: const []),
             ProductCardWidget(
+                isOrderedCard: false,
                 isDetailedCard: false,
                 isMainScreenCard: false,
                 isFavoriteCard: true,
@@ -97,6 +99,7 @@ class _FavoritePageState extends State<FavoritePage>
                 onAddToCart: (int) {},
                 cardList: const []),
             ProductCardWidget(
+                isOrderedCard: false,
                 isDetailedCard: false,
                 isMainScreenCard: false,
                 isFavoriteCard: true,
@@ -118,11 +121,11 @@ class _FavoritePageState extends State<FavoritePage>
   showAlertDialog() {
     return CoolAlert.show(
       context: context,
-      title: "Hoop Hemşerim",
+      title: "INFO",
       confirmBtnColor: Colors.orange,
       animType: CoolAlertAnimType.scale,
       type: CoolAlertType.info,
-      text: "Bu basit bir front-end uygulamasıdır.",
+      text: "Buraya ne koyacağımı bilemedim.",
     );
   }
 }

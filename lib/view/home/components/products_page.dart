@@ -23,7 +23,6 @@ class ProductsPage extends StatefulWidget {
 class _ProductsPageState extends State<ProductsPage> {
   @override
   Widget build(BuildContext context) {
-    var screenWidth = MediaQuery.sizeOf(context).width;
     var screenHeight = MediaQuery.sizeOf(context).height;
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -35,6 +34,7 @@ class _ProductsPageState extends State<ProductsPage> {
       shrinkWrap: true,
       itemBuilder: (context, index) {
         return ProductCardWidget(
+          isOrderedCard: false,
           isMainScreenCard: true,
           isFavoriteCard: false,
           isCartCard: false,

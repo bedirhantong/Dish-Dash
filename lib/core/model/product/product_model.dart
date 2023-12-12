@@ -7,17 +7,21 @@ class Product {
   final double star;
   final String brand;
   final String cargoType;
-  final bool ebat;
+  final bool size;
   final int value;
-  final String ebat_tipi;
+  final String sizeType;
+  final bool isInStock;
+  final int amountOfStock;
 
   Product({
+    required this.amountOfStock,
+    required this.isInStock,
     required this.description,
     required this.brand,
     required this.cargoType,
-    required this.ebat,
+    required this.size,
     required this.value,
-    required this.ebat_tipi,
+    required this.sizeType,
     required this.name,
     required this.imageUrl,
     required this.price,
@@ -34,8 +38,8 @@ class Product {
           price == other.price &&
           isNew == other.isNew &&
           star == other.star &&
-          ebat == other.ebat &&
-          ebat_tipi == other.ebat_tipi &&
+          size == other.size &&
+          sizeType == other.sizeType &&
           cargoType == other.cargoType &&
           brand == other.brand &&
           value == other.value;
@@ -49,7 +53,7 @@ class Product {
       star.hashCode ^
       brand.hashCode ^
       cargoType.hashCode ^
-      ebat.hashCode ^
-      ebat_tipi.hashCode ^
+      size.hashCode ^
+      sizeType.hashCode ^
       value.hashCode;
 }

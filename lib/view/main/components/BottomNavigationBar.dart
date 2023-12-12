@@ -47,7 +47,7 @@ class _BottomNavBarCustomizedState extends State<BottomNavBarCustomized> {
             color: Colors.white,
           ),
           icon: Badge(
-            label: Text('2'),
+            label: Text('1'),
             child: Icon(Icons.local_shipping_outlined),
           ),
           label: 'Orders',

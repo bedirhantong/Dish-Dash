@@ -112,9 +112,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   Widget _buildPaymentButton() {
     return OutlinedButton(
-      onPressed: () {
-        // Implement payment processing logic
-      },
+      onPressed: () {},
       style: ElevatedButton.styleFrom(),
       child: Text(
         'Ödemeyi Onayla (\$${widget.totalAmount.toStringAsFixed(2)})',

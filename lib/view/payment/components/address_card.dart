@@ -14,9 +14,9 @@ class AddressCard extends StatelessWidget {
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Ad Soyad: John Doe'),
-          Text('Adres: 123 Main Street, New York, NY 10001'),
-          Text('Telefon: +1 234 567 8900'),
+          Text('Bedirhan Tong'),
+          Text('Address: Akdeniz University, Computer Engineering Department'),
+          Text('Email: bedirhantongdev@gmail.com'),
         ],
       ),
     );

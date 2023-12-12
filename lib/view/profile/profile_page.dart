@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
-
 import '../../core/constants/app/color_strings.dart';
+import '../auth/login/login_screen.dart';
+import 'components/change_password_screen.dart';
+import 'components/faq_screen.dart';
+import 'components/manage_notifications_screen.dart';
+import 'components/manage_payment_methods_screen.dart';
+import 'components/privacy_settings_screen.dart';
+import 'components/update_shipping_address_screen.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  const ProfilePage({Key? key}) : super(key: key);
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -50,10 +56,10 @@ class _ProfilePageState extends State<ProfilePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Bedirhan',
+                'Bedirhan Tong',
                 style: TextStyle(fontSize: 20.0),
               ),
-              Text('user@bdo.com'),
+              Text('bedirhantongdev@gmail.com'),
             ],
           ),
           const Spacer(),
@@ -71,36 +77,71 @@ class _ProfilePageState extends State<ProfilePage> {
       margin: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-          ListTile(
-            title: const Text('Change Password'),
-            onTap: () {},
-          ),
-          ListTile(
-            title: const Text('Update Shipping Address'),
-            onTap: () {},
-          ),
-          ListTile(
-            title: const Text('Manage Payment Methods'),
-            onTap: () {},
-          ),
-          ListTile(
-            title: const Text('Manage Notifications'),
-            onTap: () {},
-          ),
-          ListTile(
-            title: const Text('Privacy Settings'),
-            onTap: () {},
-          ),
-          ListTile(
-            title: const Text('FAQ'),
-            onTap: () {},
-          ),
-          ListTile(
-            title: const Text('Log out'),
-            onTap: () {},
-          ),
+          buildListTile('Change Password', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChangePasswordScreen(),
+              ),
+            );
+          }),
+          buildListTile('Update Shipping Address', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const UpdateShippingAddressScreen(),
+              ),
+            );
+          }),
+          buildListTile('Manage Payment Methods', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ManagePaymentMethodsScreen(),
+              ),
+            );
+          }),
+          buildListTile('Manage Notifications', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ManageNotificationsScreen(),
+              ),
+            );
+          }),
+          buildListTile('Privacy Settings', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const PrivacySettingsScreen(),
+              ),
+            );
+          }),
+          buildListTile('FAQ', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const FAQScreen(),
+              ),
+            );
+          }),
+          buildListTile('Log out', () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const LoginScreen(),
+              ),
+            );
+          }),
         ],
       ),
+    );
+  }
+
+  ListTile buildListTile(String title, Function() onTap) {
+    return ListTile(
+      title: Text(title),
+      onTap: onTap,
     );
   }
 }

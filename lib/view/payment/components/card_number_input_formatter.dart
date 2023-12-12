@@ -16,13 +16,10 @@ class CardNumberInputFormatter extends TextInputFormatter {
         final String lastChar = text.substring(text.length - 1);
         if (lastChar != ' ') {
           text = '${text.substring(0, text.length - 1)} $lastChar';
-
-          // Identify the bank based on the first 4 digits of the card number
           if (text.length >= 4) {
             final String firstFourDigits = text.substring(0, 4);
             identifyBankName(firstFourDigits);
           }
-
           return TextEditingValue(
             text: text,
             selection: TextSelection.collapsed(offset: text.length),

@@ -91,7 +91,7 @@ class _PastOrdersPageState extends State<PastOrdersPage> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('İptal'),
+              child: const Text('İptal'),
             ),
             TextButton(
               onPressed: () {

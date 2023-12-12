@@ -24,6 +24,7 @@ class CartItemCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: ProductCardWidget(
+          isOrderedCard: false,
           isMainScreenCard: false,
           isFavoriteCard: false,
           isCartCard: true,

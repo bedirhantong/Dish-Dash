@@ -8,6 +8,7 @@ class ProductCardWidget extends StatefulWidget {
   const ProductCardWidget(
       {super.key,
       required this.isMainScreenCard,
+      required this.isOrderedCard,
       required this.isFavoriteCard,
       required this.isCartCard,
       required this.value,
@@ -27,6 +28,7 @@ class ProductCardWidget extends StatefulWidget {
   final bool isFavoriteCard;
   final bool isDetailedCard;
   final bool isCartCard;
+  final bool isOrderedCard;
   final int value;
   final String cargoType;
   final double oldCost;
@@ -46,6 +48,9 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
 
     if (widget.isCartCard) {
       return createCartProductCard();
+    }
+    if (widget.isOrderedCard) {
+      return createOrderedProductCard();
     } else {
       return createDetailedProductCard();
     }
@@ -56,104 +61,118 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
     int adet = 1;
     screenWidth = MediaQuery.sizeOf(context).width;
     screenHeight = MediaQuery.sizeOf(context).height;
-    return Container(
-      width: double.infinity,
-      height: screenHeight * 0.25,
-      margin: const EdgeInsets.only(top: 10),
-      padding: const EdgeInsets.all(10),
-      child: Row(
-        children: [
-          SizedBox(
-            width: screenWidth * 0.35,
-            child: Image.network(
-              widget.product.imageUrl,
-              fit: BoxFit.cover,
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductDetailPage(
+              product: widget.product,
+              cartItemCount: widget.cartItemCount,
             ),
           ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      widget.product.brand,
-                      style: const TextStyle(color: Colors.black),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.more_vert_outlined),
-                      onPressed: () {
-                        showAlertDialog();
-                      },
-                    ),
-                  ],
-                ),
-                Text(
-                  widget.product.description,
-                  style: TextStyle(
-                      color: Colors.grey[600], overflow: TextOverflow.ellipsis),
-                ),
-                createProductStar(),
-                Text(
-                  'Kargo ${widget.cargoType}',
-                  style: TextStyle(color: Colors.grey[700]),
-                ),
-                Text(
-                  '${widget.product.price} TL',
-                  style: TextStyle(color: Colors.orange[800]),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          const AlertDialog();
-                        });
-                      },
-                      child: GestureDetector(
-                        onTap: () {
+        );
+      },
+      child: Container(
+        width: double.infinity,
+        height: screenHeight * 0.25,
+        margin: const EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          children: [
+            SizedBox(
+              width: screenWidth * 0.35,
+              child: Image.network(
+                widget.product.imageUrl,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        widget.product.brand,
+                        style: const TextStyle(color: Colors.black),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.more_vert_outlined),
+                        onPressed: () {
                           showAlertDialog();
                         },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.remove),
-                              onPressed: () {
-                                setState(() {
-                                  // widget.cardList!.remove(widget.product);
-                                  adet -= 1;
-                                });
-                              },
-                            ),
-                            Text(
-                              '$adet',
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.add),
-                              onPressed: () {
-                                setState(() {
-                                  adet += 1;
-                                });
-                              },
-                            ),
-                          ],
+                      ),
+                    ],
+                  ),
+                  Text(
+                    widget.product.description,
+                    style: TextStyle(
+                        color: Colors.grey[600],
+                        overflow: TextOverflow.ellipsis),
+                  ),
+                  createProductStar(),
+                  Text(
+                    'Kargo ${widget.cargoType}',
+                    style: TextStyle(color: Colors.grey[700]),
+                  ),
+                  Text(
+                    '${widget.product.price} TL',
+                    style: TextStyle(color: Colors.orange[800]),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            const AlertDialog();
+                          });
+                        },
+                        child: GestureDetector(
+                          onTap: () {
+                            showAlertDialog();
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.remove),
+                                onPressed: () {
+                                  setState(() {
+                                    // widget.cardList!.remove(widget.product);
+                                    adet -= 1;
+                                  });
+                                },
+                              ),
+                              Text(
+                                '$adet',
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.add),
+                                onPressed: () {
+                                  setState(() {
+                                    adet += 1;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          )
-        ],
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -162,85 +181,152 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
   createFavoritesProductCard() {
     screenWidth = MediaQuery.sizeOf(context).width;
     screenHeight = MediaQuery.sizeOf(context).height;
-    return Container(
-      width: double.infinity,
-      height: screenHeight * 0.22,
-      margin: const EdgeInsets.only(top: 10),
-      padding: const EdgeInsets.all(10),
-      child: Row(
-        children: [
-          SizedBox(
-            width: screenWidth * 0.35,
-            child: Image.network(
-              widget.product.imageUrl,
-              fit: BoxFit.cover,
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductDetailPage(
+              product: widget.product,
+              cartItemCount: widget.cartItemCount,
             ),
           ),
-          Container(
-            width: screenWidth * 0.55,
-            padding: const EdgeInsets.only(left: 5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      widget.product.brand,
-                      style: const TextStyle(color: Colors.black),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.more_vert_outlined),
-                      onPressed: () {
-                        showAlertDialog();
-                      },
-                    ),
-                  ],
-                ),
-                Text(
-                  widget.product.description,
-                  style: TextStyle(
-                      color: Colors.grey[600], overflow: TextOverflow.ellipsis),
-                ),
-                createProductStar(),
-                Text(
-                  'Kargo ${widget.cargoType}',
-                  style: TextStyle(color: Colors.grey[700]),
-                ),
-                Text(
-                  '${widget.product.price} TL',
-                  style: TextStyle(color: Colors.orange[800]),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Center(
-                  child: InkWell(
-                    onTap: () {
-                      showAlertDialog();
-                    },
-                    child: Container(
-                      width: 80,
-                      height: 45,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.grey,
-                        border: Border.all(color: Colors.grey, width: 2),
-                      ),
-                      child: const Text(
-                        "Stokta Kalmadı",
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+        );
+      },
+      child: Container(
+        width: double.infinity,
+        height: screenHeight * 0.22,
+        margin: const EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          children: [
+            SizedBox(
+              width: screenWidth * 0.35,
+              child: Image.network(
+                widget.product.imageUrl,
+                fit: BoxFit.cover,
+              ),
             ),
-          )
-        ],
+            Container(
+              width: screenWidth * 0.55,
+              padding: const EdgeInsets.only(left: 5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        widget.product.brand,
+                        style: const TextStyle(color: Colors.black),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.more_vert_outlined),
+                        onPressed: () {
+                          showAlertDialog();
+                        },
+                      ),
+                    ],
+                  ),
+                  Text(
+                    widget.product.description,
+                    style: TextStyle(
+                        color: Colors.grey[600],
+                        overflow: TextOverflow.ellipsis),
+                  ),
+                  createProductStar(),
+                  Text(
+                    'Kargo ${widget.cargoType}',
+                    style: TextStyle(color: Colors.grey[700]),
+                  ),
+                  Text(
+                    '${widget.product.price} TL',
+                    style: const TextStyle(color: Colors.green),
+                  ),
+                  !widget.product.isInStock
+                      ? InkWell(
+                          onTap: () {
+                            showAlertDialog();
+                          },
+                          child: TextButton(
+                            onPressed: () {},
+                            child: const Text(
+                              "Stokta Kalmadı",
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 12),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        )
+                      : !widget.cardList.contains(
+                          widget.product,
+                        )
+                          ? Tooltip(
+                              message: 'Sepete Ekle',
+                              child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    widget.cardList.add(widget.product);
+                                    widget
+                                        .onAddToCart(widget.cartItemCount + 1);
+                                  });
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Sepete eklendi'),
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(Icons.shopping_cart_outlined),
+                              ),
+                            )
+                          : Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.remove),
+                                  onPressed: () {
+                                    setState(() {
+                                      widget.cardList.remove(widget.product);
+                                      widget.onAddToCart(
+                                          widget.cartItemCount - 1);
+                                    });
+                                  },
+                                ),
+                                const Text(
+                                  '1',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.add),
+                                  onPressed: () {
+                                    setState(() {
+                                      widget.cardList.add(widget.product);
+                                      widget.onAddToCart(
+                                          widget.cartItemCount + 1);
+                                    });
+                                  },
+                                ),
+                                const SizedBox(width: 8),
+                                IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () {
+                                    setState(
+                                      () {
+                                        widget.cardList.remove(widget.product);
+                                        widget.onAddToCart(
+                                            widget.cartItemCount - 1);
+                                      },
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -249,90 +335,100 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
   createDetailedProductCard() {
     screenWidth = MediaQuery.sizeOf(context).width;
     screenHeight = MediaQuery.sizeOf(context).height;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Stack(
+      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Container(
-          margin: const EdgeInsets.only(top: 5),
-          padding: const EdgeInsets.all(10),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: SizedBox(
-                    width: screenWidth * 0.93,
-                    height: screenHeight * 0.4,
-                    child: Image.network(
-                      widget.product.imageUrl,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(
+                  top: 5,
+                  bottom: screenHeight * 0.07,
                 ),
-                Container(
-                  padding: const EdgeInsets.only(left: 5),
+                padding: const EdgeInsets.all(10),
+                child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            widget.product.brand,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              overflow: TextOverflow.fade,
+                      Center(
+                        child: SizedBox(
+                          width: screenWidth * 0.93,
+                          height: screenHeight * 0.4,
+                          child: Image.network(
+                            widget.product.imageUrl,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  widget.product.brand,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    overflow: TextOverflow.fade,
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.more_vert_outlined,
+                                  ),
+                                  onPressed: () {
+                                    showAlertDialog();
+                                  },
+                                ),
+                              ],
                             ),
-                          ),
-                          IconButton(
-                            icon: const Icon(
-                              Icons.more_vert_outlined,
+                            createProductStar(),
+                            Text(
+                              'Kargo ${widget.cargoType}',
+                              style: TextStyle(
+                                color: Colors.grey[700],
+                              ),
                             ),
-                            onPressed: () {
-                              showAlertDialog();
-                            },
-                          ),
-                        ],
-                      ),
-                      ExpansionTile(
-                        title: Text(
-                          widget.product.description,
-                          style: TextStyle(
-                            color: Colors.grey[600],
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                            Text(
+                              '${widget.product.price} TL',
+                              style: TextStyle(
+                                color: Colors.orange[800],
+                              ),
+                            ),
+                            ExpansionTile(
+                              initiallyExpanded: true,
+                              title: Text(
+                                widget.product.description,
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              children: [
+                                Text(
+                                  widget.product.description,
+                                  style: TextStyle(
+                                      color: Colors.grey[600],
+                                      overflow: TextOverflow.fade),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                          ],
                         ),
-                        children: [
-                          Text(
-                            widget.product.description,
-                            style: TextStyle(
-                                color: Colors.grey[600],
-                                overflow: TextOverflow.fade),
-                          ),
-                        ],
-                      ),
-                      createProductStar(),
-                      Text(
-                        'Kargo ${widget.cargoType}',
-                        style: TextStyle(
-                          color: Colors.grey[700],
-                        ),
-                      ),
-                      Text(
-                        '${widget.product.price} TL',
-                        style: TextStyle(
-                          color: Colors.orange[800],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      )
                     ],
                   ),
-                )
-              ],
-            ),
+                ),
+              ),
+            ],
           ),
         ),
         Align(
@@ -356,38 +452,41 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                       border: Border.all(color: Colors.grey, width: 2),
                     ),
                     child: DropdownButton(
-                        isExpanded: true,
-                        hint: const Text(
-                          "Seçiniz",
-                        ),
-                        value: widget.value,
-                        items: [
-                          if (!widget.product.ebat)
-                            const DropdownMenuItem(
-                              value: 1,
-                              child: Text("Tek Ebat"),
-                            ),
-                          if (widget.product.ebat)
-                            const DropdownMenuItem(
-                              value: 1,
-                              child: Text("S"),
-                            ),
-                          if (widget.product.ebat)
-                            const DropdownMenuItem(
-                              value: 2,
-                              child: Text("M"),
-                            ),
-                          if (widget.product.ebat)
-                            const DropdownMenuItem(
-                              value: 3,
-                              child: Text("L"),
-                            ),
-                        ],
-                        onChanged: (value) {
-                          setState(() {
+                      isExpanded: true,
+                      hint: const Text(
+                        "Seçiniz",
+                      ),
+                      value: widget.value,
+                      items: [
+                        if (!widget.product.size)
+                          const DropdownMenuItem(
+                            value: 1,
+                            child: Text("Tek Ebat"),
+                          ),
+                        if (widget.product.size)
+                          const DropdownMenuItem(
+                            value: 1,
+                            child: Text("S"),
+                          ),
+                        if (widget.product.size)
+                          const DropdownMenuItem(
+                            value: 2,
+                            child: Text("M"),
+                          ),
+                        if (widget.product.size)
+                          const DropdownMenuItem(
+                            value: 3,
+                            child: Text("L"),
+                          ),
+                      ],
+                      onChanged: (value) {
+                        setState(
+                          () {
                             value = value;
-                          });
-                        }),
+                          },
+                        );
+                      },
+                    ),
                   ),
                 ),
                 Padding(
@@ -444,7 +543,6 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Container with gradient overlay for image
             Container(
               height: 170,
               width: double.infinity,
@@ -525,11 +623,13 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                               message: 'Sepete Ekle',
                               child: IconButton(
                                 onPressed: () {
-                                  setState(() {
-                                    widget.cardList.add(widget.product);
-                                    widget
-                                        .onAddToCart(widget.cartItemCount + 1);
-                                  });
+                                  setState(
+                                    () {
+                                      widget.cardList.add(widget.product);
+                                      widget.onAddToCart(
+                                          widget.cartItemCount + 1);
+                                    },
+                                  );
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text('Sepete eklendi'),
@@ -570,10 +670,13 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                             IconButton(
                               icon: const Icon(Icons.delete),
                               onPressed: () {
-                                setState(() {
-                                  widget.cardList.remove(widget.product);
-                                  widget.onAddToCart(widget.cartItemCount - 1);
-                                });
+                                setState(
+                                  () {
+                                    widget.cardList.remove(widget.product);
+                                    widget
+                                        .onAddToCart(widget.cartItemCount - 1);
+                                  },
+                                );
                               },
                             ),
                           ],
@@ -587,14 +690,112 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
     );
   }
 
+  //sepette görünecek olan Card
+  createOrderedProductCard() {
+    int adet = 1;
+    screenWidth = MediaQuery.sizeOf(context).width;
+    screenHeight = MediaQuery.sizeOf(context).height;
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductDetailPage(
+              product: widget.product,
+              cartItemCount: widget.cartItemCount,
+            ),
+          ),
+        );
+      },
+      child: Container(
+        width: double.infinity,
+        height: screenHeight * 0.20,
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: SizedBox(
+                width: screenWidth * 0.25,
+                child: Image.network(
+                  widget.product.imageUrl,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        widget.product.brand,
+                        style: const TextStyle(color: Colors.black),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.more_vert_outlined),
+                        onPressed: () {
+                          showAlertDialog();
+                        },
+                      ),
+                    ],
+                  ),
+                  Text(
+                    widget.product.description,
+                    style: TextStyle(
+                        color: Colors.grey[600],
+                        overflow: TextOverflow.ellipsis),
+                  ),
+                  createProductStar(),
+                  Text(
+                    'Kargo ${widget.cargoType}',
+                    style: TextStyle(color: Colors.grey[700]),
+                  ),
+                  Text(
+                    '${widget.product.price} TL',
+                    style: TextStyle(color: Colors.orange[800]),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            const AlertDialog();
+                          });
+                        },
+                        child: GestureDetector(
+                          onTap: () {
+                            showAlertDialog();
+                          },
+                          child: Text(
+                            '$adet adet sipariş verildi',
+                            style: const TextStyle(fontSize: 13),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
   showAlertDialog() {
     return CoolAlert.show(
       context: context,
-      title: "Ulağnnnnn",
+      title: "Info",
       confirmBtnColor: Colors.orange,
       animType: CoolAlertAnimType.scale,
-      type: CoolAlertType.error,
-      text: "Henüz bu işlev eklenmedi.",
+      type: CoolAlertType.info,
+      text: "Buraya ne eklesem bilemedim",
     );
   }
 
