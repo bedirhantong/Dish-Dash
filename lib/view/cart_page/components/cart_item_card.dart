@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../core/constants/common_widgets/products/products_card_common.dart';
+import '../../../core/common_widgets/product_card/components/product_card_factory.dart';
 import '../../../core/model/product/product_model.dart';
 
 class CartItemCard extends StatelessWidget {
@@ -23,20 +22,11 @@ class CartItemCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        child: ProductCardWidget(
-          isOrderedCard: false,
-          isMainScreenCard: false,
-          isFavoriteCard: false,
-          isCartCard: true,
-          value: product.value,
-          cargoType: product.cargoType,
-          oldCost: 2121,
-          amountOfDiscount: '32',
-          product: product,
-          cartItemCount: cartItemCount,
-          onAddToCart: (int) {},
-          cardList: const [],
-          isDetailedCard: false,
-        ));
+        child: ProductCardFactory.createProductCard(
+            cardType: 'cartProduct',
+            product: product,
+            cartItemCount: cartItemCount,
+            cargoType: product.cargoType,
+            onAddToCart: (int) {}));
   }
 }

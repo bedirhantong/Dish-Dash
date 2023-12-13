@@ -12,8 +12,12 @@ class Product {
   final String sizeType;
   final bool isInStock;
   final int amountOfStock;
+  final double oldCost;
+  final String amountOfDiscount;
 
   Product({
+    required this.amountOfDiscount,
+    required this.oldCost,
     required this.amountOfStock,
     required this.isInStock,
     required this.description,

@@ -26,8 +26,12 @@ class ProductViewModel {
           ' Detaylı bilgi için tıklayın.',
       amountOfStock: 3,
       isInStock: true,
+      amountOfDiscount: '%10',
+      oldCost: 200,
     ),
     Product(
+        amountOfDiscount: '%10',
+        oldCost: 200,
         amountOfStock: 3,
         isInStock: true,
         value: 0,
@@ -52,6 +56,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+      amountOfDiscount: '%10',
+      oldCost: 200,
       amountOfStock: 3,
       isInStock: true,
       value: 0,
@@ -77,6 +83,8 @@ class ProductViewModel {
           ' Detaylı bilgi için tıklayın.',
     ),
     Product(
+        amountOfDiscount: '%10',
+        oldCost: 200,
         amountOfStock: 3,
         isInStock: true,
         value: 0,
@@ -101,6 +109,8 @@ class ProductViewModel {
         isNew: true,
         star: 4.3),
     Product(
+        amountOfDiscount: '%10',
+        oldCost: 200,
         amountOfStock: 3,
         isInStock: true,
         value: 0,
@@ -125,6 +135,8 @@ class ProductViewModel {
         isNew: true,
         star: 4.3),
     Product(
+        amountOfDiscount: '%10',
+        oldCost: 200,
         amountOfStock: 3,
         isInStock: true,
         value: 0,
@@ -149,6 +161,8 @@ class ProductViewModel {
         isNew: true,
         star: 4.3),
     Product(
+        amountOfDiscount: '%10',
+        oldCost: 200,
         amountOfStock: 3,
         isInStock: true,
         value: 0,
@@ -173,6 +187,8 @@ class ProductViewModel {
         isNew: false,
         star: 4.3),
     Product(
+        amountOfDiscount: '%10',
+        oldCost: 200,
         amountOfStock: 3,
         isInStock: true,
         value: 0,
@@ -197,6 +213,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfDiscount: '%10',
+        oldCost: 200,
         amountOfStock: 3,
         isInStock: true,
         value: 0,
@@ -223,6 +241,8 @@ class ProductViewModel {
   ];
   static List<Product> educationProductList = [
     Product(
+      amountOfDiscount: '%5',
+      oldCost: 200,
       amountOfStock: 3,
       isInStock: true,
       value: 0,
@@ -248,6 +268,8 @@ class ProductViewModel {
           ' Detaylı bilgi için tıklayın.',
     ),
     Product(
+        amountOfDiscount: '%5',
+        oldCost: 200,
         amountOfStock: 3,
         isInStock: true,
         value: 0,
@@ -272,6 +294,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfDiscount: '%5',
+        oldCost: 200,
         amountOfStock: 0,
         isInStock: false,
         value: 0,
@@ -296,6 +320,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfDiscount: '%5',
+        oldCost: 200,
         amountOfStock: 3,
         isInStock: true,
         value: 0,
@@ -320,6 +346,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfDiscount: '%5',
+        oldCost: 200,
         amountOfStock: 3,
         isInStock: true,
         value: 0,
@@ -346,6 +374,8 @@ class ProductViewModel {
   ];
   static List<Product> clothingProductList = [
     Product(
+        amountOfDiscount: '%5',
+        oldCost: 200,
         amountOfStock: 3,
         isInStock: true,
         value: 0,
@@ -370,6 +400,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfDiscount: '%5',
+        oldCost: 200,
         amountOfStock: 3,
         isInStock: true,
         value: 3,
@@ -394,6 +426,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfDiscount: '%5',
+        oldCost: 200,
         amountOfStock: 3,
         isInStock: true,
         value: 1,
@@ -418,6 +452,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfDiscount: '%5',
+        oldCost: 200,
         amountOfStock: 3,
         isInStock: true,
         value: 0,
@@ -442,6 +478,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfDiscount: '%5',
+        oldCost: 200,
         amountOfStock: 3,
         isInStock: true,
         value: 0,
@@ -468,6 +506,8 @@ class ProductViewModel {
   ];
   static List<Product> sportsProductList = [
     Product(
+        amountOfDiscount: '%5',
+        oldCost: 200,
         amountOfStock: 3,
         isInStock: true,
         value: 0,
@@ -492,6 +532,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfDiscount: '%5',
+        oldCost: 200,
         amountOfStock: 3,
         isInStock: true,
         value: 0,
@@ -516,6 +558,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfDiscount: '%5',
+        oldCost: 200,
         amountOfStock: 3,
         isInStock: true,
         value: 0,
@@ -540,6 +584,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        amountOfDiscount: '%5',
+        oldCost: 200,
         amountOfStock: 3,
         isInStock: true,
         value: 1,
@@ -564,6 +610,8 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+      amountOfDiscount: '%5',
+      oldCost: 200,
       amountOfStock: 3,
       isInStock: true,
       name: 'Boks Eldiveni Siyah',

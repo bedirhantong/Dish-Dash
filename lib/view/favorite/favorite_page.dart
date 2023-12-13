@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cool_alert/cool_alert.dart';
-
+import '../../core/common_widgets/product_card/components/product_card_factory.dart';
 import '../../core/constants/app/color_strings.dart';
-import '../../core/constants/common_widgets/products/products_card_common.dart';
 import '../../core/viewmodel/product_viewmodel/product_viewmodel.dart';
 
 class FavoritePage extends StatefulWidget {
@@ -55,63 +53,30 @@ class _FavoritePageState extends State<FavoritePage>
         child: ListView(
           scrollDirection: Axis.vertical,
           children: [
-            ProductCardWidget(
-              isDetailedCard: false,
-              isMainScreenCard: false,
-              isFavoriteCard: true,
-              isCartCard: false,
-              value: value1,
-              cargoType: "Bedava",
-              oldCost: 2121,
-              amountOfDiscount: '32',
-              product: ProductViewModel.educationProductList[2],
-              cartItemCount: widget.cartItemCount,
-              onAddToCart: (int) {},
-              cardList: const [],
-              isOrderedCard: false,
-            ),
-            ProductCardWidget(
-                isOrderedCard: false,
-                isDetailedCard: false,
-                isMainScreenCard: false,
-                isFavoriteCard: true,
-                isCartCard: false,
-                value: value2,
-                cargoType: "10.99",
-                oldCost: 2323,
-                amountOfDiscount: '32',
+            ProductCardFactory.createProductCard(
+                cardType: 'favorite',
+                product: ProductViewModel.educationProductList[2],
+                cartItemCount: widget.cartItemCount,
+                cargoType: ProductViewModel.educationProductList[2].cargoType,
+                onAddToCart: (int) {}),
+            ProductCardFactory.createProductCard(
+                cardType: 'favorite',
                 product: ProductViewModel.clothingProductList[2],
                 cartItemCount: widget.cartItemCount,
-                onAddToCart: (int) {},
-                cardList: const []),
-            ProductCardWidget(
-                isOrderedCard: false,
-                isDetailedCard: false,
-                isMainScreenCard: false,
-                isFavoriteCard: true,
-                isCartCard: false,
-                value: value3,
-                cargoType: "Bedava",
-                oldCost: 2121,
-                amountOfDiscount: '32',
+                cargoType: ProductViewModel.educationProductList[2].cargoType,
+                onAddToCart: (int) {}),
+            ProductCardFactory.createProductCard(
+                cardType: 'favorite',
                 product: ProductViewModel.techProductList[1],
                 cartItemCount: widget.cartItemCount,
-                onAddToCart: (int) {},
-                cardList: const []),
-            ProductCardWidget(
-                isOrderedCard: false,
-                isDetailedCard: false,
-                isMainScreenCard: false,
-                isFavoriteCard: true,
-                isCartCard: false,
-                value: value4,
-                cargoType: "Bedava",
-                oldCost: 2121,
-                amountOfDiscount: '32',
+                cargoType: ProductViewModel.techProductList[1].cargoType,
+                onAddToCart: (int) {}),
+            ProductCardFactory.createProductCard(
+                cardType: 'favorite',
                 product: ProductViewModel.clothingProductList[3],
                 cartItemCount: widget.cartItemCount,
-                onAddToCart: (int) {},
-                cardList: const []),
+                cargoType: ProductViewModel.clothingProductList[3].cargoType,
+                onAddToCart: (int) {}),
           ],
         ),
       ),

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
+import '../../../core/common_widgets/product_card/components/product_card_factory.dart';
 import '../../../core/constants/app/color_strings.dart';
 import '../../../core/model/product/product_model.dart';
-import '../../../core/constants/common_widgets/products/products_card_common.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final Product product;
@@ -35,21 +34,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      body: ProductCardWidget(
-        isOrderedCard: false,
-        isDetailedCard: true,
-        isMainScreenCard: false,
-        isFavoriteCard: false,
-        isCartCard: false,
-        value: value4,
-        cargoType: "Bedava",
-        oldCost: 2121,
-        amountOfDiscount: '32',
-        product: widget.product,
-        cartItemCount: widget.cartItemCount,
-        onAddToCart: (int) {},
-        cardList: [],
-      ),
+      body: ProductCardFactory.createProductCard(
+          cardType: 'detailed',
+          product: widget.product,
+          cartItemCount: widget.cartItemCount,
+          cargoType: widget.product.cargoType,
+          onAddToCart: (int) {}),
     );
   }
 }

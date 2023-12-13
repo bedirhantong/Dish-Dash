@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../constants/common_widgets/products/products_card_common.dart';
-import '../../product/product_model.dart';
+import '../../../common_widgets/product_card/components/product_card_factory.dart';
 import '../order_model.dart';
 
 class OrderCard extends StatelessWidget {
@@ -36,23 +34,12 @@ class OrderCard extends StatelessWidget {
                 itemCount: order.products.length,
                 itemBuilder: (context, index) {
                   final product = order.products[index];
-                  return ProductCardWidget(
-                    isOrderedCard: true,
-                    isDetailedCard: false,
-                    isMainScreenCard: false,
-                    isFavoriteCard: false,
-                    isCartCard: false,
-                    value: 3,
-                    cargoType: "Bedava",
-                    oldCost: 2121,
-                    amountOfDiscount: '32',
-                    product: product,
-                    cartItemCount: 2,
-                    onAddToCart: (int) {},
-                    cardList: const [],
-                  );
-
-                  // _buildOrderItem(product);
+                  return ProductCardFactory.createProductCard(
+                      cardType: "ordered",
+                      product: product,
+                      cartItemCount: 2,
+                      cargoType: product.cargoType,
+                      onAddToCart: (int) {});
                 },
               ),
             ],
@@ -64,21 +51,6 @@ class OrderCard extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildOrderItem(Product product) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      leading: Image.network(
-        product.imageUrl,
-        width: 60,
-        height: 60,
-        fit: BoxFit.cover,
-      ),
-      title: Text(product.name),
-      subtitle: Text('\$${product.price.toStringAsFixed(2)}'),
-      trailing: const Text('Adet: 3'),
     );
   }
 }
