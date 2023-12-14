@@ -1,4 +1,4 @@
-import '../order/order_model.dart';
+import '../service_model/order/order_model.dart';
 
 class UserModel {
   final String name;

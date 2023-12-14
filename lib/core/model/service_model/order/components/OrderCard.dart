@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../common_widgets/product_card/components/product_card_factory.dart';
+import '../../../../common_widgets/product_card/components/product_card_factory.dart';
 import '../order_model.dart';
 
 class OrderCard extends StatelessWidget {
@@ -31,9 +31,9 @@ class OrderCard extends StatelessWidget {
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: order.products.length,
+                itemCount: order.orderProducts.length,
                 itemBuilder: (context, index) {
-                  final product = order.products[index];
+                  final product = order.orderProducts[index];
                   return ProductCardFactory.createProductCard(
                       cardType: "ordered",
                       product: product,
@@ -46,8 +46,8 @@ class OrderCard extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child:
-                Text('Toplam Tutar: \$${order.totalAmount.toStringAsFixed(2)}'),
+            child: Text(
+                'Toplam Tutar: ${order.totalAmount.toStringAsFixed(2)} \₺'),
           ),
         ],
       ),

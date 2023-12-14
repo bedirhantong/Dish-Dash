@@ -1,10 +1,10 @@
+import 'package:dish_dash/core/model/service_model/order/order_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../core/constants/app/color_strings.dart';
-import '../../core/model/order/components/FilterButtonForOrders.dart';
-import '../../core/model/order/components/OrderCard.dart';
-import '../../core/model/order/order_model.dart';
-import '../../core/viewmodel/product_viewmodel/product_viewmodel.dart';
+import '../../core/model/service_model/order/components/FilterButtonForOrders.dart';
+import '../../core/model/service_model/order/components/OrderCard.dart';
+import '../../core/model/service_model/order/order_model.dart';
 
 class PastOrdersPage extends StatefulWidget {
   const PastOrdersPage({Key? key}) : super(key: key);
@@ -14,38 +14,46 @@ class PastOrdersPage extends StatefulWidget {
 }
 
 class _PastOrdersPageState extends State<PastOrdersPage> {
-  List<OrderModel> pastOrders = [
-    OrderModel(
-      orderNumber: 32141,
-      orderDate: DateTime.now(),
-      orderStatus: "On Delivery",
-      products: ProductViewModel.clothingProductList,
-      totalAmount: 5,
-    ),
-    OrderModel(
-      orderNumber: 32141,
-      orderDate: DateTime.now(),
-      orderStatus: "Preparing to Cargo",
-      products: ProductViewModel.educationProductList,
-      totalAmount: 5,
-    ),
-  ];
+  final OrderService orderService = OrderService();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appbar,
-      body: pastOrders.isEmpty
-          ? const Center(
-              child: Text('Henüz geçmiş siparişiniz bulunmamaktadır.'),
-            )
-          : ListView.builder(
-              itemCount: pastOrders.length,
-              itemBuilder: (context, index) {
-                final pastOrder = pastOrders[index];
-                return OrderCard(order: pastOrder);
-              },
-            ),
+    return Scaffold(appBar: appbar, body: getAllOrderProducts);
+  }
+
+  FutureBuilder<List<OrderModel>> get getAllOrderProducts {
+    return FutureBuilder<List<OrderModel>>(
+      future: orderService.fetchAllOrderProducts(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text('Error: ${snapshot.error}'),
+          );
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Center(
+            child: Text('No order products available.'),
+          );
+        } else {
+          return buildOrderProductsList(snapshot.data!, context);
+        }
+      },
+    );
+  }
+
+  Widget buildOrderProductsList(
+      List<OrderModel> orderList, BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      itemCount: orderList.length,
+      itemBuilder: (context, index) {
+        OrderModel order = orderList[index];
+        return OrderCard(order: order);
+      },
     );
   }
 
