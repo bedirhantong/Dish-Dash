@@ -58,6 +58,9 @@ class _FavoriteProductCardState extends State<FavoriteProductCard> {
                 fit: BoxFit.cover,
               ),
             ),
+            SizedBox(
+              width: screenWidth * 0.03,
+            ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,9 +69,17 @@ class _FavoriteProductCardState extends State<FavoriteProductCard> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        widget.product.brand,
-                        style: const TextStyle(color: Colors.black),
+                      SizedBox(
+                        width: screenWidth * 0.4,
+                        child: Text(
+                          widget.product.name,
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                          overflow: TextOverflow.visible,
+                          textDirection: TextDirection.ltr,
+                          softWrap: true,
+                        ),
                       ),
                       IconButton(
                         icon: const Icon(Icons.more_vert_outlined),
@@ -79,7 +90,7 @@ class _FavoriteProductCardState extends State<FavoriteProductCard> {
                     ],
                   ),
                   Text(
-                    widget.product.description,
+                    widget.product.brand,
                     style: TextStyle(
                         color: Colors.grey[600],
                         overflow: TextOverflow.ellipsis),

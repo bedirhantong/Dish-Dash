@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../product/product_model.dart';
+import '../service_model/product_model/product_model.dart';
 
 class OrderModel {
   final int orderNumber;
@@ -20,13 +20,13 @@ class OrderModel {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is OrderModel &&
-              runtimeType == other.runtimeType &&
-              orderNumber == other.orderNumber &&
-              orderDate == other.orderDate &&
-              orderStatus == other.orderStatus &&
-              listEquals(products, other.products) &&
-              totalAmount == other.totalAmount;
+      other is OrderModel &&
+          runtimeType == other.runtimeType &&
+          orderNumber == other.orderNumber &&
+          orderDate == other.orderDate &&
+          orderStatus == other.orderStatus &&
+          listEquals(products, other.products) &&
+          totalAmount == other.totalAmount;
 
   @override
   int get hashCode =>

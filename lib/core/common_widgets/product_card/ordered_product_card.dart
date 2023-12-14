@@ -30,6 +30,8 @@ class _OrderedProductState extends State<OrderedProductCard> {
   var screenHeight;
   @override
   Widget build(BuildContext context) {
+    screenWidth = MediaQuery.sizeOf(context).width;
+    screenHeight = MediaQuery.sizeOf(context).height;
     int adet = 1;
     screenWidth = MediaQuery.sizeOf(context).width;
     screenHeight = MediaQuery.sizeOf(context).height;
@@ -69,9 +71,12 @@ class _OrderedProductState extends State<OrderedProductCard> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        widget.product.brand,
-                        style: const TextStyle(color: Colors.black),
+                      SizedBox(
+                        width: screenWidth * 0.4,
+                        child: Text(
+                          widget.product.name,
+                          style: const TextStyle(color: Colors.black),
+                        ),
                       ),
                       IconButton(
                         icon: const Icon(Icons.more_vert_outlined),
@@ -81,11 +86,14 @@ class _OrderedProductState extends State<OrderedProductCard> {
                       ),
                     ],
                   ),
-                  Text(
-                    widget.product.description,
-                    style: TextStyle(
-                        color: Colors.grey[600],
-                        overflow: TextOverflow.ellipsis),
+                  SizedBox(
+                    width: screenWidth * 0.4,
+                    child: Text(
+                      widget.product.brand,
+                      style: TextStyle(
+                          color: Colors.grey[600],
+                          overflow: TextOverflow.ellipsis),
+                    ),
                   ),
                   createProductStar(),
                   Text(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/common_widgets/product_card/components/product_card_factory.dart';
 import '../../../core/constants/app/color_strings.dart';
-import '../../../core/model/product/product_model.dart';
+import '../../../core/model/service_model/product_model/product_model.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final Product product;

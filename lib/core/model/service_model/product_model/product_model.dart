@@ -1,4 +1,5 @@
 class Product {
+  final int id;
   final String name;
   final String imageUrl;
   final double price;
@@ -12,10 +13,11 @@ class Product {
   final String sizeType;
   final bool isInStock;
   final int amountOfStock;
-  final double oldCost;
+  final int oldCost;
   final String amountOfDiscount;
 
   Product({
+    required this.id,
     required this.amountOfDiscount,
     required this.oldCost,
     required this.amountOfStock,
@@ -32,6 +34,27 @@ class Product {
     required this.isNew,
     required this.star,
   });
+
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+        id: (json['id'] ?? 0),
+        name: (json['name'] ?? "x"),
+        description: (json['description'] ?? "x"),
+        imageUrl: json['imageUrl'] ?? "",
+        price: (json['price'] ?? 0.0),
+        isNew: json['isNew'] ?? false,
+        star: (json['star'] ?? 0.0),
+        brand: json['brand'] ?? "x",
+        cargoType: json['cargoType'] ?? "bedava",
+        size: json['size'] ?? true,
+        value: (json['value'] ?? 0),
+        sizeType: json['sizeType'] ?? "normal",
+        isInStock: json['isInStock'] ?? true,
+        amountOfStock: json['amountOfStock'] ?? 0,
+        oldCost: (json['oldCost'] ?? 0),
+        amountOfDiscount: json['amountOfDiscount'] ?? "0");
+  }
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||

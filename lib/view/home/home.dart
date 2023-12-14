@@ -4,8 +4,8 @@ import 'package:icon_badge/icon_badge.dart';
 
 import '../../core/constants/app/color_strings.dart';
 import '../../core/constants/app/text_strings.dart';
-import '../../core/model/product/product_model.dart';
-import '../../core/viewmodel/product_viewmodel/product_viewmodel.dart';
+import '../../core/model/service_model/product_model/product_model.dart';
+import '../../core/model/service_model/product_model/product_service.dart';
 import '../cart_page/cart_page.dart';
 import 'components/minimalist_searchbar.dart';
 
@@ -20,6 +20,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late final TabController _tabController;
   int cartItemCount = 0;
   List<Product> cardList = [];
+  final ProductService productService = ProductService();
 
   @override
   void initState() {
@@ -51,50 +52,54 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return TabBarView(
       controller: _tabController,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: ProductsPage(
-            products: ProductViewModel.techProductList,
-            cartItemCount: cartItemCount,
-            onAddToCart: _onAddToCart,
-            cardList: cardList,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: ProductsPage(
-            products: ProductViewModel.clothingProductList,
-            cartItemCount: cartItemCount,
-            onAddToCart: _onAddToCart,
-            cardList: cardList,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: ProductsPage(
-              products: ProductViewModel.techProductList,
-              cartItemCount: cartItemCount,
-              onAddToCart: _onAddToCart,
-              cardList: cardList),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: ProductsPage(
-              products: ProductViewModel.educationProductList,
-              cartItemCount: cartItemCount,
-              onAddToCart: _onAddToCart,
-              cardList: cardList),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: ProductsPage(
-            products: ProductViewModel.sportsProductList,
-            cartItemCount: cartItemCount,
-            onAddToCart: _onAddToCart,
-            cardList: cardList,
-          ),
-        ),
+        _buildTab(1, productService.fetchAllProducts(0)),
+        _buildTab(2, productService.fetchAllProducts(2)),
+        _buildTab(3, productService.fetchAllProducts(1)),
+        _buildTab(4, productService.fetchAllProducts(3)),
+        _buildTab(5, productService.fetchAllProducts(4)),
       ],
+    );
+  }
+
+  Widget _buildTab(int categoryId, Future<List<Product>> fetchFunction) {
+    return RefreshIndicator(
+      strokeWidth: 2,
+      triggerMode: RefreshIndicatorTriggerMode.onEdge,
+      displacement: 20,
+      edgeOffset: 20,
+      onRefresh: () async {
+        setState(() {
+          fetchFunction;
+        });
+      },
+      child: FutureBuilder<List<Product>>(
+        future: fetchFunction,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(
+              child: Text('No products available.'),
+            );
+          } else {
+            return Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: ProductsPage(
+                products: snapshot.data!,
+                cartItemCount: cartItemCount,
+                onAddToCart: _onAddToCart,
+                cardList: cardList,
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 

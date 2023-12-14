@@ -1,7 +1,7 @@
 import 'package:dish_dash/core/constants/app/color_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../core/model/product/product_model.dart';
+import '../../core/model/service_model/product_model/product_model.dart';
 import 'components/address_card.dart';
 import 'components/credit_card_input_form.dart';
 

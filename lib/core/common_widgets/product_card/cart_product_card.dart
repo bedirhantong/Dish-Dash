@@ -1,4 +1,5 @@
 import 'package:cool_alert/cool_alert.dart';
+import 'package:dish_dash/core/model/service_model/product_model/product_service.dart';
 import 'package:flutter/material.dart';
 import '../../../view/home/components/product_details_page.dart';
 import 'components/abstract_ product_card.dart';
@@ -28,6 +29,7 @@ class CartProductCard extends ProductCardWidget {
 class _CartProductCardState extends State<CartProductCard> {
   var screenWidth;
   var screenHeight;
+
   @override
   Widget build(BuildContext context) {
     int adet = 1;
@@ -67,9 +69,13 @@ class _CartProductCardState extends State<CartProductCard> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        widget.product.brand,
-                        style: const TextStyle(color: Colors.black),
+                      SizedBox(
+                        width: screenWidth * 0.4,
+                        child: Text(
+                          widget.product.name,
+                          style: const TextStyle(color: Colors.black),
+                          softWrap: true,
+                        ),
                       ),
                       IconButton(
                         icon: const Icon(Icons.more_vert_outlined),
@@ -79,11 +85,15 @@ class _CartProductCardState extends State<CartProductCard> {
                       ),
                     ],
                   ),
-                  Text(
-                    widget.product.description,
-                    style: TextStyle(
-                        color: Colors.grey[600],
-                        overflow: TextOverflow.ellipsis),
+                  SizedBox(
+                    width: screenWidth * 0.4,
+                    child: Text(
+                      widget.product.brand,
+                      style: TextStyle(
+                          color: Colors.grey[600],
+                          overflow: TextOverflow.ellipsis),
+                      softWrap: true,
+                    ),
                   ),
                   createProductStar(),
                   Text(
