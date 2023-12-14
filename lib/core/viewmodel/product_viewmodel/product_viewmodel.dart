@@ -1,8 +1,9 @@
-import '../../model/product/product_model.dart';
+import '../../model/service_model/product_model/product_model.dart';
 
 class ProductViewModel {
   static List<Product> techProductList = [
     Product(
+      id: 1,
       value: 0,
       name: 'Laptop XYZ',
       imageUrl:
@@ -30,6 +31,7 @@ class ProductViewModel {
       oldCost: 200,
     ),
     Product(
+        id: 1,
         amountOfDiscount: '%10',
         oldCost: 200,
         amountOfStock: 3,
@@ -56,6 +58,7 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+      id: 1,
       amountOfDiscount: '%10',
       oldCost: 200,
       amountOfStock: 3,
@@ -83,6 +86,7 @@ class ProductViewModel {
           ' Detaylı bilgi için tıklayın.',
     ),
     Product(
+        id: 1,
         amountOfDiscount: '%10',
         oldCost: 200,
         amountOfStock: 3,
@@ -109,6 +113,7 @@ class ProductViewModel {
         isNew: true,
         star: 4.3),
     Product(
+        id: 1,
         amountOfDiscount: '%10',
         oldCost: 200,
         amountOfStock: 3,
@@ -135,6 +140,7 @@ class ProductViewModel {
         isNew: true,
         star: 4.3),
     Product(
+        id: 1,
         amountOfDiscount: '%10',
         oldCost: 200,
         amountOfStock: 3,
@@ -161,6 +167,7 @@ class ProductViewModel {
         isNew: true,
         star: 4.3),
     Product(
+        id: 1,
         amountOfDiscount: '%10',
         oldCost: 200,
         amountOfStock: 3,
@@ -187,6 +194,7 @@ class ProductViewModel {
         isNew: false,
         star: 4.3),
     Product(
+        id: 1,
         amountOfDiscount: '%10',
         oldCost: 200,
         amountOfStock: 3,
@@ -213,6 +221,7 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        id: 1,
         amountOfDiscount: '%10',
         oldCost: 200,
         amountOfStock: 3,
@@ -241,6 +250,7 @@ class ProductViewModel {
   ];
   static List<Product> educationProductList = [
     Product(
+      id: 1,
       amountOfDiscount: '%5',
       oldCost: 200,
       amountOfStock: 3,
@@ -268,6 +278,7 @@ class ProductViewModel {
           ' Detaylı bilgi için tıklayın.',
     ),
     Product(
+        id: 1,
         amountOfDiscount: '%5',
         oldCost: 200,
         amountOfStock: 3,
@@ -294,6 +305,7 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        id: 1,
         amountOfDiscount: '%5',
         oldCost: 200,
         amountOfStock: 0,
@@ -320,6 +332,7 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        id: 1,
         amountOfDiscount: '%5',
         oldCost: 200,
         amountOfStock: 3,
@@ -346,6 +359,7 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        id: 1,
         amountOfDiscount: '%5',
         oldCost: 200,
         amountOfStock: 3,
@@ -374,6 +388,7 @@ class ProductViewModel {
   ];
   static List<Product> clothingProductList = [
     Product(
+        id: 1,
         amountOfDiscount: '%5',
         oldCost: 200,
         amountOfStock: 3,
@@ -400,6 +415,7 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        id: 1,
         amountOfDiscount: '%5',
         oldCost: 200,
         amountOfStock: 3,
@@ -426,6 +442,7 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        id: 1,
         amountOfDiscount: '%5',
         oldCost: 200,
         amountOfStock: 3,
@@ -452,6 +469,7 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        id: 1,
         amountOfDiscount: '%5',
         oldCost: 200,
         amountOfStock: 3,
@@ -478,6 +496,7 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        id: 1,
         amountOfDiscount: '%5',
         oldCost: 200,
         amountOfStock: 3,
@@ -506,6 +525,7 @@ class ProductViewModel {
   ];
   static List<Product> sportsProductList = [
     Product(
+        id: 1,
         amountOfDiscount: '%5',
         oldCost: 200,
         amountOfStock: 3,
@@ -532,6 +552,7 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        id: 1,
         amountOfDiscount: '%5',
         oldCost: 200,
         amountOfStock: 3,
@@ -558,6 +579,7 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        id: 1,
         amountOfDiscount: '%5',
         oldCost: 200,
         amountOfStock: 3,
@@ -584,6 +606,7 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+        id: 1,
         amountOfDiscount: '%5',
         oldCost: 200,
         amountOfStock: 3,
@@ -610,6 +633,7 @@ class ProductViewModel {
             ' için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade.'
             ' Detaylı bilgi için tıklayın.'),
     Product(
+      id: 1,
       amountOfDiscount: '%5',
       oldCost: 200,
       amountOfStock: 3,

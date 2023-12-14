@@ -42,6 +42,7 @@ dependencies:
   cool_alert: ^2.0.1
   flutter_otp_text_field: ^1.1.1
   animate_do: ^3.1.2
+  http: ^1.1.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

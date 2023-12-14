@@ -50,10 +50,10 @@ class _DetailedProductCardState extends State<DetailedProductCard> {
                       Center(
                         child: SizedBox(
                           width: screenWidth * 0.93,
-                          height: screenHeight * 0.4,
+                          height: screenHeight * 0.40,
                           child: Image.network(
                             widget.product.imageUrl,
-                            fit: BoxFit.fill,
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ),
@@ -66,11 +66,15 @@ class _DetailedProductCardState extends State<DetailedProductCard> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  widget.product.brand,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    overflow: TextOverflow.fade,
+                                SizedBox(
+                                  width: screenWidth * 0.7,
+                                  child: Text(
+                                    widget.product.name,
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      overflow: TextOverflow.fade,
+                                    ),
+                                    softWrap: true,
                                   ),
                                 ),
                                 IconButton(
