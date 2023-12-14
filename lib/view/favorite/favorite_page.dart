@@ -4,7 +4,6 @@ import '../../core/common_widgets/product_card/components/product_card_factory.d
 import '../../core/constants/app/color_strings.dart';
 import '../../core/model/service_model/product_model/product_model.dart';
 import '../../core/model/service_model/product_model/product_service.dart';
-import '../../core/viewmodel/product_viewmodel/product_viewmodel.dart';
 
 class FavoritePage extends StatefulWidget {
   final int cartItemCount;
@@ -47,49 +46,19 @@ class _FavoritePageState extends State<FavoritePage>
       ),
       backgroundColor: Colors.grey[300],
       body: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: getAllFavoriteProducts,
-          )
-
-          // ListView(
-          //   scrollDirection: Axis.vertical,
-          //   children: [
-          //     ProductCardFactory.createProductCard(
-          //         cardType: 'favorite',
-          //         product: ProductViewModel.educationProductList[2],
-          //         cartItemCount: widget.cartItemCount,
-          //         cargoType: ProductViewModel.educationProductList[2].cargoType,
-          //         onAddToCart: (int) {}),
-          //     ProductCardFactory.createProductCard(
-          //         cardType: 'favorite',
-          //         product: ProductViewModel.clothingProductList[2],
-          //         cartItemCount: widget.cartItemCount,
-          //         cargoType: ProductViewModel.educationProductList[2].cargoType,
-          //         onAddToCart: (int) {}),
-          //     ProductCardFactory.createProductCard(
-          //         cardType: 'favorite',
-          //         product: ProductViewModel.techProductList[1],
-          //         cartItemCount: widget.cartItemCount,
-          //         cargoType: ProductViewModel.techProductList[1].cargoType,
-          //         onAddToCart: (int) {}),
-          //     ProductCardFactory.createProductCard(
-          //         cardType: 'favorite',
-          //         product: ProductViewModel.clothingProductList[3],
-          //         cartItemCount: widget.cartItemCount,
-          //         cargoType: ProductViewModel.clothingProductList[3].cargoType,
-          //         onAddToCart: (int) {}),
-          //   ],
-          // ),
-          ),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: getAllFavoriteProducts,
+        ),
+      ),
     );
   }
 
   FutureBuilder<List<Product>> get getAllFavoriteProducts {
     return FutureBuilder<List<Product>>(
-      future: productService.fetchAllFavoriteProducts(),
+      future: productService.fetchAllProducts(5),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(

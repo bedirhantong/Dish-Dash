@@ -6,11 +6,10 @@ class ProductService {
   final String baseUrl;
 
   ProductService({this.baseUrl = 'https://10.0.2.2:7184'});
-
-  Future<List<Product>> fetchAllClotheProducts() async {
+  Future<List<Product>> fetchAllProducts(int categoryId) async {
     try {
       final response = await http
-          .get(Uri.parse('$baseUrl/api/products/allProducts?categoryId=2'));
+          .get(Uri.parse('$baseUrl/api/products/allProducts/$categoryId'));
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonResponse = json.decode(response.body);
@@ -23,67 +22,19 @@ class ProductService {
     }
   }
 
-  Future<List<Product>> fetchAllTechProducts() async {
+  Future<void> addProductToFavorites(int productId) async {
     try {
       final response = await http
-          .get(Uri.parse('$baseUrl/api/products/allProducts?categoryId=1'));
+          .put(Uri.parse('$baseUrl/api/products/addToFavorite/$productId'));
 
       if (response.statusCode == 200) {
-        final List<dynamic> jsonResponse = json.decode(response.body);
-        return jsonResponse.map((item) => Product.fromJson(item)).toList();
+        // Product added to Favorite successfully
+        print('Product added to Favorite successfully');
       } else {
-        throw Exception('Failed to load products');
+        throw Exception('Failed to add product to Favorite');
       }
     } catch (error) {
-      throw Exception('Failed to load products');
-    }
-  }
-
-  Future<List<Product>> fetchAllEducationProducts() async {
-    try {
-      final response = await http
-          .get(Uri.parse('$baseUrl/api/products/allProducts?categoryId=3'));
-
-      if (response.statusCode == 200) {
-        final List<dynamic> jsonResponse = json.decode(response.body);
-        return jsonResponse.map((item) => Product.fromJson(item)).toList();
-      } else {
-        throw Exception('Failed to load products');
-      }
-    } catch (error) {
-      throw Exception('Failed to load products');
-    }
-  }
-
-  Future<List<Product>> fetchAllSportsProducts() async {
-    try {
-      final response = await http
-          .get(Uri.parse('$baseUrl/api/products/allProducts?categoryId=4'));
-
-      if (response.statusCode == 200) {
-        final List<dynamic> jsonResponse = json.decode(response.body);
-        return jsonResponse.map((item) => Product.fromJson(item)).toList();
-      } else {
-        throw Exception('Failed to load products');
-      }
-    } catch (error) {
-      throw Exception('Failed to load products');
-    }
-  }
-
-  Future<List<Product>> fetchAllFavoriteProducts() async {
-    try {
-      final response = await http
-          .get(Uri.parse('$baseUrl/api/products/allProducts?categoryId=5'));
-
-      if (response.statusCode == 200) {
-        final List<dynamic> jsonResponse = json.decode(response.body);
-        return jsonResponse.map((item) => Product.fromJson(item)).toList();
-      } else {
-        throw Exception('Failed to load favorite products');
-      }
-    } catch (error) {
-      throw Exception('Failed to load favorite products: $error');
+      throw Exception('Failed to add product to Favorite: $error');
     }
   }
 }

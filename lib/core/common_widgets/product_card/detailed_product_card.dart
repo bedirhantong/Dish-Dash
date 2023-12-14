@@ -1,5 +1,7 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import '../../model/service_model/product_model/product_model.dart';
+import '../../model/service_model/product_model/product_service.dart';
 import 'components/abstract_ product_card.dart';
 
 class DetailedProductCard extends ProductCardWidget {
@@ -27,6 +29,9 @@ class DetailedProductCard extends ProductCardWidget {
 class _DetailedProductCardState extends State<DetailedProductCard> {
   var screenWidth;
   var screenHeight;
+
+  final ProductService productService = ProductService();
+
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.sizeOf(context).width;
@@ -139,56 +144,6 @@ class _DetailedProductCardState extends State<DetailedProductCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Container(
-                //     width: screenWidth * 0.33,
-                //     height: screenHeight * 0.04,
-                //     alignment: Alignment.center,
-                //     margin: const EdgeInsets.all(1),
-                //     decoration: BoxDecoration(
-                //       borderRadius: BorderRadius.circular(5),
-                //       color: Colors.white,
-                //       border: Border.all(color: Colors.grey, width: 2),
-                //     ),
-                //     child: DropdownButton(
-                //       isExpanded: true,
-                //       hint: const Text(
-                //         "Seçiniz",
-                //       ),
-                //       value: widget.value,
-                //       items: [
-                //         if (!widget.product.size)
-                //           const DropdownMenuItem(
-                //             value: 1,
-                //             child: Text("Tek Ebat"),
-                //           ),
-                //         if (widget.product.size)
-                //           const DropdownMenuItem(
-                //             value: 1,
-                //             child: Text("S"),
-                //           ),
-                //         if (widget.product.size)
-                //           const DropdownMenuItem(
-                //             value: 2,
-                //             child: Text("M"),
-                //           ),
-                //         if (widget.product.size)
-                //           const DropdownMenuItem(
-                //             value: 3,
-                //             child: Text("L"),
-                //           ),
-                //       ],
-                //       onChanged: (value) {
-                //         setState(
-                //           () {
-                //             value = value;
-                //           },
-                //         );
-                //       },
-                //     ),
-                //   ),
-                // ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
@@ -212,12 +167,82 @@ class _DetailedProductCardState extends State<DetailedProductCard> {
                     ),
                   ),
                 ),
+                getAllFavoriteProducts()
               ],
             ),
           ),
         )
       ],
     );
+  }
+
+  FutureBuilder<List<Product>> getAllFavoriteProducts() {
+    return FutureBuilder<List<Product>>(
+      future: productService.fetchAllProducts(5),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else {
+          bool isProductInFavorites =
+              isContainsProductInFavorites(widget.product, snapshot.data!);
+
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: isProductInFavorites
+                ? InkWell(
+                    onTap: () async {
+                      // Remove from favorites
+                      // await productService.removeProductFromFavorites(widget.product.id)
+                    },
+                    child: Container(
+                      width: screenWidth * 0.33,
+                      height: screenHeight * 0.04,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white,
+                        border: Border.all(color: Colors.deepPurple, width: 2),
+                      ),
+                      child: const Text(
+                        "Favorilerden Çıkar",
+                        style: TextStyle(color: Colors.black, fontSize: 12),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )
+                : InkWell(
+                    onTap: () {
+                      setState(() async {
+                        await productService
+                            .addProductToFavorites(widget.product.id);
+                      });
+                    },
+                    child: Container(
+                      width: screenWidth * 0.33,
+                      height: screenHeight * 0.04,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white,
+                        border: Border.all(color: Colors.deepPurple, width: 2),
+                      ),
+                      child: const Text(
+                        "Favorilere Ekle",
+                        style: TextStyle(color: Colors.black, fontSize: 12),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+          );
+        }
+      },
+    );
+  }
+
+  bool isContainsProductInFavorites(Product product, List<Product> favorites) {
+    return favorites.any((pr) => pr.id == product.id);
   }
 
   showAlertDialog() {
