@@ -6,6 +6,7 @@ class ProductService {
   final String baseUrl;
 
   ProductService({this.baseUrl = 'https://10.0.2.2:7184'});
+
   Future<List<Product>> fetchAllProducts(int categoryId) async {
     try {
       final response = await http
