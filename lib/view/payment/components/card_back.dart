@@ -16,6 +16,16 @@ class CardBack extends StatelessWidget {
         child: Stack(
           children: [
             Positioned(
+              right: 20,
+              top: 20,
+              child: SizedBox(
+                width: 80,
+                height: 60,
+                child: Image.network(
+                    "https://pnghq.com/wp-content/uploads/chip-png-see-through-background.png"),
+              ),
+            ),
+            Positioned(
               left: 20,
               top: 20,
               child: SizedBox(

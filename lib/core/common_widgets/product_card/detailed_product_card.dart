@@ -1,7 +1,7 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
-import '../../model/service_model/product_model/product_model.dart';
-import '../../model/service_model/product_model/product_service.dart';
+import '../../model/service_model/product/product_model.dart';
+import '../../model/service_model/product/product_service.dart';
 import 'components/abstract_ product_card.dart';
 
 class DetailedProductCard extends ProductCardWidget {

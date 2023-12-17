@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../model/service_model/product_model/product_model.dart';
+import '../../../model/service_model/product/product_model.dart';
+
 
 abstract class ProductCardWidget extends StatefulWidget {
   final Product product;

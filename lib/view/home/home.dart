@@ -4,8 +4,8 @@ import 'package:icon_badge/icon_badge.dart';
 
 import '../../core/constants/app/color_strings.dart';
 import '../../core/constants/app/text_strings.dart';
-import '../../core/model/service_model/product_model/product_model.dart';
-import '../../core/model/service_model/product_model/product_service.dart';
+import '../../core/model/service_model/product/product_model.dart';
+import '../../core/model/service_model/product/product_service.dart';
 import '../cart_page/cart_page.dart';
 import 'components/minimalist_searchbar.dart';
 
@@ -19,12 +19,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late final TabController _tabController;
   int cartItemCount = 0;
-  List<Product> cardList = [];
+  late List<Product> cardList;
   final ProductService productService = ProductService();
 
   @override
   void initState() {
     super.initState();
+    cardList = [];
     _tabController = TabController(length: 5, vsync: this);
   }
 

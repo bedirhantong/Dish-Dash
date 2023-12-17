@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:dish_dash/core/constants/app/color_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../core/model/service_model/product_model/product_model.dart';
+import '../../core/model/service_model/product/product_model.dart';
 import 'components/address_card.dart';
 import 'components/credit_card_input_form.dart';
 
@@ -21,6 +23,8 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   String _selectedPaymentMethod = 'Kredi/Banka Kartı';
+
+  DeliveryMethod _selectedDeliveryMethod = DeliveryMethod.Courier;
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +51,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildSectionTitle('Teslimat Bilgileri'),
+              const SecondaryStepper(),
               const SizedBox(height: 16),
               const AddressCard(),
               const SizedBox(height: 16),
+              _buildDeliveryMethodOptions(),
               _buildSectionTitle('Ödeme Yöntemi'),
               const SizedBox(height: 8),
               _buildPaymentMethodOptions(),
@@ -74,6 +79,54 @@ class _PaymentScreenState extends State<PaymentScreen> {
         fontWeight: FontWeight.bold,
         color: Colors.blue,
       ),
+    );
+  }
+
+  Widget _buildDeliveryMethodOptions() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        const Text(
+          'Teslimat Yöntemi:',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 8),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              children: [
+                _buildDeliveryRadio(DeliveryMethod.Courier, 'Kurye'),
+                const SizedBox(width: 16),
+                _buildDeliveryRadio(
+                    DeliveryMethod.StorePickup, 'Mağazadan Teslim'),
+              ],
+            ),
+            _buildDeliveryRadio(
+                DeliveryMethod.SelfPickup, 'Kendi Kendine Alma'),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDeliveryRadio(DeliveryMethod value, String label) {
+    return Row(
+      children: [
+        Radio(
+          value: value,
+          groupValue: _selectedDeliveryMethod,
+          onChanged: (selectedValue) {
+            setState(() {
+              _selectedDeliveryMethod = selectedValue!;
+            });
+          },
+        ),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 16, color: Colors.black87),
+        ),
+      ],
     );
   }
 
@@ -112,7 +165,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   Widget _buildPaymentButton() {
     return OutlinedButton(
-      onPressed: () {},
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (context) => const PaymentConfirmationDialog(
+            totalAmount: 100.0,
+          ),
+        );
+      },
       style: ElevatedButton.styleFrom(),
       child: Text(
         'Ödemeyi Onayla (\$${widget.totalAmount.toStringAsFixed(2)})',
@@ -121,6 +181,143 @@ class _PaymentScreenState extends State<PaymentScreen> {
           fontWeight: FontWeight.bold,
         ),
       ),
+    );
+  }
+}
+
+class SecondaryStepper extends StatelessWidget {
+  const SecondaryStepper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      children: [
+        Icon(Icons.shopping_cart_outlined, color: AppColor.appBarColor),
+        SizedBox(width: 1),
+        Text('Cart'),
+        SizedBox(width: 1),
+        Icon(Icons.keyboard_arrow_right, size: 18, color: Colors.grey),
+        SizedBox(width: 1),
+        Icon(Icons.payment_outlined, color: Colors.cyanAccent),
+        Text('Edit Delivery'),
+        SizedBox(width: 1),
+        Icon(Icons.keyboard_arrow_right, size: 18, color: Colors.grey),
+        SizedBox(width: 1),
+        Icon(Icons.check_circle_outline_rounded, color: Colors.cyanAccent),
+        Text('Payment'),
+      ],
+    );
+  }
+}
+
+enum DeliveryMethod {
+  Courier, // Kurye ile teslimat
+  StorePickup, // Mağazadan teslim alma
+  SelfPickup, // Kendi kendine alma
+}
+
+class PaymentConfirmationDialog extends StatefulWidget {
+  final double totalAmount;
+
+  const PaymentConfirmationDialog({super.key, required this.totalAmount});
+
+  @override
+  _PaymentConfirmationDialogState createState() =>
+      _PaymentConfirmationDialogState();
+}
+
+class _PaymentConfirmationDialogState extends State<PaymentConfirmationDialog> {
+  late Timer _timer;
+  int _remainingTime = 120;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        _remainingTime--;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(
+      backgroundColor: Colors.white,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 200,
+                width: 200,
+                child: Image.asset(
+                  'assets/images/bank_logos/garanti.png',
+                  width: 100,
+                  height: 100,
+                ),
+              ),
+              const Text(
+                'Garanti Bankası',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                '\$${widget.totalAmount.toStringAsFixed(2)} Ödemeyi Onayla',
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Ödemenizi onaylamak için Garanti Bankası uygulamasından işlem yapınız.',
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+              ),
+              const SizedBox(height: 20),
+              _remainingTime <= 0
+                  ? ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text(
+                        'Bitir',
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                    )
+                  : Column(
+                      children: [
+                        LinearProgressIndicator(
+                          value: _remainingTime / 120,
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          'Ödemenizi onaylamak için $_remainingTime saniyeniz kaldı.',
+                          style: const TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+            ],
+          ),
+        )
+      ],
     );
   }
 }
