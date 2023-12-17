@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/common_widgets/product_card/components/product_card_factory.dart';
-import '../../../core/model/service_model/product_model/product_model.dart';
+import '../../../core/model/service_model/product/product_model.dart';
 
 class CartItemCard extends StatelessWidget {
   final Product product;

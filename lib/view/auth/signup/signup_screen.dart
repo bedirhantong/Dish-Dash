@@ -1,3 +1,4 @@
+import 'package:dish_dash/core/viewmodel/user_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +7,7 @@ import '../../../core/base/view/base_view.dart';
 
 import '../../../core/constants/app/color_strings.dart';
 import '../../../core/constants/app/image_strings.dart';
+import '../../../core/model/service_model/user/user_model.dart';
 import '../login/components/text_field_common.dart';
 import '../login/components/wave_card.dart';
 import '../login/login_screen.dart';
@@ -19,15 +21,14 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends BaseState<SignupScreen> {
   late TextEditingController nameController;
-  late TextEditingController surnameController;
   late TextEditingController emailController;
   late TextEditingController passwordController;
   late dynamic sizeHeight;
+  late dynamic sizeWidth;
 
   @override
   void initState() {
     nameController = TextEditingController();
-    surnameController = TextEditingController();
     emailController = TextEditingController();
     passwordController = TextEditingController();
     super.initState();
@@ -61,15 +62,9 @@ class _SignupScreenState extends BaseState<SignupScreen> {
                       obscureText: false,
                     ),
                     TextFieldCommon(
-                      controller: surnameController,
-                      iconData: Icons.person_outline_sharp,
-                      labelText: "Soyad",
-                      obscureText: false,
-                    ),
-                    TextFieldCommon(
                       controller: emailController,
                       iconData: Icons.email_outlined,
-                      labelText: "Öğrenci e-mail",
+                      labelText: "E-mail",
                       obscureText: false,
                     ),
                     TextFieldCommon(
@@ -92,21 +87,19 @@ class _SignupScreenState extends BaseState<SignupScreen> {
   PreferredSizeWidget get appBar => AppBar();
   Widget get imageCard {
     sizeHeight = MediaQuery.of(context).size.height;
-
+    sizeWidth = MediaQuery.of(context).size.width;
     return Stack(
       clipBehavior: Clip.none,
       alignment: Alignment.center,
       children: [
         WaveCard(
-          height: sizeHeight * 0.37,
+          height: sizeHeight * 0.35,
           color: AppColor.kLine,
         ),
-        Positioned(
-          bottom: 0,
-          child: SizedBox(
-            width: 250,
-            child: Image.asset(ImageStrings.logoGoogle),
-          ),
+        SizedBox(
+          width: sizeWidth * 0.45,
+          height: sizeHeight * 0.33,
+          child: Image.asset(ImageStrings.logoGoogle),
         ),
       ],
     );
@@ -132,7 +125,7 @@ class _SignupScreenState extends BaseState<SignupScreen> {
   Widget get loginButton => SizedBox(
       width: double.maxFinite,
       child: Padding(
-        padding: const EdgeInsets.only(right: 16, left: 16, top: 25),
+        padding: const EdgeInsets.only(right: 16, left: 16, top: 28),
         child: CupertinoButton(
           color: AppColor.appBarColor,
           onPressed: registerUser,
@@ -142,16 +135,20 @@ class _SignupScreenState extends BaseState<SignupScreen> {
 
   Function() get registerUser => () {
         if (nameController.text.isNotEmpty &&
-            surnameController.text.isNotEmpty &&
             emailController.text.isNotEmpty &&
             passwordController.text.isNotEmpty) {
-          // Kullanıcı Kaydetme Fonksiyonu
-          // Auth().createUserWithEmailAndPassword(
-          //     user: User(
-          //         name: nameController.text,
-          //         surname: surnameController.text,
-          //         email: emailController.text,
-          //         password: passwordController.text));
+          createUserWithEmailAndPassword(
+            user: UserModel(
+              name: nameController.text,
+              email: emailController.text,
+              password: passwordController.text,
+              shippingAddress: '',
+              photoLink: '',
+              orderList: [],
+              favoriteList: [],
+            ),
+          );
+
           // Başarıyla tamamlandığında çıkan Snackbar
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Kaydolma işlemi başarıyla tamamlandı"),
@@ -212,14 +209,12 @@ class _SignupScreenState extends BaseState<SignupScreen> {
                         builder: (context) => const LoginScreen(),
                       ),
                       (route) => false);
-                  // Navigator.pushReplacement(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const LoginScreen(),
-                  //   ),
-                  // );
                 }),
           ],
         ),
       );
+
+  void createUserWithEmailAndPassword({required user}) {
+    UserViewModel.users.add(user);
+  }
 }

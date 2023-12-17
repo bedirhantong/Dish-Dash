@@ -1,4 +1,4 @@
-import '../../../model/service_model/product_model/product_model.dart';
+import '../../../model/service_model/product/product_model.dart';
 import 'abstract_ product_card.dart';
 import '../cart_product_card.dart';
 import '../detailed_product_card.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icon_badge/icon_badge.dart';
-
-import '../../../core/model/service_model/product_model/product_model.dart';
+import '../../../core/model/service_model/product/product_model.dart';
 import '../../cart_page/cart_page.dart';
 import 'minimalist_searchbar.dart';
 

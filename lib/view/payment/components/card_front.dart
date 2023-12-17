@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../identification_strategy/models/AkbankIdentificationStrategy.dart';
+import '../identification_strategy/models/IdentificationStrategy.dart';
+import '../identification_strategy/service/Context.dart';
 import 'card_number_input_formatter.dart';
 
 class CardFront extends StatelessWidget {
@@ -25,7 +28,7 @@ class CardFront extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                  top: 8.0, bottom: 8.0, left: 20, right: 150),
+                  top: 8.0, bottom: 8.0, left: 20, right: 160),
               child: TextFormField(
                 style: const TextStyle(color: Colors.white),
                 controller: cardNumberController,
@@ -98,6 +101,7 @@ class CardFront extends StatelessWidget {
 
   Widget _buildCardLogo() {
     String cardNumber = cardNumberController.text;
+
     if (cardNumber.startsWith("4")) {
       // Visa
       return Image.network(

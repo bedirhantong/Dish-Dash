@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:dish_dash/core/model/service_model/product_model/product_model.dart';
+import 'package:dish_dash/core/model/service_model/product/product_model.dart';
 import 'package:http/http.dart' as http;
 
 class ProductService {

@@ -1,5 +1,4 @@
 import 'package:cool_alert/cool_alert.dart';
-import 'package:dish_dash/core/model/service_model/product_model/product_service.dart';
 import 'package:flutter/material.dart';
 import '../../../view/home/components/product_details_page.dart';
 import 'components/abstract_ product_card.dart';
