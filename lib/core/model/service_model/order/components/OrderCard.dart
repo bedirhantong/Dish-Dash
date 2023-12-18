@@ -18,15 +18,16 @@ class OrderCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
-            title: Text('Sipariş No: ${order.orderNumber}'),
-            subtitle: Text('Tarih: ${order.orderDate}'),
-            trailing: Text('Durum: ${order.orderStatus}'),
+            title: Text('Order No: ${order.orderNumber}'),
+            subtitle: Text(
+                'Date: ${order.orderDate.day}/${order.orderDate.month}/${order.orderDate.year}'),
+            trailing: Text('Status: ${order.orderStatus}'),
           ),
           const Divider(),
           ExpansionTile(
             maintainState: true,
             initiallyExpanded: false,
-            title: const Text("Sipariş içeriğini görüntüle"),
+            title: const Text("Show Order Content"),
             children: [
               ListView.builder(
                 shrinkWrap: true,
@@ -35,19 +36,17 @@ class OrderCard extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final product = order.orderProducts[index];
                   return ProductCardFactory.createProductCard(
-                      cardType: "ordered",
-                      product: product,
-                      cartItemCount: 2,
-                      cargoType: product.cargoType,
-                      onAddToCart: (int) {});
+                    cardType: "ordered",
+                    product: product,
+                  );
                 },
               ),
             ],
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-                'Toplam Tutar: ${order.totalAmount.toStringAsFixed(2)} \₺'),
+            child:
+                Text('Total price: ${order.totalAmount.toStringAsFixed(2)} ₺'),
           ),
         ],
       ),

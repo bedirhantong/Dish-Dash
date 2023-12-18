@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 import '../../../view/home/components/product_details_page.dart';
+import '../../viewmodel/user_viewmodel.dart';
 import 'components/abstract_ product_card.dart';
 
 class MainScreenCard extends ProductCardWidget {
   const MainScreenCard({
     super.key,
     required super.product,
-    required super.cartItemCount,
-    required super.onAddToCart,
-    required super.cardList,
     required super.isMainScreenCard,
     required super.isFavoriteCard,
     required super.isDetailedCard,
     required super.isCartCard,
     required super.isOrderedCard,
     required super.value,
-    required super.cargoType,
     required super.oldCost,
     required super.amountOfDiscount,
   });
@@ -27,6 +24,14 @@ class MainScreenCard extends ProductCardWidget {
 class _MainScreenCardState extends State<MainScreenCard> {
   var screenWidth;
   var screenHeight;
+
+  int adet = 1;
+  @override
+  void initState() {
+    super.initState();
+    adet = UserViewModel.howManyItemIHaveInCart(widget.product);
+  }
+
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.sizeOf(context).width;
@@ -38,7 +43,6 @@ class _MainScreenCardState extends State<MainScreenCard> {
           MaterialPageRoute(
             builder: (context) => ProductDetailPage(
               product: widget.product,
-              cartItemCount: widget.cartItemCount,
             ),
           ),
         );
@@ -89,7 +93,8 @@ class _MainScreenCardState extends State<MainScreenCard> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     widget.product.name,
@@ -100,93 +105,83 @@ class _MainScreenCardState extends State<MainScreenCard> {
                     maxLines: 2,
                     overflow: TextOverflow.visible,
                   ),
-                  const Row(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(
-                        Icons.star,
-                        size: 16.0,
-                        color: Colors.yellow,
+                      const Row(
+                        children: [
+                          Icon(
+                            Icons.star,
+                            size: 18.0,
+                            color: Colors.yellow,
+                          ),
+                          SizedBox(width: 4.0),
+                          Text(
+                            "4.5",
+                            style:
+                                TextStyle(fontSize: 16.0, color: Colors.grey),
+                          ),
+                        ],
                       ),
-                      SizedBox(width: 4.0),
                       Text(
-                        "4.5",
-                        style: TextStyle(fontSize: 12.0, color: Colors.grey),
+                        '\$${widget.product.price.toStringAsFixed(2)}',
+                        style:
+                            const TextStyle(fontSize: 14, color: Colors.green),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 5.0),
-                  !widget.cardList.contains(
-                    widget.product,
-                  )
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '\$${widget.product.price.toStringAsFixed(2)}',
-                              style: const TextStyle(
-                                  fontSize: 14, color: Colors.green),
+                  const SizedBox(height: 15.0),
+                  UserViewModel.isContainsProductInList(
+                          widget.product, UserViewModel.cartProducts)
+                      ? InkWell(
+                          onTap: () {
+                            setState(() {
+                              UserViewModel.removeProductInCartList(
+                                  widget.product);
+                            });
+                          },
+                          child: Container(
+                            width: screenWidth * 0.28,
+                            height: screenHeight * 0.04,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                              border: Border.all(
+                                  color: Colors.deepPurple, width: 2),
                             ),
-                            Tooltip(
-                              message: 'Sepete Ekle',
-                              child: IconButton(
-                                onPressed: () {
-                                  setState(
-                                    () {
-                                      widget.cardList.add(widget.product);
-                                      widget.onAddToCart(
-                                          widget.cartItemCount + 1);
-                                    },
-                                  );
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Sepete eklendi'),
-                                    ),
-                                  );
-                                },
-                                icon: const Icon(Icons.shopping_cart_outlined),
-                              ),
-                            )
-                          ],
+                            child: const Text(
+                              "Sepetten Çıkar",
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 12),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                         )
-                      : Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.remove),
-                              onPressed: () {
-                                setState(() {
-                                  widget.cardList.remove(widget.product);
-                                  widget.onAddToCart(widget.cartItemCount - 1);
-                                });
-                              },
+                      : InkWell(
+                          onTap: () {
+                            setState(() {
+                              UserViewModel.addProductInCartList(
+                                  widget.product);
+                            });
+                          },
+                          child: Container(
+                            width: screenWidth * 0.28,
+                            height: screenHeight * 0.04,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                              border: Border.all(
+                                  color: Colors.deepPurple, width: 2),
                             ),
-                            const Text(
-                              '1',
-                              style: TextStyle(fontSize: 16),
+                            child: const Text(
+                              "Sepete ekle",
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 12),
+                              textAlign: TextAlign.center,
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.add),
-                              onPressed: () {
-                                setState(() {
-                                  widget.cardList.add(widget.product);
-                                  widget.onAddToCart(widget.cartItemCount + 1);
-                                });
-                              },
-                            ),
-                            const SizedBox(width: 8),
-                            IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () {
-                                setState(
-                                  () {
-                                    widget.cardList.remove(widget.product);
-                                    widget
-                                        .onAddToCart(widget.cartItemCount - 1);
-                                  },
-                                );
-                              },
-                            ),
-                          ],
+                          ),
                         ),
                 ],
               ),

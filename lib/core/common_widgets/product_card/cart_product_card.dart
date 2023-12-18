@@ -1,4 +1,5 @@
 import 'package:cool_alert/cool_alert.dart';
+import 'package:dish_dash/core/viewmodel/user_viewmodel.dart';
 import 'package:flutter/material.dart';
 import '../../../view/home/components/product_details_page.dart';
 import 'components/abstract_ product_card.dart';
@@ -7,16 +8,12 @@ class CartProductCard extends ProductCardWidget {
   const CartProductCard({
     super.key,
     required super.product,
-    required super.cartItemCount,
-    required super.onAddToCart,
-    required super.cardList,
     required super.isMainScreenCard,
     required super.isFavoriteCard,
     required super.isDetailedCard,
     required super.isCartCard,
     required super.isOrderedCard,
     required super.value,
-    required super.cargoType,
     required super.oldCost,
     required super.amountOfDiscount,
   });
@@ -26,14 +23,18 @@ class CartProductCard extends ProductCardWidget {
 }
 
 class _CartProductCardState extends State<CartProductCard> {
-  var screenWidth;
-  var screenHeight;
+  var cartMap = {};
+  int adet = 1;
+  @override
+  void initState() {
+    super.initState();
+    adet = UserViewModel.howManyItemIHaveInCart(widget.product);
+  }
 
   @override
   Widget build(BuildContext context) {
-    int adet = 1;
-    screenWidth = MediaQuery.sizeOf(context).width;
-    screenHeight = MediaQuery.sizeOf(context).height;
+    var screenWidth = MediaQuery.sizeOf(context).width;
+    var screenHeight = MediaQuery.sizeOf(context).height;
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -41,7 +42,6 @@ class _CartProductCardState extends State<CartProductCard> {
           MaterialPageRoute(
             builder: (context) => ProductDetailPage(
               product: widget.product,
-              cartItemCount: widget.cartItemCount,
             ),
           ),
         );
@@ -96,15 +96,8 @@ class _CartProductCardState extends State<CartProductCard> {
                   ),
                   createProductStar(),
                   Text(
-                    'Kargo ${widget.cargoType}',
-                    style: TextStyle(color: Colors.grey[700]),
-                  ),
-                  Text(
                     '${widget.product.price} TL',
                     style: TextStyle(color: Colors.orange[800]),
-                  ),
-                  const SizedBox(
-                    height: 5,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -126,7 +119,6 @@ class _CartProductCardState extends State<CartProductCard> {
                                 icon: const Icon(Icons.remove),
                                 onPressed: () {
                                   setState(() {
-                                    // widget.cardList!.remove(widget.product);
                                     adet -= 1;
                                   });
                                 },

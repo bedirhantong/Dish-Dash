@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../favorite/favorite_page.dart';
 import '../home/home.dart';
 import '../orders/orders_page.dart';
@@ -36,9 +35,7 @@ class _BottomNavMainState extends State<BottomNavMain> {
       case 0:
         return const HomePage();
       case 1:
-        return const FavoritePage(
-          cartItemCount: 0,
-        );
+        return const FavoritePage();
       case 2:
         return const PastOrdersPage();
       case 3:

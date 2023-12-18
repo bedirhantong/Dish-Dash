@@ -5,9 +5,7 @@ import '../../../core/model/service_model/product/product_model.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final Product product;
-  final int cartItemCount;
-  const ProductDetailPage(
-      {super.key, required this.product, required this.cartItemCount});
+  const ProductDetailPage({super.key, required this.product});
 
   @override
   State<ProductDetailPage> createState() => _ProductDetailPageState();
@@ -35,11 +33,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         ),
       ),
       body: ProductCardFactory.createProductCard(
-          cardType: 'detailed',
-          product: widget.product,
-          cartItemCount: widget.cartItemCount,
-          cargoType: widget.product.cargoType,
-          onAddToCart: (int) {}),
+        cardType: 'detailed',
+        product: widget.product,
+      ),
     );
   }
 }

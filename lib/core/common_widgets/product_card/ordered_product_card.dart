@@ -7,16 +7,12 @@ class OrderedProductCard extends ProductCardWidget {
   const OrderedProductCard({
     super.key,
     required super.product,
-    required super.cartItemCount,
-    required super.onAddToCart,
-    required super.cardList,
     required super.isMainScreenCard,
     required super.isFavoriteCard,
     required super.isDetailedCard,
     required super.isCartCard,
     required super.isOrderedCard,
     required super.value,
-    required super.cargoType,
     required super.oldCost,
     required super.amountOfDiscount,
   });
@@ -42,7 +38,6 @@ class _OrderedProductState extends State<OrderedProductCard> {
           MaterialPageRoute(
             builder: (context) => ProductDetailPage(
               product: widget.product,
-              cartItemCount: widget.cartItemCount,
             ),
           ),
         );
@@ -96,10 +91,10 @@ class _OrderedProductState extends State<OrderedProductCard> {
                     ),
                   ),
                   createProductStar(),
-                  Text(
-                    'Kargo ${widget.cargoType}',
-                    style: TextStyle(color: Colors.grey[700]),
-                  ),
+                  // Text(
+                  //   'Kargo ${widget.cargoType}',
+                  //   style: TextStyle(color: Colors.grey[700]),
+                  // ),
                   Text(
                     '${widget.product.price} TL',
                     style: TextStyle(color: Colors.orange[800]),

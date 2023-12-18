@@ -1,22 +1,19 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import '../../../view/home/components/product_details_page.dart';
+import '../../viewmodel/user_viewmodel.dart';
 import 'components/abstract_ product_card.dart';
 
 class FavoriteProductCard extends ProductCardWidget {
   const FavoriteProductCard(
       {super.key,
       required super.product,
-      required super.cartItemCount,
-      required super.onAddToCart,
-      required super.cardList,
       required super.isMainScreenCard,
       required super.isFavoriteCard,
       required super.isDetailedCard,
       required super.isCartCard,
       required super.isOrderedCard,
       required super.value,
-      required super.cargoType,
       required super.oldCost,
       required super.amountOfDiscount});
 
@@ -29,7 +26,6 @@ class _FavoriteProductCardState extends State<FavoriteProductCard> {
   var screenHeight;
   @override
   Widget build(BuildContext context) {
-    int adet = 1;
     screenWidth = MediaQuery.sizeOf(context).width;
     screenHeight = MediaQuery.sizeOf(context).height;
     return InkWell(
@@ -39,7 +35,6 @@ class _FavoriteProductCardState extends State<FavoriteProductCard> {
           MaterialPageRoute(
             builder: (context) => ProductDetailPage(
               product: widget.product,
-              cartItemCount: widget.cartItemCount,
             ),
           ),
         );
@@ -97,57 +92,90 @@ class _FavoriteProductCardState extends State<FavoriteProductCard> {
                   ),
                   createProductStar(),
                   Text(
-                    'Kargo ${widget.cargoType}',
-                    style: TextStyle(color: Colors.grey[700]),
-                  ),
-                  Text(
                     '${widget.product.price} TL',
                     style: TextStyle(color: Colors.orange[800]),
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            const AlertDialog();
-                          });
-                        },
-                        child: GestureDetector(
-                          onTap: () {
-                            showAlertDialog();
-                          },
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.remove),
-                                onPressed: () {
-                                  setState(() {
-                                    // widget.cardList!.remove(widget.product);
-                                    adet -= 1;
-                                  });
-                                },
+                      UserViewModel.isContainsProductInList(
+                              widget.product, UserViewModel.cartProducts)
+                          ? InkWell(
+                              onTap: () {
+                                setState(() {
+                                  UserViewModel.removeProductInCartList(
+                                      widget.product);
+                                });
+                              },
+                              child: Container(
+                                width: screenWidth * 0.26,
+                                height: screenHeight * 0.04,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      color: Colors.deepPurple, width: 2),
+                                ),
+                                child: const Text(
+                                  "Sepetten Çıkar",
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 12),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
-                              Text(
-                                '$adet',
-                                style: const TextStyle(fontSize: 16),
+                            )
+                          : InkWell(
+                              onTap: () {
+                                setState(() {
+                                  UserViewModel.addProductInCartList(
+                                      widget.product);
+                                });
+                              },
+                              child: Container(
+                                width: screenWidth * 0.26,
+                                height: screenHeight * 0.04,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      color: Colors.deepPurple, width: 2),
+                                ),
+                                child: const Text(
+                                  "Sepete ekle",
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 12),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
-                              IconButton(
-                                icon: const Icon(Icons.add),
-                                onPressed: () {
-                                  setState(() {
-                                    adet += 1;
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
+                            ),
+                      const SizedBox(
+                        width: 20,
                       ),
+                      UserViewModel.isContainsProductInList(
+                              widget.product, UserViewModel.currentUser.favList)
+                          ? InkWell(
+                              onTap: () {
+                                setState(() {
+                                  UserViewModel.removeProductInFavoriteList(
+                                      widget.product);
+                                });
+                              },
+                              child: const Icon(
+                                Icons.favorite,
+                                color: Colors.deepPurple,
+                              ),
+                            )
+                          : InkWell(
+                              onTap: () {
+                                setState(() {
+                                  UserViewModel.addProductInFavoriteList(
+                                      widget.product);
+                                });
+                              },
+                              child: const Icon(Icons.favorite_border_outlined),
+                            )
                     ],
                   ),
                 ],

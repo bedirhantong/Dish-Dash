@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/model/service_model/product/product_model.dart';
+import '../../../core/viewmodel/user_viewmodel.dart';
 import '../../payment/payment_screen.dart';
 
 class BottomAppBarCartPage extends StatefulWidget {
-  final List<Product> cartProducts;
   const BottomAppBarCartPage({
     super.key,
-    required this.cartProducts,
   });
 
   @override
@@ -24,7 +23,9 @@ class _BottomAppBarCartPageState extends State<BottomAppBarCartPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              UserViewModel.cartProducts.clear();
+            },
             child: Container(
               width: screenWidth * 0.33,
               height: screenHeight * 0.04,
@@ -46,10 +47,7 @@ class _BottomAppBarCartPageState extends State<BottomAppBarCartPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PaymentScreen(
-                    cartProducts: [],
-                    totalAmount: 2,
-                  ),
+                  builder: (context) => const PaymentScreen(),
                 ),
               );
             },

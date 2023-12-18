@@ -1,20 +1,18 @@
 import 'dart:async';
 
 import 'package:dish_dash/core/constants/app/color_strings.dart';
+import 'package:dish_dash/core/model/service_model/order/order_model.dart';
+import 'package:dish_dash/core/viewmodel/user_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../core/model/service_model/product/product_model.dart';
+import '../main/main_bottom_nav.dart';
 import 'components/address_card.dart';
 import 'components/credit_card_input_form.dart';
 
 class PaymentScreen extends StatefulWidget {
-  final List<Product> cartProducts;
-  final double totalAmount;
-
   const PaymentScreen({
     Key? key,
-    required this.cartProducts,
-    required this.totalAmount,
   }) : super(key: key);
 
   @override
@@ -24,7 +22,7 @@ class PaymentScreen extends StatefulWidget {
 class _PaymentScreenState extends State<PaymentScreen> {
   String _selectedPaymentMethod = 'Kredi/Banka Kartı';
 
-  DeliveryMethod _selectedDeliveryMethod = DeliveryMethod.Courier;
+  DeliveryMethod _selectedDeliveryMethod = DeliveryMethod.courier;
 
   @override
   Widget build(BuildContext context) {
@@ -96,14 +94,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
           children: [
             Row(
               children: [
-                _buildDeliveryRadio(DeliveryMethod.Courier, 'Kurye'),
+                _buildDeliveryRadio(DeliveryMethod.courier, 'Kurye'),
                 const SizedBox(width: 16),
                 _buildDeliveryRadio(
-                    DeliveryMethod.StorePickup, 'Mağazadan Teslim'),
+                    DeliveryMethod.storePickup, 'Mağazadan Teslim'),
               ],
             ),
             _buildDeliveryRadio(
-                DeliveryMethod.SelfPickup, 'Kendi Kendine Alma'),
+                DeliveryMethod.selfPickup, 'Kendi Kendine Alma'),
           ],
         ),
       ],
@@ -175,7 +173,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       },
       style: ElevatedButton.styleFrom(),
       child: Text(
-        'Ödemeyi Onayla (\$${widget.totalAmount.toStringAsFixed(2)})',
+        'Ödemeyi Onayla (\$${214.toStringAsFixed(2)})',
         style: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.bold,
@@ -211,9 +209,9 @@ class SecondaryStepper extends StatelessWidget {
 }
 
 enum DeliveryMethod {
-  Courier, // Kurye ile teslimat
-  StorePickup, // Mağazadan teslim alma
-  SelfPickup, // Kendi kendine alma
+  courier, // Kurye ile teslimat
+  storePickup, // Mağazadan teslim alma
+  selfPickup, // seçtiğin yerden kendin kendine alma
 }
 
 class PaymentConfirmationDialog extends StatefulWidget {
@@ -228,7 +226,7 @@ class PaymentConfirmationDialog extends StatefulWidget {
 
 class _PaymentConfirmationDialogState extends State<PaymentConfirmationDialog> {
   late Timer _timer;
-  int _remainingTime = 120;
+  int _remainingTime = 5;
 
   @override
   void initState() {
@@ -274,7 +272,7 @@ class _PaymentConfirmationDialogState extends State<PaymentConfirmationDialog> {
               ),
               const SizedBox(height: 20),
               Text(
-                '\$${widget.totalAmount.toStringAsFixed(2)} Ödemeyi Onayla',
+                '\$${UserViewModel.priceOfCart().toStringAsFixed(2)} Ödemeyi Onayla',
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -294,7 +292,7 @@ class _PaymentConfirmationDialogState extends State<PaymentConfirmationDialog> {
                         Navigator.of(context).pop();
                       },
                       child: const Text(
-                        'Bitir',
+                        'Tekrar Dene',
                         style: TextStyle(
                           fontSize: 14,
                         ),
@@ -312,6 +310,30 @@ class _PaymentConfirmationDialogState extends State<PaymentConfirmationDialog> {
                             fontSize: 14,
                           ),
                         ),
+                        ElevatedButton(
+                          onPressed: () {
+                            OrderModel order = OrderModel(
+                                orderNumber: UserViewModel.orderNumGenerate(),
+                                orderDate: DateTime.now(),
+                                orderStatus: "on",
+                                orderProducts: UserViewModel.cartProducts,
+                                totalAmount: UserViewModel.priceOfCart());
+                            UserViewModel.currentUser.orderList.add(order);
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const BottomNavMain(),
+                              ),
+                              (route) => false,
+                            );
+                          },
+                          child: const Text(
+                            'Sonlandır',
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                        )
                       ],
                     ),
             ],

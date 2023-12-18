@@ -1,4 +1,5 @@
 import 'package:dish_dash/core/model/service_model/order/order_service.dart';
+import 'package:dish_dash/core/viewmodel/user_viewmodel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../core/constants/app/color_strings.dart';
@@ -14,46 +15,23 @@ class PastOrdersPage extends StatefulWidget {
 }
 
 class _PastOrdersPageState extends State<PastOrdersPage> {
-  final OrderService orderService = OrderService();
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: appbar, body: getAllOrderProducts);
-  }
-
-  FutureBuilder<List<OrderModel>> get getAllOrderProducts {
-    return FutureBuilder<List<OrderModel>>(
-      future: orderService.fetchAllOrderProducts(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (snapshot.hasError) {
-          return Center(
-            child: Text('Error: ${snapshot.error}'),
-          );
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(
-            child: Text('No order products available.'),
-          );
-        } else {
-          return buildOrderProductsList(snapshot.data!, context);
-        }
-      },
-    );
-  }
-
-  Widget buildOrderProductsList(
-      List<OrderModel> orderList, BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      scrollDirection: Axis.vertical,
-      itemCount: orderList.length,
-      itemBuilder: (context, index) {
-        OrderModel order = orderList[index];
-        return OrderCard(order: order);
-      },
+    return Scaffold(
+      appBar: appbar,
+      body: UserViewModel.currentUser.orderList.isEmpty
+          ? const Center(
+              child: Text("There is no such order"),
+            )
+          : ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemCount: UserViewModel.currentUser.orderList.length,
+              itemBuilder: (context, index) {
+                OrderModel order = UserViewModel.currentUser.orderList[index];
+                return OrderCard(order: order);
+              },
+            ),
     );
   }
 

@@ -7,7 +7,6 @@ import '../../../core/base/state/base_state.dart';
 import '../../../core/base/view/base_view.dart';
 import '../../../core/constants/app/color_strings.dart';
 import '../../../core/constants/app/image_strings.dart';
-import '../../../core/model/service_model/user/user_model.dart';
 import '../../main/main_bottom_nav.dart';
 import '../forgot_password/components/forgot_password_model_bottom_sheet.dart';
 import '../signup/signup_screen.dart';
@@ -51,7 +50,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     );
   }
 
-  final UserService userService = UserService();
+  // final UserService userService = UserService();
 
   @override
   Widget build(BuildContext context) {
@@ -187,6 +186,12 @@ class _LoginScreenState extends BaseState<LoginScreen> {
   }
 
   void navigateToBottomNavMain() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Başarılı giriş yapıldı."),
+        backgroundColor: AppColor.appBarColor,
+      ),
+    );
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(

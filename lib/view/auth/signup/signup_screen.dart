@@ -145,7 +145,7 @@ class _SignupScreenState extends BaseState<SignupScreen> {
               shippingAddress: '',
               photoLink: '',
               orderList: [],
-              favoriteList: [],
+              favList: [],
             ),
           );
 

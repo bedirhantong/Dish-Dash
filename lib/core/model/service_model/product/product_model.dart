@@ -76,6 +76,35 @@ class Product {
         "oldCost": oldCost,
         "amountOfDiscount": amountOfDiscount,
       };
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Product &&
+          runtimeType == other.runtimeType &&
+          name == other.name &&
+          imageUrl == other.imageUrl &&
+          price == other.price &&
+          isNew == other.isNew &&
+          star == other.star &&
+          size == other.size &&
+          sizeType == other.sizeType &&
+          cargoType == other.cargoType &&
+          brand == other.brand &&
+          value == other.value;
+
+  @override
+  int get hashCode =>
+      name.hashCode ^
+      imageUrl.hashCode ^
+      price.hashCode ^
+      isNew.hashCode ^
+      star.hashCode ^
+      brand.hashCode ^
+      cargoType.hashCode ^
+      size.hashCode ^
+      sizeType.hashCode ^
+      value.hashCode;
 }
 
 class Category {

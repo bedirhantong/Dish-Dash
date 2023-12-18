@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/viewmodel/user_viewmodel.dart';
 import '../cart_page.dart';
 import 'cart_item_card.dart';
 
 class ProductsInCart extends StatelessWidget {
   const ProductsInCart({
     super.key,
-    required this.widget,
-    required this.totalPrice,
-    required this.cartItemCount,
   });
-
-  final CartPage widget;
-  final double totalPrice;
-  final int cartItemCount;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +24,7 @@ class ProductsInCart extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          if (widget.cartProducts.isEmpty)
+          if (UserViewModel.cartProducts.isEmpty)
             const Text(
               'Your cart is empty.',
               style: TextStyle(
@@ -41,13 +35,11 @@ class ProductsInCart extends StatelessWidget {
           else
             Expanded(
               child: ListView.builder(
-                itemCount: widget.cartProducts.length,
+                itemCount: UserViewModel.cartProducts.length,
                 itemBuilder: (context, index) {
-                  final product = widget.cartProducts[index];
+                  final product = UserViewModel.cartProducts[index];
                   return CartItemCard(
                     product: product,
-                    totalPrice: totalPrice,
-                    cartItemCount: cartItemCount,
                   );
                 },
               ),

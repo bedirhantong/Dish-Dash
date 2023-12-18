@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../core/model/service_model/product/product_model.dart';
+import '../../core/viewmodel/user_viewmodel.dart';
 import 'components/bottom_appbar.dart';
 import 'components/products_in_cart.dart';
 
 class CartPage extends StatefulWidget {
-  final List<Product> cartProducts;
-  final int cartItemCount;
-
-  const CartPage(
-      {Key? key, required this.cartProducts, required this.cartItemCount})
-      : super(key: key);
+  const CartPage({Key? key}) : super(key: key);
 
   @override
   State<CartPage> createState() => _CartPageState();
@@ -21,7 +17,7 @@ class _CartPageState extends State<CartPage> {
   void initState() {
     super.initState();
 
-    for (var product in widget.cartProducts) {
+    for (var product in UserViewModel.cartProducts) {
       totalPrice += product.price;
     }
   }
@@ -30,20 +26,14 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar,
-      body: ProductsInCart(
-        widget: widget,
-        totalPrice: totalPrice,
-        cartItemCount: widget.cartItemCount,
-      ),
-      bottomNavigationBar: BottomAppBarCartPage(
-        cartProducts: widget.cartProducts,
-      ),
+      body: const ProductsInCart(),
+      bottomNavigationBar: const BottomAppBarCartPage(),
     );
   }
 
   void clearCart() {
     setState(() {
-      widget.cartProducts.clear();
+      UserViewModel.cartProducts.clear();
     });
   }
 
