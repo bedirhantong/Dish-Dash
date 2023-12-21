@@ -1,9 +1,6 @@
-import 'package:dish_dash/core/model/service_model/product/product_service.dart';
-import 'package:dish_dash/core/model/service_model/user/user_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/constants/app/color_strings.dart';
-import '../../core/model/service_model/product/product_model.dart';
-import '../../core/model/service_model/user/user_model.dart';
 import '../../core/viewmodel/user_viewmodel.dart';
 import '../auth/login/login_screen.dart';
 import 'components/change_password_screen.dart';
@@ -13,16 +10,19 @@ import 'components/manage_payment_methods_screen.dart';
 import 'components/privacy_settings_screen.dart';
 import 'components/update_shipping_address_screen.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  ConsumerState<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfilePageState extends ConsumerState<ProfilePage> {
+  late UserViewModel userViewModel;
+
   @override
   Widget build(BuildContext context) {
+    userViewModel = ref.watch(userViewModelProvider);
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
@@ -51,20 +51,23 @@ class _ProfilePageState extends State<ProfilePage> {
       padding: const EdgeInsets.all(16.0),
       child: Row(
         children: [
-          const CircleAvatar(
+          CircleAvatar(
             radius: 50.0,
             backgroundImage: NetworkImage(
-                'https://avatars.githubusercontent.com/u/70720131?v=4'),
+              userViewModel.currentUser.photoLink == ''
+                  ? 'https://icons.iconarchive.com/icons/icons8/windows-8/256/Users-Name-icon.png'
+                  : userViewModel.currentUser.photoLink,
+            ),
           ),
           const SizedBox(width: 16.0),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                UserViewModel.currentUser.name,
+                userViewModel.currentUser.name,
                 style: const TextStyle(fontSize: 20.0),
               ),
-              Text(UserViewModel.currentUser.email),
+              Text(userViewModel.currentUser.email),
             ],
           ),
           const Spacer(),

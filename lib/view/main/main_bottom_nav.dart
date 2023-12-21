@@ -6,7 +6,12 @@ import '../profile/profile_page.dart';
 import 'components/BottomNavigationBar.dart';
 
 class BottomNavMain extends StatefulWidget {
-  const BottomNavMain({super.key});
+  const BottomNavMain({
+    super.key,
+    this.function,
+  });
+
+  final VoidCallback? function;
 
   @override
   State<BottomNavMain> createState() => _BottomNavMainState();
@@ -14,6 +19,12 @@ class BottomNavMain extends StatefulWidget {
 
 class _BottomNavMainState extends State<BottomNavMain> {
   int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.function?.call();
+  }
 
   @override
   Widget build(BuildContext context) {

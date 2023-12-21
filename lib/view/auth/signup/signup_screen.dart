@@ -1,6 +1,7 @@
 import 'package:dish_dash/core/viewmodel/user_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/base/state/base_state.dart';
 import '../../../core/base/view/base_view.dart';
@@ -25,7 +26,8 @@ class _SignupScreenState extends BaseState<SignupScreen> {
   late TextEditingController passwordController;
   late dynamic sizeHeight;
   late dynamic sizeWidth;
-
+  late WidgetRef ref;
+  late UserViewModel userViewModel;
   @override
   void initState() {
     nameController = TextEditingController();
@@ -38,8 +40,11 @@ class _SignupScreenState extends BaseState<SignupScreen> {
   Widget build(BuildContext context) {
     return BaseView(
       viewModel: "",
-      onModelReady: (model) {},
+      onModelReady: (model) {
+        ref = model;
+      },
       onPageBuilder: (context, value) {
+        userViewModel = ref.watch(userViewModelProvider);
         return scaffoldBody;
       },
     );
@@ -137,17 +142,16 @@ class _SignupScreenState extends BaseState<SignupScreen> {
         if (nameController.text.isNotEmpty &&
             emailController.text.isNotEmpty &&
             passwordController.text.isNotEmpty) {
-          createUserWithEmailAndPassword(
-            user: UserModel(
-              name: nameController.text,
-              email: emailController.text,
-              password: passwordController.text,
-              shippingAddress: '',
-              photoLink: '',
-              orderList: [],
-              favList: [],
-            ),
+          UserModel user = UserModel(
+            name: nameController.text,
+            email: emailController.text,
+            password: passwordController.text,
+            shippingAddress: '',
+            photoLink: '',
+            orderList: [],
+            favList: [],
           );
+          ref.read(userViewModelProvider).createUserWithEmailAndPassword(user);
 
           // Başarıyla tamamlandığında çıkan Snackbar
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -213,8 +217,4 @@ class _SignupScreenState extends BaseState<SignupScreen> {
           ],
         ),
       );
-
-  void createUserWithEmailAndPassword({required user}) {
-    UserViewModel.users.add(user);
-  }
 }

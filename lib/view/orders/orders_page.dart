@@ -1,34 +1,37 @@
-import 'package:dish_dash/core/model/service_model/order/order_service.dart';
+import 'package:dish_dash/core/base/view/base_view.dart';
 import 'package:dish_dash/core/viewmodel/user_viewmodel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/constants/app/color_strings.dart';
 import '../../core/model/service_model/order/components/FilterButtonForOrders.dart';
 import '../../core/model/service_model/order/components/OrderCard.dart';
 import '../../core/model/service_model/order/order_model.dart';
 
-class PastOrdersPage extends StatefulWidget {
+class PastOrdersPage extends ConsumerStatefulWidget {
   const PastOrdersPage({Key? key}) : super(key: key);
 
   @override
-  State<PastOrdersPage> createState() => _PastOrdersPageState();
+  ConsumerState<PastOrdersPage> createState() => _PastOrdersPageState();
 }
 
-class _PastOrdersPageState extends State<PastOrdersPage> {
+class _PastOrdersPageState extends ConsumerState<PastOrdersPage> {
   @override
   Widget build(BuildContext context) {
+    final userViewModel = ref.watch(userViewModelProvider);
+
     return Scaffold(
       appBar: appbar,
-      body: UserViewModel.currentUser.orderList.isEmpty
+      body: userViewModel.currentUser.orderList.isEmpty
           ? const Center(
               child: Text("There is no such order"),
             )
           : ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
-              itemCount: UserViewModel.currentUser.orderList.length,
+              itemCount: userViewModel.currentUser.orderList.length,
               itemBuilder: (context, index) {
-                OrderModel order = UserViewModel.currentUser.orderList[index];
+                OrderModel order = userViewModel.currentUser.orderList[index];
                 return OrderCard(order: order);
               },
             ),

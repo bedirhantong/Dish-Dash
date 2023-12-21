@@ -1,6 +1,8 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../view/home/components/product_details_page.dart';
+import '../../viewmodel/user_viewmodel.dart';
 import 'components/abstract_ product_card.dart';
 
 class OrderedProductCard extends ProductCardWidget {
@@ -18,19 +20,19 @@ class OrderedProductCard extends ProductCardWidget {
   });
 
   @override
-  State<OrderedProductCard> createState() => _OrderedProductState();
+  ConsumerState<OrderedProductCard> createState() => _OrderedProductState();
 }
 
-class _OrderedProductState extends State<OrderedProductCard> {
+class _OrderedProductState extends ConsumerState<OrderedProductCard> {
   var screenWidth;
   var screenHeight;
   @override
   Widget build(BuildContext context) {
+    final userViewModel = ref.watch(userViewModelProvider);
+
     screenWidth = MediaQuery.sizeOf(context).width;
     screenHeight = MediaQuery.sizeOf(context).height;
     int adet = 1;
-    screenWidth = MediaQuery.sizeOf(context).width;
-    screenHeight = MediaQuery.sizeOf(context).height;
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -91,10 +93,6 @@ class _OrderedProductState extends State<OrderedProductCard> {
                     ),
                   ),
                   createProductStar(),
-                  // Text(
-                  //   'Kargo ${widget.cargoType}',
-                  //   style: TextStyle(color: Colors.grey[700]),
-                  // ),
                   Text(
                     '${widget.product.price} TL',
                     style: TextStyle(color: Colors.orange[800]),
@@ -113,7 +111,7 @@ class _OrderedProductState extends State<OrderedProductCard> {
                             showAlertDialog();
                           },
                           child: Text(
-                            '$adet adet sipariş verildi',
+                            '${userViewModel.orderMap[widget.product]} adet sipariş verildi',
                             style: const TextStyle(fontSize: 13),
                           ),
                         ),

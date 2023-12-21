@@ -1,6 +1,7 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:dish_dash/core/viewmodel/user_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../view/home/components/product_details_page.dart';
 import 'components/abstract_ product_card.dart';
 
@@ -19,20 +20,22 @@ class CartProductCard extends ProductCardWidget {
   });
 
   @override
-  State<CartProductCard> createState() => _CartProductCardState();
+  ConsumerState<CartProductCard> createState() => _CartProductCardState();
 }
 
-class _CartProductCardState extends State<CartProductCard> {
-  var cartMap = {};
-  int adet = 1;
+class _CartProductCardState extends ConsumerState<CartProductCard> {
+  late int adet;
   @override
   void initState() {
     super.initState();
-    adet = UserViewModel.howManyItemIHaveInCart(widget.product);
+    adet =
+        ref.read(userViewModelProvider).howManyItemIHaveInCart(widget.product);
   }
 
   @override
   Widget build(BuildContext context) {
+    final userViewModel = ref.watch(userViewModelProvider);
+
     var screenWidth = MediaQuery.sizeOf(context).width;
     var screenHeight = MediaQuery.sizeOf(context).height;
     return InkWell(
@@ -102,42 +105,40 @@ class _CartProductCardState extends State<CartProductCard> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            const AlertDialog();
-                          });
-                        },
-                        child: GestureDetector(
-                          onTap: () {
-                            showAlertDialog();
-                          },
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.remove),
-                                onPressed: () {
-                                  setState(() {
-                                    adet -= 1;
-                                  });
-                                },
-                              ),
-                              Text(
-                                '$adet',
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.add),
-                                onPressed: () {
-                                  setState(() {
-                                    adet += 1;
-                                  });
-                                },
-                              ),
-                            ],
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.remove),
+                            onPressed: () {
+                              ref
+                                  .read(userViewModelProvider)
+                                  .removeProductInCartList(widget.product);
+                            },
                           ),
-                        ),
+                          Text(
+                            '${userViewModel.cartMap[widget.product]}',
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.add),
+                            onPressed: () {
+                              ref
+                                  .read(userViewModelProvider)
+                                  .addProductInCartList(widget.product);
+                            },
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              // hepsini çıkartsın
+                              ref
+                                  .read(userViewModelProvider)
+                                  .removeAllInCartListAndCartProduct(
+                                      widget.product);
+                            },
+                            icon: const Icon(Icons.restore_from_trash),
+                          )
+                        ],
                       ),
                     ],
                   ),

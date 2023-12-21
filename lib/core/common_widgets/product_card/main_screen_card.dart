@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../view/home/components/product_details_page.dart';
 import '../../viewmodel/user_viewmodel.dart';
 import 'components/abstract_ product_card.dart';
@@ -18,22 +19,25 @@ class MainScreenCard extends ProductCardWidget {
   });
 
   @override
-  State<MainScreenCard> createState() => _MainScreenCardState();
+  ConsumerState<MainScreenCard> createState() => _MainScreenCardState();
 }
 
-class _MainScreenCardState extends State<MainScreenCard> {
+class _MainScreenCardState extends ConsumerState<MainScreenCard> {
   var screenWidth;
   var screenHeight;
 
-  int adet = 1;
+  late int adet;
   @override
   void initState() {
     super.initState();
-    adet = UserViewModel.howManyItemIHaveInCart(widget.product);
+    adet =
+        ref.read(userViewModelProvider).howManyItemIHaveInCart(widget.product);
   }
 
   @override
   Widget build(BuildContext context) {
+    final userViewModel = ref.watch(userViewModelProvider);
+
     screenWidth = MediaQuery.sizeOf(context).width;
     screenHeight = MediaQuery.sizeOf(context).height;
     return GestureDetector(
@@ -132,13 +136,12 @@ class _MainScreenCardState extends State<MainScreenCard> {
                   ),
                   const SizedBox(height: 15.0),
                   UserViewModel.isContainsProductInList(
-                          widget.product, UserViewModel.cartProducts)
+                          widget.product, userViewModel.cartProducts)
                       ? InkWell(
                           onTap: () {
-                            setState(() {
-                              UserViewModel.removeProductInCartList(
-                                  widget.product);
-                            });
+                            ref
+                                .read(userViewModelProvider)
+                                .removeProductInCartList(widget.product);
                           },
                           child: Container(
                             width: screenWidth * 0.28,
@@ -160,10 +163,9 @@ class _MainScreenCardState extends State<MainScreenCard> {
                         )
                       : InkWell(
                           onTap: () {
-                            setState(() {
-                              UserViewModel.addProductInCartList(
-                                  widget.product);
-                            });
+                            ref
+                                .read(userViewModelProvider)
+                                .addProductInCartList(widget.product);
                           },
                           child: Container(
                             width: screenWidth * 0.28,

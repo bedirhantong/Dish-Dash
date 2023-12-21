@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/model/service_model/product/product_model.dart';
 import '../../../core/viewmodel/user_viewmodel.dart';
 import '../../payment/payment_screen.dart';
 
-class BottomAppBarCartPage extends StatefulWidget {
+class BottomAppBarCartPage extends ConsumerStatefulWidget {
   const BottomAppBarCartPage({
     super.key,
   });
 
   @override
-  State<BottomAppBarCartPage> createState() => _BottomAppBarCartPageState();
+  ConsumerState<BottomAppBarCartPage> createState() =>
+      _BottomAppBarCartPageState();
 }
 
-class _BottomAppBarCartPageState extends State<BottomAppBarCartPage> {
+class _BottomAppBarCartPageState extends ConsumerState<BottomAppBarCartPage> {
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.sizeOf(context).width;
@@ -24,7 +26,7 @@ class _BottomAppBarCartPageState extends State<BottomAppBarCartPage> {
         children: [
           InkWell(
             onTap: () {
-              UserViewModel.cartProducts.clear();
+              ref.read(userViewModelProvider).clearCartProducts();
             },
             child: Container(
               width: screenWidth * 0.33,

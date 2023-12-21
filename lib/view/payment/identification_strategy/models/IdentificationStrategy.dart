@@ -1,3 +1,3 @@
 abstract class IdentificationStrategy {
-  Future<String> identifyBank();
+  double calculateTax(double amountOfPrice);
 }

@@ -43,6 +43,7 @@ dependencies:
   flutter_otp_text_field: ^1.1.1
   animate_do: ^3.1.2
   http: ^1.1.2
+  flutter_riverpod: ^2.4.9
 dev_dependencies:
   flutter_test:
     sdk: flutter

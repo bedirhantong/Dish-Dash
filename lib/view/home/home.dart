@@ -1,26 +1,23 @@
 import 'package:dish_dash/core/viewmodel/user_viewmodel.dart';
 import 'package:dish_dash/view/home/components/products_page.dart';
 import 'package:flutter/material.dart';
-import 'package:icon_badge/icon_badge.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/constants/app/color_strings.dart';
 import '../../core/constants/app/text_strings.dart';
 import '../../core/model/service_model/product/product_model.dart';
-import '../../core/model/service_model/product/product_service.dart';
 import '../cart_page/cart_page.dart';
 import 'components/minimalist_searchbar.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+class _HomePageState extends ConsumerState<HomePage>
+    with TickerProviderStateMixin {
   late final TabController _tabController;
-  final ProductService productService = ProductService();
-
   @override
   void initState() {
     super.initState();
@@ -33,8 +30,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  late UserViewModel userViewModel;
   @override
   Widget build(BuildContext context) {
+    userViewModel = ref.watch(userViewModelProvider);
     return Scaffold(
       appBar: appBar(context),
       body: tabBarView,
@@ -45,11 +44,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return TabBarView(
       controller: _tabController,
       children: <Widget>[
-        _buildTab(1, UserViewModel.newProducts),
-        _buildTab(2, UserViewModel.clotheProducts),
-        _buildTab(3, UserViewModel.techProducts),
-        _buildTab(4, UserViewModel.eduProducts),
-        _buildTab(5, UserViewModel.sportProducts),
+        _buildTab(1, userViewModel.newProducts),
+        _buildTab(2, userViewModel.clotheProducts),
+        _buildTab(3, userViewModel.techProducts),
+        _buildTab(4, userViewModel.eduProducts),
+        _buildTab(5, userViewModel.sportProducts),
       ],
     );
   }
@@ -84,22 +83,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ],
       ),
       actions: [
-        IconBadge(
-          icon: const Icon(
-            Icons.shopping_cart_outlined,
-            color: Colors.white,
-            size: 20,
-          ),
-          itemCount: UserViewModel.sizeOfCart(),
-          top: 0,
-          badgeColor: Colors.red,
-          itemColor: Colors.white,
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const CartPage();
-            }));
-          },
-        )
+        IconButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const CartPage();
+              }));
+            },
+            icon: const Icon(
+              Icons.shopping_cart_outlined,
+              color: Colors.white,
+              size: 20,
+            )),
       ],
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight * 2),

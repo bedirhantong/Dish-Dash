@@ -1,6 +1,6 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
-import '../../model/service_model/product/product_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../viewmodel/user_viewmodel.dart';
 import 'components/abstract_ product_card.dart';
 
@@ -19,17 +19,17 @@ class DetailedProductCard extends ProductCardWidget {
   });
 
   @override
-  State<DetailedProductCard> createState() => _DetailedProductCardState();
+  ConsumerState<DetailedProductCard> createState() =>
+      _DetailedProductCardState();
 }
 
-class _DetailedProductCardState extends State<DetailedProductCard> {
+class _DetailedProductCardState extends ConsumerState<DetailedProductCard> {
   var screenWidth;
   var screenHeight;
 
-  final ProductService productService = ProductService();
-
   @override
   Widget build(BuildContext context) {
+    final userViewModel = ref.watch(userViewModelProvider);
     screenWidth = MediaQuery.sizeOf(context).width;
     screenHeight = MediaQuery.sizeOf(context).height;
     return Stack(
@@ -141,13 +141,12 @@ class _DetailedProductCardState extends State<DetailedProductCard> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 UserViewModel.isContainsProductInList(
-                        widget.product, UserViewModel.cartProducts)
+                        widget.product, userViewModel.cartProducts)
                     ? InkWell(
                         onTap: () {
-                          setState(() {
-                            UserViewModel.removeProductInCartList(
-                                widget.product);
-                          });
+                          ref
+                              .read(userViewModelProvider)
+                              .removeProductInCartList(widget.product);
                         },
                         child: Container(
                           width: screenWidth * 0.33,
@@ -168,9 +167,9 @@ class _DetailedProductCardState extends State<DetailedProductCard> {
                       )
                     : InkWell(
                         onTap: () {
-                          setState(() {
-                            UserViewModel.addProductInCartList(widget.product);
-                          });
+                          ref
+                              .read(userViewModelProvider)
+                              .addProductInCartList(widget.product);
                         },
                         child: Container(
                           width: screenWidth * 0.33,
@@ -190,13 +189,12 @@ class _DetailedProductCardState extends State<DetailedProductCard> {
                         ),
                       ),
                 UserViewModel.isContainsProductInList(
-                        widget.product, UserViewModel.currentUser.favList)
+                        widget.product, userViewModel.currentUser.favList)
                     ? InkWell(
                         onTap: () {
-                          setState(() {
-                            UserViewModel.removeProductInFavoriteList(
-                                widget.product);
-                          });
+                          ref
+                              .read(userViewModelProvider)
+                              .removeProductInFavoriteList(widget.product);
                         },
                         child: Container(
                           width: screenWidth * 0.33,
@@ -217,10 +215,9 @@ class _DetailedProductCardState extends State<DetailedProductCard> {
                       )
                     : InkWell(
                         onTap: () {
-                          setState(() {
-                            UserViewModel.addProductInFavoriteList(
-                                widget.product);
-                          });
+                          ref
+                              .read(userViewModelProvider)
+                              .addProductInFavoriteList(widget.product);
                         },
                         child: Container(
                           width: screenWidth * 0.33,

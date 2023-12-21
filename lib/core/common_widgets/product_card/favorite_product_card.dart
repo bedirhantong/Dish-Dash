@@ -1,5 +1,6 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../view/home/components/product_details_page.dart';
 import '../../viewmodel/user_viewmodel.dart';
 import 'components/abstract_ product_card.dart';
@@ -18,14 +19,17 @@ class FavoriteProductCard extends ProductCardWidget {
       required super.amountOfDiscount});
 
   @override
-  State<FavoriteProductCard> createState() => _FavoriteProductCardState();
+  ConsumerState<FavoriteProductCard> createState() =>
+      _FavoriteProductCardState();
 }
 
-class _FavoriteProductCardState extends State<FavoriteProductCard> {
+class _FavoriteProductCardState extends ConsumerState<FavoriteProductCard> {
   var screenWidth;
   var screenHeight;
   @override
   Widget build(BuildContext context) {
+    final userViewModel = ref.watch(userViewModelProvider);
+
     screenWidth = MediaQuery.sizeOf(context).width;
     screenHeight = MediaQuery.sizeOf(context).height;
     return InkWell(
@@ -99,13 +103,12 @@ class _FavoriteProductCardState extends State<FavoriteProductCard> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       UserViewModel.isContainsProductInList(
-                              widget.product, UserViewModel.cartProducts)
+                              widget.product, userViewModel.cartProducts)
                           ? InkWell(
                               onTap: () {
-                                setState(() {
-                                  UserViewModel.removeProductInCartList(
-                                      widget.product);
-                                });
+                                ref
+                                    .read(userViewModelProvider)
+                                    .removeProductInCartList(widget.product);
                               },
                               child: Container(
                                 width: screenWidth * 0.26,
@@ -127,10 +130,9 @@ class _FavoriteProductCardState extends State<FavoriteProductCard> {
                             )
                           : InkWell(
                               onTap: () {
-                                setState(() {
-                                  UserViewModel.addProductInCartList(
-                                      widget.product);
-                                });
+                                ref
+                                    .read(userViewModelProvider)
+                                    .addProductInCartList(widget.product);
                               },
                               child: Container(
                                 width: screenWidth * 0.26,
@@ -154,13 +156,13 @@ class _FavoriteProductCardState extends State<FavoriteProductCard> {
                         width: 20,
                       ),
                       UserViewModel.isContainsProductInList(
-                              widget.product, UserViewModel.currentUser.favList)
+                              widget.product, userViewModel.currentUser.favList)
                           ? InkWell(
                               onTap: () {
-                                setState(() {
-                                  UserViewModel.removeProductInFavoriteList(
-                                      widget.product);
-                                });
+                                ref
+                                    .read(userViewModelProvider)
+                                    .removeProductInFavoriteList(
+                                        widget.product);
                               },
                               child: const Icon(
                                 Icons.favorite,
@@ -169,10 +171,9 @@ class _FavoriteProductCardState extends State<FavoriteProductCard> {
                             )
                           : InkWell(
                               onTap: () {
-                                setState(() {
-                                  UserViewModel.addProductInFavoriteList(
-                                      widget.product);
-                                });
+                                ref
+                                    .read(userViewModelProvider)
+                                    .addProductInFavoriteList(widget.product);
                               },
                               child: const Icon(Icons.favorite_border_outlined),
                             )

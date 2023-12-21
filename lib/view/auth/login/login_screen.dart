@@ -1,8 +1,8 @@
-import 'package:dish_dash/core/model/service_model/user/user_service.dart';
 import 'package:dish_dash/core/viewmodel/user_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/base/state/base_state.dart';
 import '../../../core/base/view/base_view.dart';
 import '../../../core/constants/app/color_strings.dart';
@@ -28,6 +28,8 @@ class _LoginScreenState extends BaseState<LoginScreen> {
   late dynamic sizeHeight;
   late dynamic sizeWidth;
   bool _isPasswordVisible = false;
+  late WidgetRef ref;
+  late UserViewModel userViewModel;
 
   @override
   void initState() {
@@ -54,13 +56,15 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    size = MediaQuery.of(context).size;
     return BaseView(
       viewModel: "",
+      onModelReady: (model) {
+        ref = model;
+      },
       onPageBuilder: (context, value) {
+        userViewModel = ref.watch(userViewModelProvider);
         return scaffoldBody;
       },
-      onModelReady: (model) {},
     );
   }
 
@@ -165,9 +169,9 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
   void login(String email, String password) async {
     bool isContains = false;
-    for (var element in UserViewModel.users) {
-      if (element.email == email) {
-        UserViewModel.currentUser = element;
+    for (var user in userViewModel.users) {
+      if (user.email == email) {
+        ref.read(userViewModelProvider).changeCurrentUser(user);
         isContains = true;
         break;
       }

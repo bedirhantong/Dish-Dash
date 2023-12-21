@@ -1,10 +1,14 @@
+import 'package:dish_dash/core/model/service_model/order/order_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../model/service_model/product/product_model.dart';
 import '../model/service_model/user/user_model.dart';
 import 'dart:math';
 
-class UserViewModel {
-  static late UserModel currentUser;
-  static List<UserModel> users = [
+class UserViewModel extends ChangeNotifier {
+  late UserModel currentUser;
+  List<UserModel> users = [
     UserModel(
       name: "bedirhan",
       email: "bdo@x.com",
@@ -15,8 +19,132 @@ class UserViewModel {
       favList: [],
     ),
   ];
-  static List<Product> cartProducts = [];
-  static List<Product> newProducts = [
+  void createUserWithEmailAndPassword(UserModel user) {
+    users.add(user);
+    notifyListeners();
+  }
+
+  void changeCurrentUser(UserModel user) {
+    currentUser = user;
+    notifyListeners();
+  }
+
+  List<Product> cartProducts = [];
+  Map<Product, int> cartMap = {};
+  double priceOfCart = 0.0;
+
+  Map<Product, int> orderMap = {};
+
+  void updateOrderMap(List<Product> products) {
+    orderMap.clear();
+    for (var product in products) {
+      if (orderMap.containsKey(product)) {
+        orderMap[product] = (orderMap[product]! + 1);
+      } else {
+        orderMap[product] = 1;
+      }
+    }
+
+    notifyListeners();
+  }
+
+  void updateCartMap() {
+    cartMap.clear();
+    for (var product in cartProducts) {
+      if (cartMap.containsKey(product)) {
+        cartMap[product] = (cartMap[product]! + 1);
+      } else {
+        cartMap[product] = 1;
+      }
+    }
+
+    notifyListeners();
+  }
+
+  void clearCartProducts() {
+    cartProducts.clear();
+    notifyListeners();
+  }
+
+  double getPriceOfCart() {
+    double price = 0;
+    for (var product in cartProducts) {
+      price += product.price;
+    }
+    priceOfCart = price;
+    notifyListeners();
+    return price;
+  }
+
+  static void setPriceOfCartWithTaxes(double price) {
+    var priceWithoutTax = UserViewModel().getPriceOfCart();
+    priceWithoutTax + price;
+  }
+
+  static int orderNumGenerate() {
+    Random random = Random();
+    return random.nextInt(90000) + 10000;
+  }
+
+  int howManyItemIHaveInCart(Product p) {
+    int adet = 0;
+
+    if (cartProducts.isEmpty) {
+      return 0;
+    } else {
+      for (var product in cartProducts) {
+        if (product == p) {
+          adet++;
+        }
+      }
+    }
+    return adet;
+  }
+
+  static bool isContainsProductInList(Product product, List<Product> list) {
+    return list.contains(product);
+  }
+
+  void addProductInFavoriteList(Product product) {
+    currentUser.favList.add(product);
+    notifyListeners();
+  }
+
+  void removeProductInFavoriteList(Product product) {
+    currentUser.favList.remove(product);
+    notifyListeners();
+  }
+
+  void removeAllInCartListAndCartProduct(Product product) {
+    cartMap.remove(product);
+    while (cartProducts.contains(product)) {
+      cartProducts.remove(product);
+    }
+    getPriceOfCart();
+    notifyListeners();
+  }
+
+  void addProductInCartList(Product product) {
+    cartProducts.add(product);
+    updateCartMap();
+    getPriceOfCart();
+    notifyListeners();
+  }
+
+  void addOrderInCurrentOrderList(OrderModel order) {
+    currentUser.orderList.add(order);
+    cartProducts.clear();
+    notifyListeners();
+  }
+
+  void removeProductInCartList(Product product) {
+    cartProducts.remove(product);
+    updateCartMap();
+    getPriceOfCart();
+    notifyListeners();
+  }
+
+  List<Product> newProducts = [
     // new
     Product(
       imageUrl:
@@ -80,7 +208,7 @@ class UserViewModel {
         description:
             "Kampanya fiyatından satılmak üzere 5 adetten fazla stok sunulmuştur. İncelemiş olduğunuz ürünün satış fiyatını satıcı belirlemektedir. Bir ürün, birden fazla satıcı tarafından satılabilir. Birden fazla satıcı tarafından satışa sunulan ürünlerin satıcıları ürün için belirledikleri fiyata, satıcı puanlarına, teslimat statülerine, ürünlerdeki promosyonlara, kargonun bedava olup olmamasına ve ürünlerin hızlı teslimat ile teslim edilip edilememesine, ürünlerin stok ve kategorileri bilgilerine göre sıralanmaktadır. Bu üründen en fazla 1 adet sipariş verilebilir. 1 adedin üzerindeki siparişleri iptal etme hakkınız saklı tutulur. Belirlenen bu limit kurumsal siparişlerde geçerli olmayıp, kurumsal siparişler için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade. Detaylı bilgi için tıklayın."),
   ];
-  static List<Product> techProducts = [
+  List<Product> techProducts = [
     // technology
     Product(
         category: Category(id: 1, name: "technology"),
@@ -203,7 +331,7 @@ class UserViewModel {
         brand: "Kronik Yayınevi",
         star: 4.3),
   ];
-  static List<Product> clotheProducts = [
+  List<Product> clotheProducts = [
     // clothes
     Product(
         category: Category(id: 2, name: "clothing"),
@@ -306,7 +434,7 @@ class UserViewModel {
         isNew: false,
         star: 4.3),
   ];
-  static List<Product> eduProducts = [
+  List<Product> eduProducts = [
     // education
     Product(
         category: Category(id: 3, name: "education"),
@@ -409,7 +537,7 @@ class UserViewModel {
         isNew: false,
         star: 4.3),
   ];
-  static List<Product> sportProducts = [
+  List<Product> sportProducts = [
     // sport
     Product(
         category: Category(id: 4, name: "sport"),
@@ -512,61 +640,6 @@ class UserViewModel {
         isNew: false,
         star: 4.3)
   ];
-
-  static int sizeOfCart() {
-    return cartProducts.length;
-  }
-
-  static double priceOfCart() {
-    double price = 0;
-    for (var product in cartProducts) {
-      price += product.price;
-    }
-    return price;
-  }
-
-  static int orderNumGenerate() {
-    Random random = Random();
-    return random.nextInt(90000) + 10000;
-  }
-
-  static int howManyItemIHaveInCart(Product p) {
-    List<Product> list = UserViewModel.cartProducts;
-    int adet = 0;
-
-    if (list.isEmpty) {
-      return 0;
-    } else {
-      for (var product in list) {
-        if (product == p) {
-          adet++;
-        }
-      }
-    }
-    return adet;
-  }
-
-  static bool isContainsProductInList(Product product, List<Product> list) {
-    return list.contains(product);
-  }
-
-  static void addProductInFavoriteList(Product product) {
-    List<Product> favoList = currentUser.favList;
-    favoList.add(product);
-  }
-
-  static void removeProductInFavoriteList(Product product) {
-    List<Product> favoList = currentUser.favList;
-    favoList.remove(product);
-  }
-
-  static void addProductInCartList(Product product) {
-    List<Product> cartList = cartProducts;
-    cartList.add(product);
-  }
-
-  static void removeProductInCartList(Product product) {
-    List<Product> cartList = cartProducts;
-    cartList.remove(product);
-  }
 }
+
+final userViewModelProvider = ChangeNotifierProvider((ref) => UserViewModel());
