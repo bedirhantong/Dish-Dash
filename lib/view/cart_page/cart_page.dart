@@ -1,50 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/model/service_model/product/product_model.dart';
+import '../../core/viewmodel/user_viewmodel.dart';
 import 'components/bottom_appbar.dart';
 import 'components/products_in_cart.dart';
 
-class CartPage extends StatefulWidget {
-  final List<Product> cartProducts;
-  final int cartItemCount;
-
-  const CartPage(
-      {Key? key, required this.cartProducts, required this.cartItemCount})
-      : super(key: key);
+class CartPage extends ConsumerStatefulWidget {
+  const CartPage({Key? key}) : super(key: key);
 
   @override
-  State<CartPage> createState() => _CartPageState();
+  ConsumerState<CartPage> createState() => _CartPageState();
 }
 
-class _CartPageState extends State<CartPage> {
-  double totalPrice = 0;
+class _CartPageState extends ConsumerState<CartPage> {
   @override
   void initState() {
     super.initState();
-
-    for (var product in widget.cartProducts) {
-      totalPrice += product.price;
-    }
   }
 
+  late UserViewModel userViewModel;
   @override
   Widget build(BuildContext context) {
+    userViewModel = ref.watch(userViewModelProvider);
     return Scaffold(
       appBar: appBar,
-      body: ProductsInCart(
-        widget: widget,
-        totalPrice: totalPrice,
-        cartItemCount: widget.cartItemCount,
-      ),
-      bottomNavigationBar: BottomAppBarCartPage(
-        cartProducts: widget.cartProducts,
-      ),
+      body: const ProductsInCart(),
+      bottomNavigationBar: const BottomAppBarCartPage(),
     );
-  }
-
-  void clearCart() {
-    setState(() {
-      widget.cartProducts.clear();
-    });
   }
 
   AppBar get appBar {
@@ -68,7 +50,7 @@ class _CartPageState extends State<CartPage> {
         Padding(
           padding: const EdgeInsets.only(left: 5, right: 10.0),
           child: Text(
-            '\$${totalPrice.toStringAsFixed(2)}',
+            '\$${userViewModel.priceOfCart.toStringAsFixed(2)}',
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.normal,

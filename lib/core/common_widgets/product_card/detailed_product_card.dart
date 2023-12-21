@@ -1,39 +1,35 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
-import '../../model/service_model/product/product_model.dart';
-import '../../model/service_model/product/product_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../viewmodel/user_viewmodel.dart';
 import 'components/abstract_ product_card.dart';
 
 class DetailedProductCard extends ProductCardWidget {
   const DetailedProductCard({
     super.key,
     required super.product,
-    required super.cartItemCount,
-    required super.onAddToCart,
-    required super.cardList,
     required super.isMainScreenCard,
     required super.isFavoriteCard,
     required super.isDetailedCard,
     required super.isCartCard,
     required super.isOrderedCard,
     required super.value,
-    required super.cargoType,
     required super.oldCost,
     required super.amountOfDiscount,
   });
 
   @override
-  State<DetailedProductCard> createState() => _DetailedProductCardState();
+  ConsumerState<DetailedProductCard> createState() =>
+      _DetailedProductCardState();
 }
 
-class _DetailedProductCardState extends State<DetailedProductCard> {
+class _DetailedProductCardState extends ConsumerState<DetailedProductCard> {
   var screenWidth;
   var screenHeight;
 
-  final ProductService productService = ProductService();
-
   @override
   Widget build(BuildContext context) {
+    final userViewModel = ref.watch(userViewModelProvider);
     screenWidth = MediaQuery.sizeOf(context).width;
     screenHeight = MediaQuery.sizeOf(context).height;
     return Stack(
@@ -93,12 +89,12 @@ class _DetailedProductCardState extends State<DetailedProductCard> {
                               ],
                             ),
                             createProductStar(),
-                            Text(
-                              'Kargo ${widget.cargoType}',
-                              style: TextStyle(
-                                color: Colors.grey[700],
-                              ),
-                            ),
+                            // Text(
+                            //   'Kargo ${widget.cargoType}',
+                            //   style: TextStyle(
+                            //     color: Colors.grey[700],
+                            //   ),
+                            // ),
                             Text(
                               '${widget.product.price} TL',
                               style: TextStyle(
@@ -144,105 +140,108 @@ class _DetailedProductCardState extends State<DetailedProductCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                    onTap: () {
-                      showAlertDialog();
-                    },
-                    child: Container(
-                      width: screenWidth * 0.33,
-                      height: screenHeight * 0.04,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.deepPurple,
-                        border: Border.all(color: Colors.deepPurple, width: 2),
+                UserViewModel.isContainsProductInList(
+                        widget.product, userViewModel.cartProducts)
+                    ? InkWell(
+                        onTap: () {
+                          ref
+                              .read(userViewModelProvider)
+                              .removeProductInCartList(widget.product);
+                        },
+                        child: Container(
+                          width: screenWidth * 0.33,
+                          height: screenHeight * 0.04,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.white,
+                            border:
+                                Border.all(color: Colors.deepPurple, width: 2),
+                          ),
+                          child: const Text(
+                            "Sepetten Çıkar",
+                            style: TextStyle(color: Colors.black, fontSize: 12),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      )
+                    : InkWell(
+                        onTap: () {
+                          ref
+                              .read(userViewModelProvider)
+                              .addProductInCartList(widget.product);
+                        },
+                        child: Container(
+                          width: screenWidth * 0.33,
+                          height: screenHeight * 0.04,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.white,
+                            border:
+                                Border.all(color: Colors.deepPurple, width: 2),
+                          ),
+                          child: const Text(
+                            "Sepete ekle",
+                            style: TextStyle(color: Colors.black, fontSize: 12),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
                       ),
-                      child: const Text(
-                        "Sepete Ekle",
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
-                getAllFavoriteProducts()
+                UserViewModel.isContainsProductInList(
+                        widget.product, userViewModel.currentUser.favList)
+                    ? InkWell(
+                        onTap: () {
+                          ref
+                              .read(userViewModelProvider)
+                              .removeProductInFavoriteList(widget.product);
+                        },
+                        child: Container(
+                          width: screenWidth * 0.33,
+                          height: screenHeight * 0.04,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.white,
+                            border:
+                                Border.all(color: Colors.deepPurple, width: 2),
+                          ),
+                          child: const Text(
+                            "Favorilerden Çıkar",
+                            style: TextStyle(color: Colors.black, fontSize: 12),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      )
+                    : InkWell(
+                        onTap: () {
+                          ref
+                              .read(userViewModelProvider)
+                              .addProductInFavoriteList(widget.product);
+                        },
+                        child: Container(
+                          width: screenWidth * 0.33,
+                          height: screenHeight * 0.04,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.white,
+                            border:
+                                Border.all(color: Colors.deepPurple, width: 2),
+                          ),
+                          child: const Text(
+                            "Favorilere ekle",
+                            style: TextStyle(color: Colors.black, fontSize: 12),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      )
               ],
             ),
           ),
         )
       ],
     );
-  }
-
-  FutureBuilder<List<Product>> getAllFavoriteProducts() {
-    return FutureBuilder<List<Product>>(
-      future: productService.fetchAllProducts(5),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else {
-          bool isProductInFavorites =
-              isContainsProductInFavorites(widget.product, snapshot.data!);
-
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: isProductInFavorites
-                ? InkWell(
-                    onTap: () async {
-                      // Remove from favorites
-                      // await productService.removeProductFromFavorites(widget.product.id)
-                    },
-                    child: Container(
-                      width: screenWidth * 0.33,
-                      height: screenHeight * 0.04,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.white,
-                        border: Border.all(color: Colors.deepPurple, width: 2),
-                      ),
-                      child: const Text(
-                        "Favorilerden Çıkar",
-                        style: TextStyle(color: Colors.black, fontSize: 12),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  )
-                : InkWell(
-                    onTap: () {
-                      setState(() async {
-                        await productService
-                            .addProductToFavorites(widget.product.id);
-                      });
-                    },
-                    child: Container(
-                      width: screenWidth * 0.33,
-                      height: screenHeight * 0.04,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.white,
-                        border: Border.all(color: Colors.deepPurple, width: 2),
-                      ),
-                      child: const Text(
-                        "Favorilere Ekle",
-                        style: TextStyle(color: Colors.black, fontSize: 12),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-          );
-        }
-      },
-    );
-  }
-
-  bool isContainsProductInFavorites(Product product, List<Product> favorites) {
-    return favorites.any((pr) => pr.id == product.id);
   }
 
   showAlertDialog() {

@@ -7,7 +7,7 @@ class Context {
     _identificationStrategy = identificationStrategy;
   }
 
-  Future<String> identifyBank() async {
-    return await _identificationStrategy.identifyBank();
+  double identifyBank(double amountOfPrice) {
+    return _identificationStrategy.calculateTax(amountOfPrice);
   }
 }

@@ -1,13 +1,28 @@
+import 'package:dish_dash/core/viewmodel/user_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../common_widgets/product_card/components/product_card_factory.dart';
 import '../order_model.dart';
 
-class OrderCard extends StatelessWidget {
+class OrderCard extends ConsumerStatefulWidget {
   final OrderModel order;
   const OrderCard({super.key, required this.order});
 
   @override
+  ConsumerState<OrderCard> createState() => _OrderCardState();
+}
+
+class _OrderCardState extends ConsumerState<OrderCard> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(userViewModelProvider).updateOrderMap(widget.order.orderProducts);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final userViewModel = ref.watch(userViewModelProvider);
+
     return Card(
       margin: const EdgeInsets.all(8),
       elevation: 4,
@@ -18,28 +33,27 @@ class OrderCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
-            title: Text('Sipariş No: ${order.orderNumber}'),
-            subtitle: Text('Tarih: ${order.orderDate}'),
-            trailing: Text('Durum: ${order.orderStatus}'),
+            title: Text('Order No: ${widget.order.orderNumber}'),
+            subtitle: Text(
+                'Date: ${widget.order.orderDate.day}/${widget.order.orderDate.month}/${widget.order.orderDate.year}'),
+            trailing: Text('Status: ${widget.order.orderStatus}'),
           ),
           const Divider(),
           ExpansionTile(
             maintainState: true,
             initiallyExpanded: false,
-            title: const Text("Sipariş içeriğini görüntüle"),
+            title: const Text("Show Order Content"),
             children: [
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: order.orderProducts.length,
+                itemCount: userViewModel.orderMap.keys.length,
                 itemBuilder: (context, index) {
-                  final product = order.orderProducts[index];
+                  var product = userViewModel.orderMap.keys.elementAt(index);
                   return ProductCardFactory.createProductCard(
-                      cardType: "ordered",
-                      product: product,
-                      cartItemCount: 2,
-                      cargoType: product.cargoType,
-                      onAddToCart: (int) {});
+                    cardType: "ordered",
+                    product: product,
+                  );
                 },
               ),
             ],
@@ -47,7 +61,7 @@ class OrderCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-                'Toplam Tutar: ${order.totalAmount.toStringAsFixed(2)} \₺'),
+                'Total price: ${widget.order.totalAmount.toStringAsFixed(2)} ₺'),
           ),
         ],
       ),

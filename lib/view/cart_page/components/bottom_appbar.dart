@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/model/service_model/product/product_model.dart';
+import '../../../core/viewmodel/user_viewmodel.dart';
 import '../../payment/payment_screen.dart';
 
-class BottomAppBarCartPage extends StatefulWidget {
-  final List<Product> cartProducts;
+class BottomAppBarCartPage extends ConsumerStatefulWidget {
   const BottomAppBarCartPage({
     super.key,
-    required this.cartProducts,
   });
 
   @override
-  State<BottomAppBarCartPage> createState() => _BottomAppBarCartPageState();
+  ConsumerState<BottomAppBarCartPage> createState() =>
+      _BottomAppBarCartPageState();
 }
 
-class _BottomAppBarCartPageState extends State<BottomAppBarCartPage> {
+class _BottomAppBarCartPageState extends ConsumerState<BottomAppBarCartPage> {
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.sizeOf(context).width;
@@ -24,7 +25,9 @@ class _BottomAppBarCartPageState extends State<BottomAppBarCartPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              ref.read(userViewModelProvider).clearCartProducts();
+            },
             child: Container(
               width: screenWidth * 0.33,
               height: screenHeight * 0.04,
@@ -46,10 +49,7 @@ class _BottomAppBarCartPageState extends State<BottomAppBarCartPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PaymentScreen(
-                    cartProducts: [],
-                    totalAmount: 2,
-                  ),
+                  builder: (context) => const PaymentScreen(),
                 ),
               );
             },

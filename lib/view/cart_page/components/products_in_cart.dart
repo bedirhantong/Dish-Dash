@@ -1,22 +1,27 @@
+import 'package:dish_dash/core/model/service_model/product/product_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../cart_page.dart';
+import '../../../core/viewmodel/user_viewmodel.dart';
 import 'cart_item_card.dart';
 
-class ProductsInCart extends StatelessWidget {
-  const ProductsInCart({
-    super.key,
-    required this.widget,
-    required this.totalPrice,
-    required this.cartItemCount,
-  });
+class ProductsInCart extends ConsumerStatefulWidget {
+  const ProductsInCart({super.key});
 
-  final CartPage widget;
-  final double totalPrice;
-  final int cartItemCount;
+  @override
+  ConsumerState<ProductsInCart> createState() => _ProductsInCartState();
+}
+
+class _ProductsInCartState extends ConsumerState<ProductsInCart> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(userViewModelProvider).updateCartMap();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final userViewModel = ref.watch(userViewModelProvider);
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -30,7 +35,7 @@ class ProductsInCart extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          if (widget.cartProducts.isEmpty)
+          if (userViewModel.cartProducts.isEmpty)
             const Text(
               'Your cart is empty.',
               style: TextStyle(
@@ -41,13 +46,10 @@ class ProductsInCart extends StatelessWidget {
           else
             Expanded(
               child: ListView.builder(
-                itemCount: widget.cartProducts.length,
+                itemCount: userViewModel.cartMap.values.length,
                 itemBuilder: (context, index) {
-                  final product = widget.cartProducts[index];
                   return CartItemCard(
-                    product: product,
-                    totalPrice: totalPrice,
-                    cartItemCount: cartItemCount,
+                    product: userViewModel.cartMap.keys.elementAt(index),
                   );
                 },
               ),

@@ -1,59 +1,40 @@
-import 'package:dish_dash/core/model/service_model/order/order_service.dart';
+import 'package:dish_dash/core/base/view/base_view.dart';
+import 'package:dish_dash/core/viewmodel/user_viewmodel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/constants/app/color_strings.dart';
 import '../../core/model/service_model/order/components/FilterButtonForOrders.dart';
 import '../../core/model/service_model/order/components/OrderCard.dart';
 import '../../core/model/service_model/order/order_model.dart';
 
-class PastOrdersPage extends StatefulWidget {
+class PastOrdersPage extends ConsumerStatefulWidget {
   const PastOrdersPage({Key? key}) : super(key: key);
 
   @override
-  State<PastOrdersPage> createState() => _PastOrdersPageState();
+  ConsumerState<PastOrdersPage> createState() => _PastOrdersPageState();
 }
 
-class _PastOrdersPageState extends State<PastOrdersPage> {
-  final OrderService orderService = OrderService();
-
+class _PastOrdersPageState extends ConsumerState<PastOrdersPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: appbar, body: getAllOrderProducts);
-  }
+    final userViewModel = ref.watch(userViewModelProvider);
 
-  FutureBuilder<List<OrderModel>> get getAllOrderProducts {
-    return FutureBuilder<List<OrderModel>>(
-      future: orderService.fetchAllOrderProducts(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (snapshot.hasError) {
-          return Center(
-            child: Text('Error: ${snapshot.error}'),
-          );
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(
-            child: Text('No order products available.'),
-          );
-        } else {
-          return buildOrderProductsList(snapshot.data!, context);
-        }
-      },
-    );
-  }
-
-  Widget buildOrderProductsList(
-      List<OrderModel> orderList, BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      scrollDirection: Axis.vertical,
-      itemCount: orderList.length,
-      itemBuilder: (context, index) {
-        OrderModel order = orderList[index];
-        return OrderCard(order: order);
-      },
+    return Scaffold(
+      appBar: appbar,
+      body: userViewModel.currentUser.orderList.isEmpty
+          ? const Center(
+              child: Text("There is no such order"),
+            )
+          : ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemCount: userViewModel.currentUser.orderList.length,
+              itemBuilder: (context, index) {
+                OrderModel order = userViewModel.currentUser.orderList[index];
+                return OrderCard(order: order);
+              },
+            ),
     );
   }
 
