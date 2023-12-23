@@ -1,3 +1,3 @@
-abstract class IdentificationStrategy {
-  double calculateTax(double amountOfPrice);
+abstract class BankIdentificationStrategy {
+  double updatePriceWithTax(double currentPrice);
 }

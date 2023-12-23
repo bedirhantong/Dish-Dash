@@ -1,3 +1,3 @@
-abstract class DeliveryType {
-  void selectDelivery(String deliveryMessage);
+abstract class DeliveryStrategy {
+  double calculateDeliveryCost(double currentPrice);
 }

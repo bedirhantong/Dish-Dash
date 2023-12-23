@@ -36,9 +36,7 @@ class _BottomNavBarCustomizedState extends State<BottomNavBarCustomized> {
             Icons.favorite,
             color: Colors.white,
           ),
-          icon: Badge(
-            child: Icon(Icons.favorite_border),
-          ),
+          icon: Icon(Icons.favorite_border),
           label: 'Favorite',
         ),
         NavigationDestination(
@@ -46,10 +44,7 @@ class _BottomNavBarCustomizedState extends State<BottomNavBarCustomized> {
             Icons.local_shipping_sharp,
             color: Colors.white,
           ),
-          icon: Badge(
-            label: Text('1'),
-            child: Icon(Icons.local_shipping_outlined),
-          ),
+          icon: Icon(Icons.local_shipping_outlined),
           label: 'Orders',
         ),
         NavigationDestination(
@@ -57,10 +52,7 @@ class _BottomNavBarCustomizedState extends State<BottomNavBarCustomized> {
             Icons.person,
             color: Colors.white,
           ),
-          icon: Badge(
-            label: Text('2'),
-            child: Icon(Icons.person_outline_sharp),
-          ),
+          icon: Icon(Icons.person_outline_sharp),
           label: 'Profile',
         ),
       ],

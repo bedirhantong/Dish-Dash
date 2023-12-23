@@ -7,6 +7,7 @@ class TextStrings {
   static String homeTabBar3 = "Technology";
   static String homeTabBar4 = "Education";
   static String homeTabBar5 = "Sports";
+  static String homeTabBar6 = "Meal";
 
   // OTP Screen Text
   static String otpTitle = "OTP";

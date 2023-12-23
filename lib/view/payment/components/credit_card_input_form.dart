@@ -33,6 +33,7 @@ class _CreditCardInputFormState extends State<CreditCardInputForm> {
       ),
       back: CardBack(
         cvvController: _cvvController,
+        cardNumberController: _cardNumberController,
       ),
     );
   }

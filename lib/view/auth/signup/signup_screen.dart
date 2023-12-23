@@ -57,7 +57,7 @@ class _SignupScreenState extends BaseState<SignupScreen> {
               imageCard,
               // headArea,
               SizedBox(
-                height: dynamicHeight(0.53),
+                height: dynamicHeight(0.45),
                 child: Column(
                   children: [
                     TextFieldCommon(
@@ -98,11 +98,11 @@ class _SignupScreenState extends BaseState<SignupScreen> {
       alignment: Alignment.center,
       children: [
         WaveCard(
-          height: sizeHeight * 0.35,
+          height: sizeHeight * 0.42,
           color: AppColor.kLine,
         ),
         SizedBox(
-          width: sizeWidth * 0.45,
+          width: sizeWidth * 0.40,
           height: sizeHeight * 0.33,
           child: Image.asset(ImageStrings.logoGoogle),
         ),
@@ -128,15 +128,16 @@ class _SignupScreenState extends BaseState<SignupScreen> {
   }
 
   Widget get loginButton => SizedBox(
-      width: double.maxFinite,
-      child: Padding(
-        padding: const EdgeInsets.only(right: 16, left: 16, top: 28),
-        child: CupertinoButton(
-          color: AppColor.appBarColor,
-          onPressed: registerUser,
-          child: const Text("Kaydol"),
+        width: double.maxFinite,
+        child: Padding(
+          padding: const EdgeInsets.only(right: 16, left: 16, top: 18),
+          child: CupertinoButton(
+            color: AppColor.appBarColor,
+            onPressed: registerUser,
+            child: const Text("Kaydol"),
+          ),
         ),
-      ));
+      );
 
   Function() get registerUser => () {
         if (nameController.text.isNotEmpty &&
@@ -174,11 +175,11 @@ class _SignupScreenState extends BaseState<SignupScreen> {
       };
 
   Widget get googleRegisterButton => SizedBox(
-      height: 68,
-      width: double.maxFinite,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: CupertinoButton(
+        height: 68,
+        width: double.maxFinite,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: CupertinoButton(
             onPressed: () {},
             color: const Color(0xFF273C66),
             child: Row(
@@ -193,8 +194,10 @@ class _SignupScreenState extends BaseState<SignupScreen> {
                 ),
                 const Text("   Google ile Kayıt Ol"),
               ],
-            )),
-      ));
+            ),
+          ),
+        ),
+      );
   Widget get loginArea => SizedBox(
         width: double.maxFinite,
         child: Row(
@@ -202,18 +205,19 @@ class _SignupScreenState extends BaseState<SignupScreen> {
           children: [
             const Text("Zaten bir hesabın var mı? "),
             TextButton(
-                child: const Text(
-                  "Giriş Yap",
-                  style: TextStyle(color: Colors.black),
-                ),
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginScreen(),
-                      ),
-                      (route) => false);
-                }),
+              child: const Text(
+                "Giriş Yap",
+                style: TextStyle(color: Colors.black),
+              ),
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginScreen(),
+                    ),
+                    (route) => false);
+              },
+            ),
           ],
         ),
       );

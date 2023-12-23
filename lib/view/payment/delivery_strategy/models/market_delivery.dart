@@ -1,11 +1,8 @@
-import 'package:dish_dash/core/viewmodel/user_viewmodel.dart';
 import 'delivery.dart';
 
-class CargoMarketDelivery implements DeliveryType {
+class CargoMarketDeliveryStrategy implements DeliveryStrategy {
   @override
-  void selectDelivery(String deliveryMessage) {
-    deliveryMessage =
-        " numaralı siparişinizi kargo firmasına gidip alacaksınız.";
-    UserViewModel.setPriceOfCartWithTaxes(2.5);
+  double calculateDeliveryCost(double currentPrice) {
+    return currentPrice + (currentPrice * 0.012);
   }
 }

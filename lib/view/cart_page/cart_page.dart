@@ -50,7 +50,7 @@ class _CartPageState extends ConsumerState<CartPage> {
         Padding(
           padding: const EdgeInsets.only(left: 5, right: 10.0),
           child: Text(
-            '\$${userViewModel.priceOfCart.toStringAsFixed(2)}',
+            '\$${userViewModel.getPriceOfCart().toStringAsFixed(2)}',
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.normal,

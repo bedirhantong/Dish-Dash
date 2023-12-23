@@ -4,10 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../view/home/components/product_details_page.dart';
 import '../../viewmodel/user_viewmodel.dart';
 import 'components/abstract_ product_card.dart';
-import 'main_screen_card.dart';
 
-class FavoriteProductCard extends ProductCardWidget {
-  const FavoriteProductCard(
+class MealAddCartProductCard extends ProductCardWidget {
+  const MealAddCartProductCard(
       {super.key,
       required super.product,
       required super.isMainScreenCard,
@@ -20,11 +19,12 @@ class FavoriteProductCard extends ProductCardWidget {
       required super.amountOfDiscount});
 
   @override
-  ConsumerState<FavoriteProductCard> createState() =>
-      _FavoriteProductCardState();
+  ConsumerState<MealAddCartProductCard> createState() =>
+      _MealAddCartProductCardState();
 }
 
-class _FavoriteProductCardState extends ConsumerState<FavoriteProductCard> {
+class _MealAddCartProductCardState
+    extends ConsumerState<MealAddCartProductCard> {
   var screenWidth;
   var screenHeight;
   @override
@@ -52,42 +52,32 @@ class _FavoriteProductCardState extends ConsumerState<FavoriteProductCard> {
         child: Row(
           children: [
             SizedBox(
-              width: screenWidth * 0.35,
+              width: screenWidth * 0.37,
               child: Image.network(
                 widget.product.imageUrl,
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
               ),
             ),
             SizedBox(
-              width: screenWidth * 0.03,
+              width: screenWidth * 0.02,
             ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: screenWidth * 0.4,
-                        child: Text(
-                          widget.product.name,
-                          style: const TextStyle(
-                            color: Colors.black,
-                          ),
-                          overflow: TextOverflow.visible,
-                          textDirection: TextDirection.ltr,
-                          softWrap: true,
-                        ),
+                  SizedBox(
+                    width: screenWidth * 0.37,
+                    child: Text(
+                      widget.product.name,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.more_vert_outlined),
-                        onPressed: () {
-                          showAlertDialog();
-                        },
-                      ),
-                    ],
+                      overflow: TextOverflow.visible,
+                      textDirection: TextDirection.ltr,
+                      softWrap: true,
+                    ),
                   ),
                   Text(
                     widget.product.brand,
@@ -100,111 +90,12 @@ class _FavoriteProductCardState extends ConsumerState<FavoriteProductCard> {
                     '${widget.product.price} TL',
                     style: TextStyle(color: Colors.orange[800]),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      UserViewModel.isContainsProductInList(
-                              widget.product, userViewModel.cartProducts)
-                          ? InkWell(
-                              onTap: () {
-                                ref
-                                    .read(userViewModelProvider)
-                                    .removeProductInCartList(widget.product);
-                              },
-                              child: Container(
-                                width: screenWidth * 0.26,
-                                height: screenHeight * 0.04,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Colors.white,
-                                  border: Border.all(
-                                      color: Colors.deepPurple, width: 2),
-                                ),
-                                child: const Text(
-                                  "Sepetten Çıkar",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 12),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            )
-                          : InkWell(
-                              onTap: () {
-                                widget.product.category.name != "meal"
-                                    ? ref
-                                        .read(userViewModelProvider)
-                                        .addProductInCartList(widget.product)
-                                    : Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => MyHomePage(
-                                              product: widget.product),
-                                        ),
-                                      );
-                              },
-                              child: Container(
-                                width: screenWidth * 0.26,
-                                height: screenHeight * 0.04,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Colors.white,
-                                  border: Border.all(
-                                      color: Colors.deepPurple, width: 2),
-                                ),
-                                child: const Text(
-                                  "Sepete ekle",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 12),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      UserViewModel.isContainsProductInList(
-                              widget.product, userViewModel.currentUser.favList)
-                          ? InkWell(
-                              onTap: () {
-                                ref
-                                    .read(userViewModelProvider)
-                                    .removeProductInFavoriteList(
-                                        widget.product);
-                              },
-                              child: const Icon(
-                                Icons.favorite,
-                                color: Colors.deepPurple,
-                              ),
-                            )
-                          : InkWell(
-                              onTap: () {
-                                ref
-                                    .read(userViewModelProvider)
-                                    .addProductInFavoriteList(widget.product);
-                              },
-                              child: const Icon(Icons.favorite_border_outlined),
-                            )
-                    ],
-                  ),
                 ],
               ),
             )
           ],
         ),
       ),
-    );
-  }
-
-  showAlertDialog() {
-    return CoolAlert.show(
-      context: context,
-      title: "Info",
-      confirmBtnColor: Colors.orange,
-      animType: CoolAlertAnimType.scale,
-      type: CoolAlertType.info,
-      text: "Buraya ne eklesem bilemedim",
     );
   }
 

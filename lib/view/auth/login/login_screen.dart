@@ -7,6 +7,7 @@ import '../../../core/base/state/base_state.dart';
 import '../../../core/base/view/base_view.dart';
 import '../../../core/constants/app/color_strings.dart';
 import '../../../core/constants/app/image_strings.dart';
+import '../../main/app_starter.dart';
 import '../../main/main_bottom_nav.dart';
 import '../forgot_password/components/forgot_password_model_bottom_sheet.dart';
 import '../signup/signup_screen.dart';
@@ -199,7 +200,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
-        builder: (context) => const BottomNavMain(),
+        builder: (context) => const FoodAppHome(),
       ),
       (route) => false,
     );

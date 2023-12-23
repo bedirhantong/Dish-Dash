@@ -1,3 +1,5 @@
+import 'package:dish_dash/core/common_widgets/product_card/meal_add_cart_card.dart';
+
 import '../../../model/service_model/product/product_model.dart';
 import 'abstract_ product_card.dart';
 import '../cart_product_card.dart';
@@ -62,6 +64,18 @@ class ProductCardFactory {
         );
       case 'favorite':
         return FavoriteProductCard(
+          product: product,
+          isMainScreenCard: false,
+          isFavoriteCard: true,
+          isDetailedCard: false,
+          isCartCard: false,
+          isOrderedCard: false,
+          value: 2,
+          oldCost: 600,
+          amountOfDiscount: '%5',
+        );
+      case 'meal':
+        return MealAddCartProductCard(
           product: product,
           isMainScreenCard: false,
           isFavoriteCard: true,
