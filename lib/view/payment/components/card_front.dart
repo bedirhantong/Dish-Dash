@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../identification_strategy/models/AkbankIdentificationStrategy.dart';
-import '../identification_strategy/models/IdentificationStrategy.dart';
-import '../identification_strategy/service/Context.dart';
 import 'card_number_input_formatter.dart';
 
 class CardFront extends StatelessWidget {
@@ -22,7 +19,7 @@ class CardFront extends StatelessWidget {
     return SizedBox(
       height: 200,
       child: Card(
-        color: Colors.black,
+        color: Colors.grey[850],
         margin: const EdgeInsets.all(4),
         child: Column(
           children: [
@@ -123,4 +120,10 @@ class CardFront extends StatelessWidget {
       );
     }
   }
+}
+
+enum BankIdentification {
+  ziraatIdentification,
+  akbankIdentification,
+  garantiIdentification
 }

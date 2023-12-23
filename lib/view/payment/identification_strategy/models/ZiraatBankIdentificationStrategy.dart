@@ -1,8 +1,9 @@
 import 'IdentificationStrategy.dart';
 
-class ZiraatBankIdentificationStrategy implements IdentificationStrategy {
+class ZiraatBankIdentificationStrategy implements BankIdentificationStrategy {
   @override
-  double calculateTax(double amountOfPrice) {
-    return amountOfPrice * 0.16;
+  double updatePriceWithTax(double currentPrice) {
+    currentPrice += currentPrice * 0.0;
+    return currentPrice;
   }
 }

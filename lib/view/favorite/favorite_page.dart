@@ -36,11 +36,12 @@ class _FavoritePageState extends ConsumerState<FavoritePage>
         ),
         actions: [
           IconButton(
-              icon: const Icon(
-                Icons.search,
-                color: Colors.white,
-              ),
-              onPressed: () {})
+            icon: const Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
+            onPressed: () {},
+          )
         ],
       ),
       backgroundColor: Colors.grey[300],

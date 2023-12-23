@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../view/home/components/product_details_page.dart';
+import '../../../view/main/components/meal_decorator/additional_decorator.dart';
+import '../../../view/main/components/meal_decorator/drink_decorator.dart';
+import '../../../view/main/components/meal_decorator/meal_order_component.dart';
+import '../../../view/main/components/meal_decorator/order_component.dart';
+import '../../../view/main/components/meal_decorator/sauce_decorator.dart';
+import '../../constants/app/color_strings.dart';
+import '../../model/service_model/product/product_model.dart';
 import '../../viewmodel/user_viewmodel.dart';
 import 'components/abstract_ product_card.dart';
+import 'components/product_card_factory.dart';
+import 'meal_add_cart_card.dart';
+import 'meal_add_cart_card.dart';
+import 'meal_add_cart_card.dart';
 
 class MainScreenCard extends ProductCardWidget {
   const MainScreenCard({
@@ -23,15 +34,12 @@ class MainScreenCard extends ProductCardWidget {
 }
 
 class _MainScreenCardState extends ConsumerState<MainScreenCard> {
-  var screenWidth;
-  var screenHeight;
+  late var screenWidth;
+  late var screenHeight;
 
-  late int adet;
   @override
   void initState() {
     super.initState();
-    adet =
-        ref.read(userViewModelProvider).howManyItemIHaveInCart(widget.product);
   }
 
   @override
@@ -163,9 +171,17 @@ class _MainScreenCardState extends ConsumerState<MainScreenCard> {
                         )
                       : InkWell(
                           onTap: () {
-                            ref
-                                .read(userViewModelProvider)
-                                .addProductInCartList(widget.product);
+                            widget.product.category.name != "meal"
+                                ? ref
+                                    .read(userViewModelProvider)
+                                    .addProductInCartList(widget.product)
+                                : Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          MyHomePage(product: widget.product),
+                                    ),
+                                  );
                           },
                           child: Container(
                             width: screenWidth * 0.28,
@@ -189,6 +205,166 @@ class _MainScreenCardState extends ConsumerState<MainScreenCard> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class MyHomePage extends ConsumerStatefulWidget {
+  const MyHomePage({super.key, required this.product});
+  final Product product;
+  @override
+  ConsumerState<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends ConsumerState<MyHomePage> {
+  String selectedSauce = "";
+  String selectedDrink = "";
+  String additionalNote = "";
+
+  @override
+  Widget build(BuildContext context) {
+    OrderComponent order = MealOrder(widget.product);
+    final userViewModel = ref.watch(userViewModelProvider);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Food Order'),
+        centerTitle: true,
+        backgroundColor: Colors.deepPurple.shade100,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ProductCardFactory.createProductCard(
+                cardType: 'meal',
+                product: widget.product,
+              ),
+              const Text(
+                'Sauce Preference:',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              Row(
+                children: [
+                  Radio(
+                    value: 'Ketchup',
+                    groupValue: selectedSauce,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedSauce = value!;
+                      });
+                    },
+                  ),
+                  const Text('Ketchup'),
+                  Radio(
+                    value: 'Mustard',
+                    groupValue: selectedSauce,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedSauce = value!;
+                      });
+                    },
+                  ),
+                  const Text('Chipotle'),
+                ],
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Drink Selection:',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              Row(
+                children: [
+                  Radio(
+                    value: 'Water',
+                    groupValue: selectedDrink,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedDrink = value!;
+                      });
+                    },
+                  ),
+                  const Text('Water'),
+                  Radio(
+                    value: 'Soda',
+                    groupValue: selectedDrink,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedDrink = value!;
+                      });
+                    },
+                  ),
+                  const Text('Soda'),
+                ],
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Additional Note:',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              TextField(
+                maxLines: 2,
+                onChanged: (value) {
+                  setState(
+                    () {
+                      additionalNote = value;
+                    },
+                  );
+                },
+                decoration: const InputDecoration(
+                  hintText: 'Enter additional note...',
+                ),
+              ),
+              const SizedBox(height: 16),
+              UserViewModel.isContainsProductInList(
+                      widget.product, userViewModel.cartProducts)
+                  ? Center(
+                      child: OutlinedButton(
+                        onPressed: () {
+                          ref
+                              .read(userViewModelProvider)
+                              .removeProductInCartList(widget.product);
+                        },
+                        child: const Text('Remove from Cart'),
+                      ),
+                    )
+                  : Center(
+                      child: OutlinedButton(
+                        onPressed: () {
+                          // Add decorators based on user choices
+                          if (selectedSauce.isNotEmpty) {
+                            order = SauceDecorator(order, selectedSauce);
+                          }
+                          if (selectedDrink.isNotEmpty) {
+                            order = DrinkDecorator(order, selectedDrink);
+                          }
+                          if (additionalNote.isNotEmpty) {
+                            order =
+                                AdditionalNoteDecorator(order, additionalNote);
+                          }
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //   SnackBar(
+                          //     content: Text(
+                          //         "Order description: ${order.description} \nOrder price: ${order.price} \nEstimated delivery time: ${order.deliveryTime} minutes \nSauce: $selectedSauce, Drink: $selectedDrink, Note: $additionalNote"),
+                          //     backgroundColor: AppColor.appBarColor,
+                          //   ),
+                          // );
+                          ref.read(userViewModelProvider).updateProductPrice(
+                              widget.product.id, order.price);
+
+                          ref
+                              .read(userViewModelProvider)
+                              .addProductInCartList(widget.product);
+                        },
+                        child: const Text('Add to Cart'),
+                      ),
+                    ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,8 +1,9 @@
 import 'IdentificationStrategy.dart';
 
-class AkbankIdentificationStrategy implements IdentificationStrategy {
+class AkbankIdentificationStrategy implements BankIdentificationStrategy {
   @override
-  double calculateTax(double amountOfPrice) {
-    return amountOfPrice * 0.18;
+  double updatePriceWithTax(double currentPrice) {
+    currentPrice += currentPrice * 0.09012;
+    return currentPrice;
   }
 }

@@ -1,7 +1,17 @@
 import 'package:dish_dash/core/model/service_model/order/order_model.dart';
+import 'package:dish_dash/view/payment/identification_strategy/models/AkbankIdentificationStrategy.dart';
+import 'package:dish_dash/view/payment/identification_strategy/models/GarantiBankIdentificationStrategy.dart';
+import 'package:dish_dash/view/payment/identification_strategy/models/IdentificationStrategy.dart';
+import 'package:dish_dash/view/payment/identification_strategy/models/ZiraatBankIdentificationStrategy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../view/payment/components/card_front.dart';
+import '../../view/payment/delivery_strategy/models/courier_delivery.dart';
+import '../../view/payment/delivery_strategy/models/delivery.dart';
+import '../../view/payment/delivery_strategy/models/market_delivery.dart';
+import '../../view/payment/delivery_strategy/models/self_delivery.dart';
+import '../../view/payment/payment_screen.dart';
 import '../model/service_model/product/product_model.dart';
 import '../model/service_model/user/user_model.dart';
 import 'dart:math';
@@ -66,19 +76,54 @@ class UserViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Update the method that calculates the cart price
   double getPriceOfCart() {
     double price = 0;
     for (var product in cartProducts) {
       price += product.price;
     }
+    // Use the selected delivery strategy to calculate delivery cost
+    price = _deliveryStrategy.calculateDeliveryCost(price);
+
+    price = _identificationStrategy.updatePriceWithTax(price);
     priceOfCart = price;
     notifyListeners();
     return price;
   }
 
-  static void setPriceOfCartWithTaxes(double price) {
-    var priceWithoutTax = UserViewModel().getPriceOfCart();
-    priceWithoutTax + price;
+  DeliveryStrategy _deliveryStrategy = SelfDeliveryStrategy();
+
+  void setDeliveryStrategy(DeliveryMethod deliveryMethod) {
+    switch (deliveryMethod) {
+      case DeliveryMethod.courierDelivery:
+        _deliveryStrategy = CourierDeliveryStrategy();
+        break;
+      case DeliveryMethod.cargoMarketDelivery:
+        _deliveryStrategy = CargoMarketDeliveryStrategy();
+        break;
+      case DeliveryMethod.selfDelivery:
+        _deliveryStrategy = SelfDeliveryStrategy();
+        break;
+    }
+    notifyListeners();
+  }
+
+  BankIdentificationStrategy _identificationStrategy =
+      ZiraatBankIdentificationStrategy();
+
+  void setBankIdentificationStrategy(BankIdentification bankIdentification) {
+    switch (bankIdentification) {
+      case BankIdentification.ziraatIdentification:
+        _identificationStrategy = ZiraatBankIdentificationStrategy();
+        break;
+      case BankIdentification.akbankIdentification:
+        _identificationStrategy = AkbankIdentificationStrategy();
+        break;
+      case BankIdentification.garantiIdentification:
+        _identificationStrategy = GarantiBankIdentificationStrategy();
+        break;
+    }
+    notifyListeners();
   }
 
   static int orderNumGenerate() {
@@ -144,6 +189,14 @@ class UserViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateProductPrice(int productId, double newPrice) {
+    var foundProduct = mealProducts.firstWhere(
+      (product) => product.id == productId,
+    );
+    foundProduct.price = newPrice;
+    notifyListeners();
+  }
+
   List<Product> newProducts = [
     // new
     Product(
@@ -193,7 +246,7 @@ class UserViewModel extends ChangeNotifier {
         amountOfDiscount: "10",
         oldCost: 200,
         amountOfStock: 3,
-        isInStock: true,
+        isInStock: false,
         value: 0,
         cargoType: "bedava",
         size: false,
@@ -462,7 +515,7 @@ class UserViewModel extends ChangeNotifier {
         amountOfDiscount: "10",
         oldCost: 70,
         amountOfStock: 2,
-        isInStock: true,
+        isInStock: false,
         value: 1,
         cargoType: "bedava",
         size: false,
@@ -556,7 +609,7 @@ class UserViewModel extends ChangeNotifier {
         description:
             "Kampanya fiyatından satılmak üzere 5 adetten fazla stok sunulmuştur. İncelemiş olduğunuz ürünün satış fiyatını satıcı belirlemektedir. Bir ürün, birden fazla satıcı tarafından satılabilir. Birden fazla satıcı tarafından satışa sunulan ürünlerin satıcıları ürün için belirledikleri fiyata, satıcı puanlarına, teslimat statülerine, ürünlerdeki promosyonlara, kargonun bedava olup olmamasına ve ürünlerin hızlı teslimat ile teslim edilip edilememesine, ürünlerin stok ve kategorileri bilgilerine göre sıralanmaktadır. Bu üründen en fazla 1 adet sipariş verilebilir. 1 adedin üzerindeki siparişleri iptal etme hakkınız saklı tutulur. Belirlenen bu limit kurumsal siparişlerde geçerli olmayıp, kurumsal siparişler için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade. Detaylı bilgi için tıklayın.",
         amountOfStock: 3,
-        isInStock: true,
+        isInStock: false,
         amountOfDiscount: "10",
         oldCost: 50),
     Product(
@@ -639,6 +692,71 @@ class UserViewModel extends ChangeNotifier {
         brand: "SportGiyim",
         isNew: false,
         star: 4.3)
+  ];
+  List<Product> mealProducts = [
+    Product(
+      imageUrl:
+          "https://raw.githubusercontent.com/bedirhantong/flutter_barista/master/assets/images/breakfast/durum.png",
+      category: Category(id: 0, name: "meal"),
+      id: 1,
+      value: 0,
+      name: "Zurna Dürüm",
+      price: 89.99,
+      isNew: true,
+      star: 4.7,
+      brand: "Yemek Fabrikasi",
+      cargoType: "bedava",
+      size: true,
+      sizeType: "150 gram",
+      description:
+          "Tamamen helal üretim onaylı Urfa zurna dürüm, tek tıkla sen neredeysen oraya gelsin.",
+      amountOfStock: 3,
+      isInStock: true,
+      amountOfDiscount: "10",
+      oldCost: 200,
+    ),
+    Product(
+      imageUrl:
+          "https://raw.githubusercontent.com/bedirhantong/flutter_barista/master/assets/images/breakfast/sandwich.png",
+      category: Category(id: 0, name: "meal"),
+      id: 1,
+      value: 0,
+      name: "Kahvaltılık Sandviç",
+      price: 79.99,
+      isNew: true,
+      star: 4.7,
+      brand: "Sandwichiesy",
+      cargoType: "bedava",
+      size: true,
+      sizeType: "90 gram",
+      description:
+          "Tamamen helal üretim onaylı Sandviç, tek tıkla sen neredeysen oraya gelsin.",
+      amountOfStock: 3,
+      isInStock: true,
+      amountOfDiscount: "10",
+      oldCost: 200,
+    ),
+    Product(
+      imageUrl:
+          "https://raw.githubusercontent.com/bedirhantong/flutter_barista/master/assets/images/breakfast/turkey_bacon.png",
+      category: Category(id: 0, name: "meal"),
+      id: 1,
+      value: 0,
+      name: "Turkish Pastırma",
+      price: 89.99,
+      isNew: true,
+      star: 4.7,
+      brand: "Pastirma Diyari",
+      cargoType: "bedava",
+      size: true,
+      sizeType: "120 gram",
+      description:
+          "Tamamen helal üretim onaylı Pastırma, tek tıkla sen neredeysen oraya gelsin.",
+      amountOfStock: 3,
+      isInStock: true,
+      amountOfDiscount: "10",
+      oldCost: 200,
+    ),
   ];
 }
 

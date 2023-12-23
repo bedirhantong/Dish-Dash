@@ -9,7 +9,9 @@ import '../cart_page/cart_page.dart';
 import 'components/minimalist_searchbar.dart';
 
 class HomePage extends ConsumerStatefulWidget {
-  const HomePage({super.key});
+  const HomePage({required this.initIndex, super.key});
+
+  final int initIndex;
 
   @override
   ConsumerState<HomePage> createState() => _HomePageState();
@@ -21,7 +23,8 @@ class _HomePageState extends ConsumerState<HomePage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 5, vsync: this);
+    _tabController =
+        TabController(length: 6, vsync: this, initialIndex: widget.initIndex);
   }
 
   @override
@@ -49,6 +52,7 @@ class _HomePageState extends ConsumerState<HomePage>
         _buildTab(3, userViewModel.techProducts),
         _buildTab(4, userViewModel.eduProducts),
         _buildTab(5, userViewModel.sportProducts),
+        _buildTab(6, userViewModel.mealProducts)
       ],
     );
   }
@@ -84,16 +88,22 @@ class _HomePageState extends ConsumerState<HomePage>
       ),
       actions: [
         IconButton(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const CartPage();
-              }));
-            },
-            icon: const Icon(
-              Icons.shopping_cart_outlined,
-              color: Colors.white,
-              size: 20,
-            )),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return const CartPage();
+                },
+              ),
+            );
+          },
+          icon: const Icon(
+            Icons.shopping_cart_outlined,
+            color: Colors.white,
+            size: 20,
+          ),
+        ),
       ],
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight * 2),
@@ -136,6 +146,12 @@ class _HomePageState extends ConsumerState<HomePage>
                 Tab(
                   child: Text(
                     TextStrings.homeTabBar5,
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+                Tab(
+                  child: Text(
+                    TextStrings.homeTabBar6,
                     style: const TextStyle(color: Colors.white),
                   ),
                 ),

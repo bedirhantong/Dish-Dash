@@ -1,11 +1,8 @@
-import '../../../../core/viewmodel/user_viewmodel.dart';
 import 'delivery.dart';
 
-class CourierDelivery implements DeliveryType {
+class CourierDeliveryStrategy implements DeliveryStrategy {
   @override
-  void selectDelivery(String deliveryMessage) {
-    deliveryMessage =
-        " numaralı siparişinizi kargo firması tarafınıza ulaştırılacaktır..";
-    UserViewModel.setPriceOfCartWithTaxes(54.5);
+  double calculateDeliveryCost(double currentPrice) {
+    return currentPrice + (currentPrice * 0.015);
   }
 }

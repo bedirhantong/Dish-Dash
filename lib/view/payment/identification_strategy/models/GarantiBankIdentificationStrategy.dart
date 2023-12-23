@@ -1,8 +1,9 @@
 import 'IdentificationStrategy.dart';
 
-class GarantiBankIdentificationStrategy implements IdentificationStrategy {
+class GarantiBankIdentificationStrategy implements BankIdentificationStrategy {
   @override
-  double calculateTax(double amountOfPrice) {
-    return amountOfPrice * 0.14;
+  double updatePriceWithTax(double currentPrice) {
+    currentPrice += currentPrice * 0.05678;
+    return currentPrice;
   }
 }

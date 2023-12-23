@@ -1,4 +1,3 @@
-import 'package:dish_dash/core/base/view/base_view.dart';
 import 'package:dish_dash/core/viewmodel/user_viewmodel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

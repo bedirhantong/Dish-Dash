@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../viewmodel/user_viewmodel.dart';
 import 'components/abstract_ product_card.dart';
+import 'main_screen_card.dart';
 
 class DetailedProductCard extends ProductCardWidget {
   const DetailedProductCard({
@@ -33,112 +34,90 @@ class _DetailedProductCardState extends ConsumerState<DetailedProductCard> {
     screenWidth = MediaQuery.sizeOf(context).width;
     screenHeight = MediaQuery.sizeOf(context).height;
     return Stack(
-      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.only(
-                  top: 5,
-                  bottom: screenHeight * 0.07,
+          child: Padding(
+            padding: const EdgeInsets.only(
+                top: 8.0, bottom: 20, right: 20, left: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: SizedBox(
+                    width: screenWidth * 0.93,
+                    height: screenHeight * 0.40,
+                    child: Image.network(
+                      widget.product.imageUrl,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                 ),
-                padding: const EdgeInsets.all(10),
-                child: SingleChildScrollView(
+                Container(
+                  padding: const EdgeInsets.only(left: 5),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Center(
-                        child: SizedBox(
-                          width: screenWidth * 0.93,
-                          height: screenHeight * 0.40,
-                          child: Image.network(
-                            widget.product.imageUrl,
-                            fit: BoxFit.contain,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: screenWidth * 0.7,
+                            child: Text(
+                              widget.product.name,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                overflow: TextOverflow.fade,
+                              ),
+                              softWrap: true,
+                            ),
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.more_vert_outlined,
+                            ),
+                            onPressed: () {
+                              showAlertDialog();
+                            },
+                          ),
+                        ],
+                      ),
+                      createProductStar(),
+                      Text(
+                        '${widget.product.price} TL',
+                        style: TextStyle(
+                          color: Colors.orange[800],
+                        ),
+                      ),
+                      Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            widget.product.description,
+                            style: TextStyle(
+                              color: Colors.grey[800],
+                              overflow: TextOverflow.fade,
+                            ),
                           ),
                         ),
                       ),
-                      Container(
-                        padding: const EdgeInsets.only(left: 5),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SizedBox(
-                                  width: screenWidth * 0.7,
-                                  child: Text(
-                                    widget.product.name,
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      overflow: TextOverflow.fade,
-                                    ),
-                                    softWrap: true,
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: const Icon(
-                                    Icons.more_vert_outlined,
-                                  ),
-                                  onPressed: () {
-                                    showAlertDialog();
-                                  },
-                                ),
-                              ],
-                            ),
-                            createProductStar(),
-                            // Text(
-                            //   'Kargo ${widget.cargoType}',
-                            //   style: TextStyle(
-                            //     color: Colors.grey[700],
-                            //   ),
-                            // ),
-                            Text(
-                              '${widget.product.price} TL',
-                              style: TextStyle(
-                                color: Colors.orange[800],
-                              ),
-                            ),
-                            ExpansionTile(
-                              initiallyExpanded: true,
-                              title: Text(
-                                widget.product.description,
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              children: [
-                                Text(
-                                  widget.product.description,
-                                  style: TextStyle(
-                                      color: Colors.grey[600],
-                                      overflow: TextOverflow.fade),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                          ],
-                        ),
-                      )
+                      const SizedBox(
+                        height: 90,
+                      ),
                     ],
                   ),
-                ),
-              ),
-            ],
+                )
+              ],
+            ),
           ),
         ),
         Align(
           alignment: Alignment.bottomCenter,
           child: Container(
-            height: screenHeight * 0.07,
-            color: Colors.deepPurple.shade50,
+            height: screenHeight * 0.09,
+            color: Colors.white60,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 UserViewModel.isContainsProductInList(
                         widget.product, userViewModel.cartProducts)
@@ -149,8 +128,8 @@ class _DetailedProductCardState extends ConsumerState<DetailedProductCard> {
                               .removeProductInCartList(widget.product);
                         },
                         child: Container(
-                          width: screenWidth * 0.33,
-                          height: screenHeight * 0.04,
+                          width: screenWidth * 0.73,
+                          height: screenHeight * 0.05,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
@@ -160,82 +139,42 @@ class _DetailedProductCardState extends ConsumerState<DetailedProductCard> {
                           ),
                           child: const Text(
                             "Sepetten Çıkar",
-                            style: TextStyle(color: Colors.black, fontSize: 12),
+                            style: TextStyle(color: Colors.black, fontSize: 14),
                             textAlign: TextAlign.center,
                           ),
                         ),
                       )
                     : InkWell(
                         onTap: () {
-                          ref
-                              .read(userViewModelProvider)
-                              .addProductInCartList(widget.product);
+                          widget.product.category.name != "meal"
+                              ? ref
+                                  .read(userViewModelProvider)
+                                  .addProductInCartList(widget.product)
+                              : Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        MyHomePage(product: widget.product),
+                                  ),
+                                );
                         },
                         child: Container(
-                          width: screenWidth * 0.33,
-                          height: screenHeight * 0.04,
+                          width: screenWidth * 0.73,
+                          height: screenHeight * 0.05,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
-                            color: Colors.white,
+                            color: Colors.deepPurple,
                             border:
                                 Border.all(color: Colors.deepPurple, width: 2),
                           ),
                           child: const Text(
                             "Sepete ekle",
-                            style: TextStyle(color: Colors.black, fontSize: 12),
+                            style: TextStyle(color: Colors.white, fontSize: 14),
                             textAlign: TextAlign.center,
                           ),
                         ),
                       ),
-                UserViewModel.isContainsProductInList(
-                        widget.product, userViewModel.currentUser.favList)
-                    ? InkWell(
-                        onTap: () {
-                          ref
-                              .read(userViewModelProvider)
-                              .removeProductInFavoriteList(widget.product);
-                        },
-                        child: Container(
-                          width: screenWidth * 0.33,
-                          height: screenHeight * 0.04,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.white,
-                            border:
-                                Border.all(color: Colors.deepPurple, width: 2),
-                          ),
-                          child: const Text(
-                            "Favorilerden Çıkar",
-                            style: TextStyle(color: Colors.black, fontSize: 12),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      )
-                    : InkWell(
-                        onTap: () {
-                          ref
-                              .read(userViewModelProvider)
-                              .addProductInFavoriteList(widget.product);
-                        },
-                        child: Container(
-                          width: screenWidth * 0.33,
-                          height: screenHeight * 0.04,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.white,
-                            border:
-                                Border.all(color: Colors.deepPurple, width: 2),
-                          ),
-                          child: const Text(
-                            "Favorilere ekle",
-                            style: TextStyle(color: Colors.black, fontSize: 12),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      )
               ],
             ),
           ),

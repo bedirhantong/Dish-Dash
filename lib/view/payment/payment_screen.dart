@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:dish_dash/core/constants/app/color_strings.dart';
 import 'package:dish_dash/core/viewmodel/user_viewmodel.dart';
-import 'package:dish_dash/view/payment/delivery_strategy/models/self_delivery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,30 +9,28 @@ import '../../core/model/service_model/product/product_model.dart';
 import '../main/main_bottom_nav.dart';
 import 'components/address_card.dart';
 import 'components/credit_card_input_form.dart';
-import 'delivery_strategy/models/courier_delivery.dart';
-import 'delivery_strategy/models/delivery.dart';
-import 'delivery_strategy/models/market_delivery.dart';
-import 'delivery_strategy/order.dart';
 
-class PaymentScreen extends StatefulWidget {
+class PaymentScreen extends ConsumerStatefulWidget {
   const PaymentScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<PaymentScreen> createState() => _PaymentScreenState();
+  ConsumerState<PaymentScreen> createState() => _PaymentScreenState();
 }
 
-class _PaymentScreenState extends State<PaymentScreen> {
+class _PaymentScreenState extends ConsumerState<PaymentScreen> {
   String _selectedPaymentMethod = 'Kredi/Banka Kartı';
 
-  DeliveryMethod _selectedDeliveryMethod = DeliveryMethod.courierDelivery;
-  var orderSelection = OrderTypeSelection(CourierDelivery());
+  DeliveryMethod _selectedDeliveryMethod = DeliveryMethod.selfDelivery;
 
   String deliveryMessage = "";
+  late UserViewModel userViewModel;
 
   @override
   Widget build(BuildContext context) {
+    userViewModel = ref.watch(userViewModelProvider);
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -57,14 +54,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SecondaryStepper(),
               const SizedBox(height: 16),
               const AddressCard(),
               const SizedBox(height: 16),
-              _buildDeliveryMethodOptions(
-                context,
-                deliveryMessage,
-              ),
+              _buildDeliveryMethodOptions(userViewModel),
               _buildSectionTitle('Ödeme Yöntemi'),
               const SizedBox(height: 8),
               _buildPaymentMethodOptions(),
@@ -72,7 +65,23 @@ class _PaymentScreenState extends State<PaymentScreen> {
               if (_selectedPaymentMethod == 'Kredi/Banka Kartı')
                 const CreditCardInputForm(),
               const SizedBox(height: 16),
-              _buildPaymentButton(),
+              OutlinedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => const PaymentConfirmationDialog(),
+                  );
+                },
+                style: ElevatedButton.styleFrom(),
+                child: const Text(
+                  'Ödemeyi Onayla',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )
+              // _buildPaymentButton(),
             ],
           ),
         ),
@@ -91,10 +100,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  Widget _buildDeliveryMethodOptions(
-    BuildContext context,
-    String deliveryMessage,
-  ) {
+  Widget _buildDeliveryMethodOptions(UserViewModel userViewModel) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -111,26 +117,20 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 _buildDeliveryRadio(
                   DeliveryMethod.courierDelivery,
                   "Kurye",
-                  CourierDelivery(),
-                  context,
-                  deliveryMessage,
+                  userViewModel,
                 ),
                 const SizedBox(width: 16),
                 _buildDeliveryRadio(
                   DeliveryMethod.cargoMarketDelivery,
                   "Mağazadan Teslim",
-                  CargoMarketDelivery(),
-                  context,
-                  deliveryMessage,
+                  userViewModel,
                 ),
               ],
             ),
             _buildDeliveryRadio(
               DeliveryMethod.selfDelivery,
               "Gel al Noktasından",
-              SelfDelivery(),
-              context,
-              deliveryMessage,
+              userViewModel,
             ),
           ],
         ),
@@ -141,9 +141,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Widget _buildDeliveryRadio(
     DeliveryMethod value,
     String label,
-    DeliveryType deliveryType,
-    BuildContext context,
-    String deliveryMessage,
+    UserViewModel userViewModel,
   ) {
     return Row(
       children: [
@@ -152,9 +150,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           groupValue: _selectedDeliveryMethod,
           onChanged: (selectedValue) {
             setState(() {
-              orderSelection = OrderTypeSelection(deliveryType);
-              orderSelection.teslimatYap(deliveryMessage);
-
+              userViewModel.setDeliveryStrategy(value);
               _selectedDeliveryMethod = selectedValue!;
             });
           },
@@ -199,52 +195,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
       ],
     );
   }
-
-  void changePrice() {}
-
-  Widget _buildPaymentButton() {
-    return OutlinedButton(
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (context) => PaymentConfirmationDialog(),
-        );
-      },
-      style: ElevatedButton.styleFrom(),
-      child: const Text(
-        'Ödemeyi Onayla',
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
-}
-
-class SecondaryStepper extends StatelessWidget {
-  const SecondaryStepper({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Row(
-      children: [
-        Icon(Icons.shopping_cart_outlined, color: AppColor.appBarColor),
-        SizedBox(width: 1),
-        Text('Cart'),
-        SizedBox(width: 1),
-        Icon(Icons.keyboard_arrow_right, size: 18, color: Colors.grey),
-        SizedBox(width: 1),
-        Icon(Icons.payment_outlined, color: Colors.cyanAccent),
-        Text('Edit Delivery'),
-        SizedBox(width: 1),
-        Icon(Icons.keyboard_arrow_right, size: 18, color: Colors.grey),
-        SizedBox(width: 1),
-        Icon(Icons.check_circle_outline_rounded, color: Colors.cyanAccent),
-        Text('Payment'),
-      ],
-    );
-  }
 }
 
 enum DeliveryMethod {
@@ -264,7 +214,7 @@ class PaymentConfirmationDialog extends ConsumerStatefulWidget {
 class _PaymentConfirmationDialogState
     extends ConsumerState<PaymentConfirmationDialog> {
   late Timer _timer;
-  int _remainingTime = 5;
+  int _remainingTime = 120;
 
   @override
   void initState() {
@@ -285,13 +235,13 @@ class _PaymentConfirmationDialogState
   @override
   Widget build(BuildContext context) {
     final userViewModel = ref.watch(userViewModelProvider);
-    List<Product> l = [];
-    l.addAll(userViewModel.cartProducts);
+    List<Product> allOrderableProducts = [];
+    allOrderableProducts.addAll(userViewModel.cartProducts);
     OrderModel order = OrderModel(
         orderNumber: UserViewModel.orderNumGenerate(),
         orderDate: DateTime.now(),
-        orderStatus: "on",
-        orderProducts: l,
+        orderStatus: "Order Placed",
+        orderProducts: allOrderableProducts,
         totalAmount: ref.read(userViewModelProvider).getPriceOfCart());
 
     return SimpleDialog(
@@ -366,7 +316,9 @@ class _PaymentConfirmationDialogState
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const BottomNavMain(),
+                                builder: (context) => const BottomNavMain(
+                                  initIndex: 0,
+                                ),
                               ),
                               (route) => false,
                             );
