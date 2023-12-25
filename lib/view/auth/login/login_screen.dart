@@ -8,7 +8,6 @@ import '../../../core/base/view/base_view.dart';
 import '../../../core/constants/app/color_strings.dart';
 import '../../../core/constants/app/image_strings.dart';
 import '../../main/app_starter.dart';
-import '../../main/main_bottom_nav.dart';
 import '../forgot_password/components/forgot_password_model_bottom_sheet.dart';
 import '../signup/signup_screen.dart';
 import 'components/login_header_widget.dart';
@@ -52,8 +51,6 @@ class _LoginScreenState extends BaseState<LoginScreen> {
       color: Colors.black,
     );
   }
-
-  // final UserService userService = UserService();
 
   @override
   Widget build(BuildContext context) {

@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dish_dash/core/model/service_model/order/order_model.dart';
 import 'package:dish_dash/view/payment/identification_strategy/models/AkbankIdentificationStrategy.dart';
 import 'package:dish_dash/view/payment/identification_strategy/models/GarantiBankIdentificationStrategy.dart';
@@ -5,7 +8,7 @@ import 'package:dish_dash/view/payment/identification_strategy/models/Identifica
 import 'package:dish_dash/view/payment/identification_strategy/models/ZiraatBankIdentificationStrategy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import '../../view/favorite/product_avaliablity_observer/product_stock_management.dart';
 import '../../view/payment/components/card_front.dart';
 import '../../view/payment/delivery_strategy/models/courier_delivery.dart';
 import '../../view/payment/delivery_strategy/models/delivery.dart';
@@ -17,6 +20,72 @@ import '../model/service_model/user/user_model.dart';
 import 'dart:math';
 
 class UserViewModel extends ChangeNotifier {
+  // Subject productSubject = Subject(); // Subject for product notifications
+  //
+  // // Function to add a product to the user's notifyMe list
+  // void addToNotifyMeList(Product product) {
+  //   currentUser.notifyMe.add(product);
+  // }
+  //
+  // // Function to check and notify users when a product becomes available
+  // void checkProductAvailability(Product product) {
+  //   if (product.isInStock && currentUser.notifyMe.contains(product)) {
+  //     productSubject.notifyObservers(product);
+  //   }
+  //   notifyListeners();
+  // }
+
+  // -------
+
+  // Add a timer for updating order statuses
+  late Timer _orderStatusUpdateTimer;
+
+  UserViewModel() {
+    // Start the timer when the UserViewModel is created
+    _orderStatusUpdateTimer =
+        Timer.periodic(const Duration(minutes: 1), (timer) {
+      updateOrderStatuses();
+    });
+  }
+
+  // Function to update order statuses
+  void updateOrderStatuses() {
+    for (var order in currentUser.orderList) {
+      if (order.orderStatus != "Delivered") {
+        // Simulate order status update
+        if (order.orderStatus == "Order Placed") {
+          order.orderStatus = "Preparing";
+          sendNotification(order);
+        } else if (order.orderStatus == "Preparing") {
+          order.orderStatus = "Courier is on his way";
+          sendNotification(order);
+        } else {
+          order.orderStatus = "Delivered";
+          sendNotification(order);
+        }
+      }
+    }
+    notifyListeners();
+  }
+
+  void sendNotification(OrderModel order) {
+    AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: 1,
+        channelKey: "basic_channel",
+        title: "Merhaba ${currentUser.name}",
+        body:
+            "${order.orderNumber} numaralı siparişinizin güncel sipariş durumunuz : ${order.orderStatus}",
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _orderStatusUpdateTimer.cancel();
+    super.dispose();
+  }
+
   late UserModel currentUser;
   List<UserModel> users = [
     UserModel(
@@ -27,6 +96,7 @@ class UserViewModel extends ChangeNotifier {
       photoLink: '',
       orderList: [],
       favList: [],
+      notifyMe: [],
     ),
   ];
   void createUserWithEmailAndPassword(UserModel user) {
@@ -73,6 +143,15 @@ class UserViewModel extends ChangeNotifier {
 
   void clearCartProducts() {
     cartProducts.clear();
+    notifyListeners();
+  }
+
+  void updateStock() {
+    for (var product in currentUser.favList) {
+      if (product.isInStock == false) {
+        product.isInStock = true;
+      }
+    }
     notifyListeners();
   }
 
@@ -216,7 +295,7 @@ class UserViewModel extends ChangeNotifier {
       description:
           "Kampanya fiyatından satılmak üzere 5 adetten fazla stok sunulmuştur. İncelemiş olduğunuz ürünün satış fiyatını satıcı belirlemektedir. Bir ürün, birden fazla satıcı tarafından satılabilir. Birden fazla satıcı tarafından satışa sunulan ürünlerin satıcıları ürün için belirledikleri fiyata, satıcı puanlarına, teslimat statülerine, ürünlerdeki promosyonlara, kargonun bedava olup olmamasına ve ürünlerin hızlı teslimat ile teslim edilip edilememesine, ürünlerin stok ve kategorileri bilgilerine göre sıralanmaktadır. Bu üründen en fazla 1 adet sipariş verilebilir. 1 adedin üzerindeki siparişleri iptal etme hakkınız saklı tutulur. Belirlenen bu limit kurumsal siparişlerde geçerli olmayıp, kurumsal siparişler için farklı limitler belirlenebilmektedir.15 gün içinde ücretsiz iade. Detaylı bilgi için tıklayın.",
       amountOfStock: 3,
-      isInStock: true,
+      isInStock: false,
       amountOfDiscount: "10",
       oldCost: 200,
     ),
@@ -226,7 +305,7 @@ class UserViewModel extends ChangeNotifier {
         amountOfDiscount: "10",
         oldCost: 200,
         amountOfStock: 3,
-        isInStock: true,
+        isInStock: false,
         value: 0,
         cargoType: "bedava",
         size: true,

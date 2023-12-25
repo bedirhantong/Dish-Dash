@@ -1,8 +1,10 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/constants/app/color_strings.dart';
 import '../../core/viewmodel/user_viewmodel.dart';
 import '../auth/login/login_screen.dart';
+import '../favorite/product_avaliablity_observer/notification_helper.dart';
 import 'components/change_password_screen.dart';
 import 'components/faq_screen.dart';
 import 'components/manage_notifications_screen.dart';
@@ -19,6 +21,21 @@ class ProfilePage extends ConsumerStatefulWidget {
 
 class _ProfilePageState extends ConsumerState<ProfilePage> {
   late UserViewModel userViewModel;
+
+  @override
+  void initState() {
+    AwesomeNotifications().setListeners(
+      onActionReceivedMethod: NotificationController.onActionReceivedMethod,
+      onDismissActionReceivedMethod:
+          NotificationController.onDismissActionReceivedMethod,
+      onNotificationCreatedMethod:
+          NotificationController.onNotificationCreatedMethod,
+      onNotificationDisplayedMethod:
+          NotificationController.onNotificationDisplayedMethod,
+    );
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +90,17 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
           const Spacer(),
           IconButton(
             icon: const Icon(Icons.edit),
-            onPressed: () {},
+            onPressed: () {
+              AwesomeNotifications().createNotification(
+                content: NotificationContent(
+                  id: 1,
+                  channelKey: "basic_channel",
+                  title: "Merhaba ${userViewModel.currentUser.name}",
+                  body:
+                      "${userViewModel.currentUser.favList.first.name}  stoklarımıza girmiştir. Stoklar tükenmeden siparişini ver.",
+                ),
+              );
+            },
           ),
         ],
       ),
