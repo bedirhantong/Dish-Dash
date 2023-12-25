@@ -151,6 +151,7 @@ class _SignupScreenState extends BaseState<SignupScreen> {
             photoLink: '',
             orderList: [],
             favList: [],
+            notifyMe: [],
           );
           ref.read(userViewModelProvider).createUserWithEmailAndPassword(user);
 

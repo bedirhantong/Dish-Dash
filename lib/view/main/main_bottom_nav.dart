@@ -40,8 +40,14 @@ class _BottomNavMainState extends State<BottomNavMain> {
             _currentIndex = index;
           });
         },
+        initIndex: widget.initIndex,
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(
+          side: BorderSide(color: Colors.grey),
+          eccentricity: 1.0,
+        ),
         child: const Icon(Icons.home_filled),
         onPressed: () {
           Navigator.pushAndRemoveUntil(

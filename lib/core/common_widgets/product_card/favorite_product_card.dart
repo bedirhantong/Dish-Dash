@@ -100,67 +100,88 @@ class _FavoriteProductCardState extends ConsumerState<FavoriteProductCard> {
                     '${widget.product.price} TL',
                     style: TextStyle(color: Colors.orange[800]),
                   ),
+                  // stokta kalma durumu vs.
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      UserViewModel.isContainsProductInList(
-                              widget.product, userViewModel.cartProducts)
-                          ? InkWell(
-                              onTap: () {
-                                ref
-                                    .read(userViewModelProvider)
-                                    .removeProductInCartList(widget.product);
-                              },
-                              child: Container(
-                                width: screenWidth * 0.26,
-                                height: screenHeight * 0.04,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Colors.white,
-                                  border: Border.all(
-                                      color: Colors.deepPurple, width: 2),
-                                ),
-                                child: const Text(
-                                  "Sepetten Çıkar",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 12),
-                                  textAlign: TextAlign.center,
-                                ),
+                      !widget.product.isInStock
+                          ? Container(
+                              width: screenWidth * 0.26,
+                              height: screenHeight * 0.04,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.white,
+                                border: Border.all(
+                                    color: Colors.deepPurple, width: 2),
+                              ),
+                              child: const Text(
+                                "Stokta kalmamıştır",
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 12),
+                                textAlign: TextAlign.center,
                               ),
                             )
-                          : InkWell(
-                              onTap: () {
-                                widget.product.category.name != "meal"
-                                    ? ref
+                          : UserViewModel.isContainsProductInList(
+                                  widget.product, userViewModel.cartProducts)
+                              ? InkWell(
+                                  onTap: () {
+                                    ref
                                         .read(userViewModelProvider)
-                                        .addProductInCartList(widget.product)
-                                    : Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => MyHomePage(
-                                              product: widget.product),
-                                        ),
-                                      );
-                              },
-                              child: Container(
-                                width: screenWidth * 0.26,
-                                height: screenHeight * 0.04,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Colors.white,
-                                  border: Border.all(
-                                      color: Colors.deepPurple, width: 2),
+                                        .removeProductInCartList(
+                                            widget.product);
+                                  },
+                                  child: Container(
+                                    width: screenWidth * 0.26,
+                                    height: screenHeight * 0.04,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: Colors.deepPurple, width: 2),
+                                    ),
+                                    child: const Text(
+                                      "Sepetten Çıkar",
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 12),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                )
+                              : InkWell(
+                                  onTap: () {
+                                    widget.product.category.name != "meal"
+                                        ? ref
+                                            .read(userViewModelProvider)
+                                            .addProductInCartList(
+                                                widget.product)
+                                        : Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => MyHomePage(
+                                                  product: widget.product),
+                                            ),
+                                          );
+                                  },
+                                  child: Container(
+                                    width: screenWidth * 0.26,
+                                    height: screenHeight * 0.04,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: Colors.deepPurple, width: 2),
+                                    ),
+                                    child: const Text(
+                                      "Sepete ekle",
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 12),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
                                 ),
-                                child: const Text(
-                                  "Sepete ekle",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 12),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
                       const SizedBox(
                         width: 20,
                       ),

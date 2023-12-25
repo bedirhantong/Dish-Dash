@@ -9,8 +9,10 @@ class UserModel {
   String photoLink;
   List<OrderModel> orderList;
   List<Product> favList;
+  List<Product> notifyMe;
 
   UserModel({
+    required this.notifyMe,
     required this.name,
     required this.email,
     required this.password,
