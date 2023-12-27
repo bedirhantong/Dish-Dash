@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:dish_dash/view/auth/login/login_screen.dart';
+import 'package:dish_dash/presentation/ui/screens/auth/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
