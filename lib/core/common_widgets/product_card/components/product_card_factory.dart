@@ -1,5 +1,4 @@
 import 'package:dish_dash/core/common_widgets/product_card/meal_add_cart_card.dart';
-
 import '../../../model/service_model/product/product_model.dart';
 import 'abstract_ product_card.dart';
 import '../cart_product_card.dart';
@@ -17,11 +16,6 @@ class ProductCardFactory {
       case 'ordered':
         return OrderedProductCard(
           product: product,
-          isMainScreenCard: false,
-          isFavoriteCard: false,
-          isDetailedCard: false,
-          isCartCard: false,
-          isOrderedCard: true,
           value: 1,
           oldCost: 1000,
           amountOfDiscount: '%5',
@@ -29,11 +23,6 @@ class ProductCardFactory {
       case 'mainScreen':
         return MainScreenCard(
           product: product,
-          isMainScreenCard: true,
-          isFavoriteCard: false,
-          isDetailedCard: false,
-          isCartCard: false,
-          isOrderedCard: false,
           value: 1,
           oldCost: 1000,
           amountOfDiscount: '%5',
@@ -41,11 +30,6 @@ class ProductCardFactory {
       case 'detailed':
         return DetailedProductCard(
           product: product,
-          isMainScreenCard: false,
-          isFavoriteCard: false,
-          isDetailedCard: true,
-          isCartCard: false,
-          isOrderedCard: false,
           value: 0,
           oldCost: 200,
           amountOfDiscount: '%5',
@@ -53,11 +37,6 @@ class ProductCardFactory {
       case 'cartProduct':
         return CartProductCard(
           product: product,
-          isMainScreenCard: false,
-          isFavoriteCard: false,
-          isDetailedCard: false,
-          isCartCard: true,
-          isOrderedCard: false,
           value: 3,
           oldCost: 500,
           amountOfDiscount: '%5',
@@ -65,11 +44,6 @@ class ProductCardFactory {
       case 'favorite':
         return FavoriteProductCard(
           product: product,
-          isMainScreenCard: false,
-          isFavoriteCard: true,
-          isDetailedCard: false,
-          isCartCard: false,
-          isOrderedCard: false,
           value: 2,
           oldCost: 600,
           amountOfDiscount: '%5',
@@ -77,11 +51,6 @@ class ProductCardFactory {
       case 'meal':
         return MealAddCartProductCard(
           product: product,
-          isMainScreenCard: false,
-          isFavoriteCard: true,
-          isDetailedCard: false,
-          isCartCard: false,
-          isOrderedCard: false,
           value: 2,
           oldCost: 600,
           amountOfDiscount: '%5',

@@ -252,22 +252,22 @@ class _PaymentConfirmationDialogState
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 200,
-                width: 200,
-                child: Image.asset(
-                  'assets/images/bank_logos/garanti.png',
-                  width: 100,
-                  height: 100,
-                ),
-              ),
-              const Text(
-                'Garanti Bankası',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              // SizedBox(
+              //   height: 200,
+              //   width: 200,
+              //   child: Image.asset(
+              //     'assets/images/bank_logos/garanti.png',
+              //     width: 100,
+              //     height: 100,
+              //   ),
+              // ),
+              // const Text(
+              //   'Garanti Bankası',
+              //   style: TextStyle(
+              //     fontSize: 16,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
               const SizedBox(height: 20),
               Text(
                 '\$${order.totalAmount.toStringAsFixed(2)} Ödemeyi Onayla',
@@ -278,7 +278,7 @@ class _PaymentConfirmationDialogState
               ),
               const SizedBox(height: 20),
               const Text(
-                'Ödemenizi onaylamak için Garanti Bankası uygulamasından işlem yapınız.',
+                'Ödemenizi onaylayin.',
                 style: TextStyle(
                   fontSize: 14,
                 ),

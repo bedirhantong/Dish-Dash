@@ -1,4 +1,3 @@
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../viewmodel/user_viewmodel.dart';
@@ -9,11 +8,6 @@ class DetailedProductCard extends ProductCardWidget {
   const DetailedProductCard({
     super.key,
     required super.product,
-    required super.isMainScreenCard,
-    required super.isFavoriteCard,
-    required super.isDetailedCard,
-    required super.isCartCard,
-    required super.isOrderedCard,
     required super.value,
     required super.oldCost,
     required super.amountOfDiscount,
@@ -76,9 +70,7 @@ class _DetailedProductCardState extends ConsumerState<DetailedProductCard> {
                             icon: const Icon(
                               Icons.more_vert_outlined,
                             ),
-                            onPressed: () {
-                              showAlertDialog();
-                            },
+                            onPressed: () {},
                           ),
                         ],
                       ),
@@ -119,78 +111,86 @@ class _DetailedProductCardState extends ConsumerState<DetailedProductCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                UserViewModel.isContainsProductInList(
-                        widget.product, userViewModel.cartProducts)
-                    ? InkWell(
-                        onTap: () {
-                          ref
-                              .read(userViewModelProvider)
-                              .removeProductInCartList(widget.product);
-                        },
-                        child: Container(
-                          width: screenWidth * 0.73,
-                          height: screenHeight * 0.05,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.white,
-                            border:
-                                Border.all(color: Colors.deepPurple, width: 2),
-                          ),
-                          child: const Text(
-                            "Sepetten Çıkar",
-                            style: TextStyle(color: Colors.black, fontSize: 14),
-                            textAlign: TextAlign.center,
-                          ),
+                !widget.product.isInStock
+                    ? Container(
+                        width: screenWidth * 0.45,
+                        height: screenHeight * 0.05,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.white,
+                          border:
+                              Border.all(color: Colors.deepPurple, width: 2),
+                        ),
+                        child: const Text(
+                          "Stokta kalmamıştır",
+                          style: TextStyle(color: Colors.black, fontSize: 12),
+                          textAlign: TextAlign.center,
                         ),
                       )
-                    : InkWell(
-                        onTap: () {
-                          widget.product.category.name != "meal"
-                              ? ref
+                    : UserViewModel.isContainsProductInList(
+                            widget.product, userViewModel.cartProducts)
+                        ? InkWell(
+                            onTap: () {
+                              ref
                                   .read(userViewModelProvider)
-                                  .addProductInCartList(widget.product)
-                              : Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        MyHomePage(product: widget.product),
-                                  ),
-                                );
-                        },
-                        child: Container(
-                          width: screenWidth * 0.73,
-                          height: screenHeight * 0.05,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.deepPurple,
-                            border:
-                                Border.all(color: Colors.deepPurple, width: 2),
+                                  .removeProductInCartList(widget.product);
+                            },
+                            child: Container(
+                              width: screenWidth * 0.73,
+                              height: screenHeight * 0.05,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.white,
+                                border: Border.all(
+                                    color: Colors.deepPurple, width: 2),
+                              ),
+                              child: const Text(
+                                "Sepetten Çıkar",
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 14),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          )
+                        : InkWell(
+                            onTap: () {
+                              widget.product.category.name != "meal"
+                                  ? ref
+                                      .read(userViewModelProvider)
+                                      .addProductInCartList(widget.product)
+                                  : Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            MyHomePage(product: widget.product),
+                                      ),
+                                    );
+                            },
+                            child: Container(
+                              width: screenWidth * 0.73,
+                              height: screenHeight * 0.05,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.deepPurple,
+                                border: Border.all(
+                                    color: Colors.deepPurple, width: 2),
+                              ),
+                              child: const Text(
+                                "Sepete ekle",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 14),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                           ),
-                          child: const Text(
-                            "Sepete ekle",
-                            style: TextStyle(color: Colors.white, fontSize: 14),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
               ],
             ),
           ),
         )
       ],
-    );
-  }
-
-  showAlertDialog() {
-    return CoolAlert.show(
-      context: context,
-      title: "Info",
-      confirmBtnColor: Colors.orange,
-      animType: CoolAlertAnimType.scale,
-      type: CoolAlertType.info,
-      text: "Buraya ne eklesem bilemedim",
     );
   }
 
