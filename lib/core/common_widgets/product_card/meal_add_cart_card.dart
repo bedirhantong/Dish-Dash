@@ -1,4 +1,3 @@
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../view/home/components/product_details_page.dart';
@@ -9,11 +8,6 @@ class MealAddCartProductCard extends ProductCardWidget {
   const MealAddCartProductCard(
       {super.key,
       required super.product,
-      required super.isMainScreenCard,
-      required super.isFavoriteCard,
-      required super.isDetailedCard,
-      required super.isCartCard,
-      required super.isOrderedCard,
       required super.value,
       required super.oldCost,
       required super.amountOfDiscount});

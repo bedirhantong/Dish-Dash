@@ -14,17 +14,16 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  icon_badge: ^1.0.0
   dot_navigation_bar: ^1.0.2
   flip_card: ^0.7.0
-  google_fonts: ^6.1.0
-  cool_alert: ^2.0.1
   flutter_otp_text_field: ^1.1.1
   animate_do: ^3.1.2
   http: ^1.1.2
   flutter_riverpod: ^2.4.9
-  flutter_staggered_grid_view: ^0.7.0
   awesome_notifications: ^0.8.3
+  collection: ^1.15.0
+  dcdg: ^4.1.0
+
 
 dev_dependencies:
   flutter_test:

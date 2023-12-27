@@ -1,4 +1,3 @@
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../view/home/components/product_details_page.dart';
@@ -10,11 +9,6 @@ class FavoriteProductCard extends ProductCardWidget {
   const FavoriteProductCard(
       {super.key,
       required super.product,
-      required super.isMainScreenCard,
-      required super.isFavoriteCard,
-      required super.isDetailedCard,
-      required super.isCartCard,
-      required super.isOrderedCard,
       required super.value,
       required super.oldCost,
       required super.amountOfDiscount});
@@ -83,9 +77,7 @@ class _FavoriteProductCardState extends ConsumerState<FavoriteProductCard> {
                       ),
                       IconButton(
                         icon: const Icon(Icons.more_vert_outlined),
-                        onPressed: () {
-                          showAlertDialog();
-                        },
+                        onPressed: () {},
                       ),
                     ],
                   ),
@@ -107,7 +99,7 @@ class _FavoriteProductCardState extends ConsumerState<FavoriteProductCard> {
                       !widget.product.isInStock
                           ? Container(
                               width: screenWidth * 0.26,
-                              height: screenHeight * 0.04,
+                              height: screenHeight * 0.05,
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
@@ -215,17 +207,6 @@ class _FavoriteProductCardState extends ConsumerState<FavoriteProductCard> {
           ],
         ),
       ),
-    );
-  }
-
-  showAlertDialog() {
-    return CoolAlert.show(
-      context: context,
-      title: "Info",
-      confirmBtnColor: Colors.orange,
-      animType: CoolAlertAnimType.scale,
-      type: CoolAlertType.info,
-      text: "Buraya ne eklesem bilemedim",
     );
   }
 

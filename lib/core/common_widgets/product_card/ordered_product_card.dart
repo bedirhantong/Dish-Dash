@@ -1,4 +1,3 @@
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../view/home/components/product_details_page.dart';
@@ -9,11 +8,6 @@ class OrderedProductCard extends ProductCardWidget {
   const OrderedProductCard({
     super.key,
     required super.product,
-    required super.isMainScreenCard,
-    required super.isFavoriteCard,
-    required super.isDetailedCard,
-    required super.isCartCard,
-    required super.isOrderedCard,
     required super.value,
     required super.oldCost,
     required super.amountOfDiscount,
@@ -32,7 +26,6 @@ class _OrderedProductState extends ConsumerState<OrderedProductCard> {
 
     screenWidth = MediaQuery.sizeOf(context).width;
     screenHeight = MediaQuery.sizeOf(context).height;
-    int adet = 1;
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -77,9 +70,7 @@ class _OrderedProductState extends ConsumerState<OrderedProductCard> {
                       ),
                       IconButton(
                         icon: const Icon(Icons.more_vert_outlined),
-                        onPressed: () {
-                          showAlertDialog();
-                        },
+                        onPressed: () {},
                       ),
                     ],
                   ),
@@ -107,9 +98,7 @@ class _OrderedProductState extends ConsumerState<OrderedProductCard> {
                           });
                         },
                         child: GestureDetector(
-                          onTap: () {
-                            showAlertDialog();
-                          },
+                          onTap: () {},
                           child: Text(
                             '${userViewModel.orderMap[widget.product]} adet sipariş verildi',
                             style: const TextStyle(fontSize: 13),
@@ -124,17 +113,6 @@ class _OrderedProductState extends ConsumerState<OrderedProductCard> {
           ],
         ),
       ),
-    );
-  }
-
-  showAlertDialog() {
-    return CoolAlert.show(
-      context: context,
-      title: "Info",
-      confirmBtnColor: Colors.orange,
-      animType: CoolAlertAnimType.scale,
-      type: CoolAlertType.info,
-      text: "Buraya ne eklesem bilemedim",
     );
   }
 

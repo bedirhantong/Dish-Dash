@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dish_dash/core/model/service_model/order/order_model.dart';
+import 'package:dish_dash/view/favorite/product_avaliablity_observer/product_stock_management.dart';
 import 'package:dish_dash/view/payment/identification_strategy/models/AkbankIdentificationStrategy.dart';
 import 'package:dish_dash/view/payment/identification_strategy/models/GarantiBankIdentificationStrategy.dart';
 import 'package:dish_dash/view/payment/identification_strategy/models/IdentificationStrategy.dart';
 import 'package:dish_dash/view/payment/identification_strategy/models/ZiraatBankIdentificationStrategy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../view/favorite/product_avaliablity_observer/product_stock_management.dart';
 import '../../view/payment/components/card_front.dart';
 import '../../view/payment/delivery_strategy/models/courier_delivery.dart';
 import '../../view/payment/delivery_strategy/models/delivery.dart';
@@ -20,6 +20,90 @@ import '../model/service_model/user/user_model.dart';
 import 'dart:math';
 
 class UserViewModel extends ChangeNotifier {
+  // late Timer _orderStatusUpdateTimer;
+  // late Timer _productStockUpdateTimer;
+
+  UserViewModel() {
+    // Start the timer when the UserViewModel is created
+    // _orderStatusUpdateTimer =
+    //     Timer.periodic(const Duration(seconds: 30), (timer) {
+    //   updateOrderStatus();
+    // });
+
+    // _productStockUpdateTimer =
+    //     Timer.periodic(const Duration(seconds: 10), (timer) {
+    //   manageUserStock();
+    //   // updateFavoriteProductStockStatus();
+    // });
+  }
+
+  void manageUserStock() {
+    var userObserver = UserNotificationObserver(currentUser);
+    var stockManager = ProductStockManager();
+    stockManager.register(userObserver, currentUser.favList);
+    stockManager.notifyAll();
+    notifyListeners();
+  }
+
+  void updateFavoriteProductStockStatus() {
+    for (var product in currentUser.favList) {
+      if (!product.isInStock) {
+        product.isInStock = true;
+        sendNotificationForFavoriteProductStatus(product);
+      }
+    }
+    notifyListeners();
+  }
+
+  void sendNotificationForFavoriteProductStatus(Product product) {
+    AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: 1,
+        channelKey: "basic_channel",
+        title: "Merhaba ${currentUser.name}",
+        body:
+            "${product.name} stoklarımıza girmiştir. Stoklar tükenmeden siparişini ver.",
+      ),
+    );
+  }
+
+  void updateOrderStatus() {
+    for (var order in currentUser.orderList) {
+      if (order.orderStatus != "Delivered") {
+        // Simulate order status update
+        if (order.orderStatus == "Order Placed") {
+          order.orderStatus = "Preparing";
+          sendNotificationForOrderStatus(order);
+        } else if (order.orderStatus == "Preparing") {
+          order.orderStatus = "Courier is on his way";
+          sendNotificationForOrderStatus(order);
+        } else {
+          order.orderStatus = "Delivered";
+          sendNotificationForOrderStatus(order);
+        }
+      }
+    }
+    notifyListeners();
+  }
+
+  void sendNotificationForOrderStatus(OrderModel order) {
+    AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: 1,
+        channelKey: "basic_channel",
+        title: "Merhaba ${currentUser.name}",
+        body:
+            "${order.orderNumber} numaralı siparişinizin güncel sipariş durumunuz : ${order.orderStatus}",
+      ),
+    );
+  }
+
+  // @override
+  // void dispose() {
+  //   _orderStatusUpdateTimer.cancel();
+  //   _productStockUpdateTimer.cancel();
+  //   super.dispose();
+  // }
   // Subject productSubject = Subject(); // Subject for product notifications
   //
   // // Function to add a product to the user's notifyMe list
@@ -38,54 +122,6 @@ class UserViewModel extends ChangeNotifier {
   // -------
 
   // Add a timer for updating order statuses
-  late Timer _orderStatusUpdateTimer;
-
-  UserViewModel() {
-    // Start the timer when the UserViewModel is created
-    _orderStatusUpdateTimer =
-        Timer.periodic(const Duration(minutes: 1), (timer) {
-      updateOrderStatuses();
-    });
-  }
-
-  // Function to update order statuses
-  void updateOrderStatuses() {
-    for (var order in currentUser.orderList) {
-      if (order.orderStatus != "Delivered") {
-        // Simulate order status update
-        if (order.orderStatus == "Order Placed") {
-          order.orderStatus = "Preparing";
-          sendNotification(order);
-        } else if (order.orderStatus == "Preparing") {
-          order.orderStatus = "Courier is on his way";
-          sendNotification(order);
-        } else {
-          order.orderStatus = "Delivered";
-          sendNotification(order);
-        }
-      }
-    }
-    notifyListeners();
-  }
-
-  void sendNotification(OrderModel order) {
-    AwesomeNotifications().createNotification(
-      content: NotificationContent(
-        id: 1,
-        channelKey: "basic_channel",
-        title: "Merhaba ${currentUser.name}",
-        body:
-            "${order.orderNumber} numaralı siparişinizin güncel sipariş durumunuz : ${order.orderStatus}",
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _orderStatusUpdateTimer.cancel();
-    super.dispose();
-  }
-
   late UserModel currentUser;
   List<UserModel> users = [
     UserModel(

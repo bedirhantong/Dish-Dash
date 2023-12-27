@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../view/home/components/product_details_page.dart';
@@ -19,11 +21,6 @@ class MainScreenCard extends ProductCardWidget {
   const MainScreenCard({
     super.key,
     required super.product,
-    required super.isMainScreenCard,
-    required super.isFavoriteCard,
-    required super.isDetailedCard,
-    required super.isCartCard,
-    required super.isOrderedCard,
     required super.value,
     required super.oldCost,
     required super.amountOfDiscount,
@@ -48,7 +45,7 @@ class _MainScreenCardState extends ConsumerState<MainScreenCard> {
 
     screenWidth = MediaQuery.sizeOf(context).width;
     screenHeight = MediaQuery.sizeOf(context).height;
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         Navigator.push(
           context,
@@ -67,7 +64,7 @@ class _MainScreenCardState extends ConsumerState<MainScreenCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 170,
+              height: 178,
               width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.vertical(
@@ -143,64 +140,81 @@ class _MainScreenCardState extends ConsumerState<MainScreenCard> {
                     ],
                   ),
                   const SizedBox(height: 15.0),
-                  UserViewModel.isContainsProductInList(
-                          widget.product, userViewModel.cartProducts)
-                      ? InkWell(
-                          onTap: () {
-                            ref
-                                .read(userViewModelProvider)
-                                .removeProductInCartList(widget.product);
-                          },
-                          child: Container(
-                            width: screenWidth * 0.28,
-                            height: screenHeight * 0.04,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.white,
-                              border: Border.all(
-                                  color: Colors.deepPurple, width: 2),
-                            ),
-                            child: const Text(
-                              "Sepetten Çıkar",
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 12),
-                              textAlign: TextAlign.center,
-                            ),
+                  !widget.product.isInStock
+                      ? Container(
+                          width: screenWidth * 0.3,
+                          height: screenHeight * 0.04,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.white,
+                            border:
+                                Border.all(color: Colors.deepPurple, width: 2),
+                          ),
+                          child: const Text(
+                            "Stokta kalmamıştır",
+                            style: TextStyle(color: Colors.black, fontSize: 12),
+                            textAlign: TextAlign.center,
                           ),
                         )
-                      : InkWell(
-                          onTap: () {
-                            widget.product.category.name != "meal"
-                                ? ref
+                      : UserViewModel.isContainsProductInList(
+                              widget.product, userViewModel.cartProducts)
+                          ? InkWell(
+                              onTap: () {
+                                ref
                                     .read(userViewModelProvider)
-                                    .addProductInCartList(widget.product)
-                                : Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          MyHomePage(product: widget.product),
-                                    ),
-                                  );
-                          },
-                          child: Container(
-                            width: screenWidth * 0.28,
-                            height: screenHeight * 0.04,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.white,
-                              border: Border.all(
-                                  color: Colors.deepPurple, width: 2),
+                                    .removeProductInCartList(widget.product);
+                              },
+                              child: Container(
+                                width: screenWidth * 0.28,
+                                height: screenHeight * 0.04,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      color: Colors.deepPurple, width: 2),
+                                ),
+                                child: const Text(
+                                  "Sepetten Çıkar",
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 12),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            )
+                          : InkWell(
+                              onTap: () {
+                                widget.product.category.name != "meal"
+                                    ? ref
+                                        .read(userViewModelProvider)
+                                        .addProductInCartList(widget.product)
+                                    : Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => MyHomePage(
+                                              product: widget.product),
+                                        ),
+                                      );
+                              },
+                              child: Container(
+                                width: screenWidth * 0.28,
+                                height: screenHeight * 0.04,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      color: Colors.deepPurple, width: 2),
+                                ),
+                                child: const Text(
+                                  "Sepete ekle",
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 12),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
                             ),
-                            child: const Text(
-                              "Sepete ekle",
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 12),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
                 ],
               ),
             ),
