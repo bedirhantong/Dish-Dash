@@ -1,16 +1,17 @@
-# dish_dash
+# Dish Dash
 
-A new Flutter project.
+- Thanks to the food ordering application, you can easily access the product you want in a dynamic way,
+- Understanding which bank card the user enters from the credit / debit card information entered in the order payment section, Offering different delivery method options to the user
+- Informing the user about the order status and enabling them to receive live updates,
+- To enable the user to track the stock of the product when the user needs a product that is out of stock,
+- Providing flexibility with the ability to add extra materials to orders in food orders,
+- Entering an extra note or promotional code in the order to provide a discount in the required amount,
+- You can add the product you want to the cart and change or update the content of the product you added to the cart,
 
-## Getting Started
+![](client/assets/images/readme/dash.png)
 
-This project is a starting point for a Flutter application.
+![](client/assets/images/readme/products.png)
 
-A few resources to get you started if this is your first Flutter project:
+![](client/assets/images/readme/strategy.png)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![](client/assets/images/readme/decorator.png)
